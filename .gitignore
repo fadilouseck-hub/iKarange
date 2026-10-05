@@ -1,0 +1,18 @@
+# Secrets
+.ftp-credentials
+legacy/ikarange/.env
+legacy/ikarange/cookies.txt
+*.p12
+*.pem
+*.key
+*.pkpass
+
+# Production data (member photos, invoices, DB dumps) — never commit
+legacy/ikarange/storage/uploads/
+legacy/ikarange/storage/logs/
+legacy/ikarange/storage/wallet/certs/
+legacy/ikarange/fadpaydikarangex_mysql_db.sql
+*.sql.gz
+
+# OS / editors
+.DS_Store

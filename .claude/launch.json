@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "ikarange-legacy", "runtimeExecutable": "./dev/serve.sh", "runtimeArgs": [], "port": 8080 }
+  ]
+}

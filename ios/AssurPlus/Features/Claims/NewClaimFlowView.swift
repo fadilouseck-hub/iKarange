@@ -11,7 +11,7 @@ struct NewClaimFlowView: View {
             .navigationTitle("Déclarer un sinistre")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button("Fermer") { dismiss() }.accessibilityIdentifier("claim.close")
                 }
             }

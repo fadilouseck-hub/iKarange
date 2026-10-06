@@ -311,6 +311,7 @@ private struct RegisterSteps: View {
 
                 Toggle("Créer un mot de passe", isOn: $model.usePassword)
                     .tint(DS.Palette.accent)
+                    .accessibilityIdentifier("register.usePassword")
                 if model.usePassword {
                     LabeledField(label: String(localized: "Mot de passe (8 caractères min.)"), error: model.passwordError) {
                         SecureField("Mot de passe", text: $model.password).textContentType(.newPassword)

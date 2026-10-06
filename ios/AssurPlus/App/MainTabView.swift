@@ -60,7 +60,6 @@ struct RouteDestination: View {
         case .notifications: NotificationsView()
         case .claim(let id): ClaimDetailView(claimId: id)
         case .payment(let id): PaymentDetailView(paymentId: id)
-        case .subscription: SubscriptionEntryView()
         }
     }
 }

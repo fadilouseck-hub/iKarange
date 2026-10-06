@@ -16,10 +16,6 @@ struct ProfileView: View {
             .navigationTitle("Profil")
     }
 }
-struct SubscriptionFlowView: View { var body: some View { Placeholder(title: "Souscription") } }
-struct SubscriptionEntryView: View { var body: some View { Placeholder(title: "Souscription") } }
 struct FamilyView: View { var body: some View { Placeholder(title: "Famille") } }
-struct PaymentHistoryView: View { var body: some View { Placeholder(title: "Paiements") } }
 struct VaultView: View { var body: some View { Placeholder(title: "Coffre santé") } }
 struct NotificationsView: View { var body: some View { Placeholder(title: "Notifications") } }
-struct PaymentDetailView: View { let paymentId: String; var body: some View { Placeholder(title: "Paiement") } }

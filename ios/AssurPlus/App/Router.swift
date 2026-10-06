@@ -14,7 +14,6 @@ enum Route: Hashable {
     case notifications
     case claim(id: String)
     case payment(id: String)
-    case subscription
 }
 
 /// Owns tab selection and navigation stacks so push notifications and URLs can open any screen.

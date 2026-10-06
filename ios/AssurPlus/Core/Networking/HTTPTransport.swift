@@ -17,7 +17,8 @@ struct URLSessionTransport: HTTPTransport {
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         configuration.urlCache = nil // health data must not land in the shared HTTP cache
         configuration.httpAdditionalHeaders = ["Accept-Language": "fr"]
-        return URLSessionTransport(session: URLSession(configuration: configuration))
+        // Certificate pinning is opt-in (Info.plist PINNED_PUBLIC_KEY_HASHES).
+        return URLSessionTransport(session: URLSession(configuration: configuration, delegate: PinningDelegate.fromInfoPlist(), delegateQueue: nil))
     }
 
     func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {

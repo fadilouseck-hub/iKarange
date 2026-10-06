@@ -29,6 +29,7 @@ actor MockServer: HTTPTransport {
     }
 
     private let latency: Duration
+    private let qrLifetime: TimeInterval
     private let catalog: MockCatalogFixture
     private let providers: [Provider]
 
@@ -46,8 +47,9 @@ actor MockServer: HTTPTransport {
     private var uploads: [String: (size: Int, data: Data)] = [:]
     private var counter = 1000
 
-    init(latency: Duration = .milliseconds(350), bundle: Bundle = .main) {
+    init(latency: Duration = .milliseconds(350), qrLifetime: TimeInterval = 60, bundle: Bundle = .main) {
         self.latency = latency
+        self.qrLifetime = qrLifetime
         // Fixtures ship with the app; failing to decode them is a programming error caught by unit tests.
         let account = try! MockFixtures.account(bundle: bundle)
         catalog = try! MockFixtures.catalog(bundle: bundle)
@@ -158,7 +160,7 @@ actor MockServer: HTTPTransport {
         case (.get, "me/card"): return try json(card(userId))
         case (.get, "me/card/qr-token"):
             let token = "AP1." + UUID().uuidString.replacingOccurrences(of: "-", with: "").lowercased() + ".sig"
-            return try json(QRToken(token: token, expiresAt: Date.now.addingTimeInterval(60)))
+            return try json(QRToken(token: token, expiresAt: Date.now.addingTimeInterval(qrLifetime)))
         case (.get, "me/card/wallet-pass"):
             return Reply(body: Data("MOCK-PKPASS".utf8), contentType: "application/vnd.apple.pkpass")
 

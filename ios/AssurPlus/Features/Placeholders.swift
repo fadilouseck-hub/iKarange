@@ -8,8 +8,6 @@ private struct Placeholder: View {
     }
 }
 
-struct HomeView: View { var body: some View { Placeholder(title: "Accueil") } }
-struct CardView: View { var body: some View { Placeholder(title: "Carte") } }
 struct ClaimsListView: View { var body: some View { Placeholder(title: "Sinistres") } }
 struct NetworkView: View { var body: some View { Placeholder(title: "Réseau") } }
 struct ProfileView: View {
@@ -22,7 +20,6 @@ struct ProfileView: View {
 struct SubscriptionFlowView: View { var body: some View { Placeholder(title: "Souscription") } }
 struct SubscriptionEntryView: View { var body: some View { Placeholder(title: "Souscription") } }
 struct NewClaimFlowView: View { var body: some View { Placeholder(title: "Déclarer") } }
-struct PolicyView: View { var body: some View { Placeholder(title: "Contrat") } }
 struct FamilyView: View { var body: some View { Placeholder(title: "Famille") } }
 struct PaymentHistoryView: View { var body: some View { Placeholder(title: "Paiements") } }
 struct VaultView: View { var body: some View { Placeholder(title: "Coffre santé") } }

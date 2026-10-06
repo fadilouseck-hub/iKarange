@@ -27,7 +27,10 @@ struct RootView: View {
                 PrivacyShield()
             }
         }
-        .task { await env.session.bootstrap() }
+        .task {
+            await env.session.bootstrap()
+            await env.performMockSignInIfRequested()
+        }
         .onChange(of: scenePhase) { _, phase in
             switch phase {
             case .background:

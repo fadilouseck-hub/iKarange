@@ -1,0 +1,1443 @@
+openapi: 3.1.0
+info:
+  title: ASSUR+ API — insured app surface
+  version: 0.1.0
+  description: |
+    Contract between the ASSUR+ iOS/Android insured apps and the platform back end.
+    Kept in sync with `ios/AssurPlus/Core/Networking/AssurAPI.swift` and the in-process `MockServer`.
+
+    Conventions
+    - JSON, camelCase keys. Timestamps: ISO-8601 (`2026-10-06T10:00:00Z`). Calendar days: `yyyy-MM-dd`.
+    - Amounts are integers in XOF (FCFA, no decimals).
+    - `Accept-Language: fr` — every user-facing message is returned in French.
+    - Errors: `{ "error": { "code", "message", "fields" } }` (see `Error`).
+    - Business rules (premiums, eligibility, coverage, limits, statuses, deadlines) are computed by the
+      server only. The apps display what they receive.
+
+    Endpoints marked `TODO(backend)` were not in the initial resource list and were added for the app.
+servers:
+  - url: https://api.assurplus.sn/v1
+    description: Production (placeholder)
+  - url: https://staging-api.assurplus.sn/v1
+    description: Staging (placeholder)
+security:
+  - bearerAuth: []
+tags:
+  - name: auth
+  - name: me
+  - name: card
+  - name: subscription
+  - name: policies
+  - name: dependents
+  - name: payments
+  - name: claims
+  - name: vault
+  - name: providers
+  - name: notifications
+  - name: uploads
+  - name: legal
+
+paths:
+  /auth/otp/send:
+    post:
+      tags: [auth]
+      summary: Send a one-time code by SMS
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [phone, purpose]
+              properties:
+                phone: { type: string, description: E.164, e.g. +221770000001 }
+                purpose: { type: string, enum: [register, login, reset_password] }
+      responses:
+        '200':
+          description: Code sent
+          content: { application/json: { schema: { $ref: '#/components/schemas/OTPChallenge' } } }
+        '404': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+
+  /auth/otp/verify:
+    post:
+      tags: [auth]
+      summary: Verify a one-time code
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [otpRequestId, code]
+              properties:
+                otpRequestId: { type: string }
+                code: { type: string, pattern: '^[0-9]{6}$' }
+      responses:
+        '200':
+          description: Short-lived proof that the phone was verified
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [verificationToken]
+                properties:
+                  verificationToken: { type: string }
+        '410': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: Create an account (phone verified beforehand)
+      security: []
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/RegisterRequest' } } }
+      responses:
+        '201':
+          description: Account created and signed in
+          content: { application/json: { schema: { $ref: '#/components/schemas/AuthResponse' } } }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: Log in with phone + password, or phone + verificationToken (OTP login)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [phone]
+              properties:
+                phone: { type: string }
+                password: { type: string }
+                verificationToken: { type: string }
+      responses:
+        '200':
+          description: Signed in
+          content: { application/json: { schema: { $ref: '#/components/schemas/AuthResponse' } } }
+        '401': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+
+  /auth/refresh:
+    post:
+      tags: [auth]
+      summary: Rotate tokens. The refresh token is single-use; reuse must revoke the session.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken: { type: string }
+      responses:
+        '200':
+          description: New token pair
+          content: { application/json: { schema: { $ref: '#/components/schemas/AuthTokens' } } }
+        '401': { $ref: '#/components/responses/Error' }
+
+  /auth/logout:
+    post:
+      tags: [auth]
+      summary: Revoke the refresh token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken: { type: string }
+      responses:
+        '204': { description: Logged out }
+
+  /auth/password/reset:
+    post:
+      tags: [auth]
+      summary: TODO(backend) — set a new password after OTP verification (purpose reset_password)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [verificationToken, newPassword]
+              properties:
+                verificationToken: { type: string }
+                newPassword: { type: string, minLength: 8 }
+      responses:
+        '204': { description: Password changed }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /legal/documents:
+    get:
+      tags: [legal]
+      summary: TODO(backend) — current CGU / privacy policy versions (the accepted CGU version is recorded at sign-up)
+      security: []
+      responses:
+        '200':
+          description: Legal documents
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: '#/components/schemas/LegalDocument' } }
+
+  /me:
+    get:
+      tags: [me]
+      summary: Current user, role and permissions
+      responses:
+        '200':
+          description: Current user
+          content: { application/json: { schema: { $ref: '#/components/schemas/Me' } } }
+    patch:
+      tags: [me]
+      summary: Update contact details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: [string, 'null'] }
+                address: { type: [string, 'null'] }
+                city: { type: [string, 'null'] }
+                preferredLanguage: { type: [string, 'null'], enum: [fr, en, wo, null] }
+      responses:
+        '200':
+          description: Updated user
+          content: { application/json: { schema: { $ref: '#/components/schemas/Me' } } }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /me/photo:
+    put:
+      tags: [me]
+      summary: TODO(backend) — set the profile photo from a completed upload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [uploadId]
+              properties:
+                uploadId: { type: string }
+      responses:
+        '200':
+          description: Updated user
+          content: { application/json: { schema: { $ref: '#/components/schemas/Me' } } }
+
+  /me/password:
+    post:
+      tags: [me]
+      summary: TODO(backend) — change password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [currentPassword, newPassword]
+              properties:
+                currentPassword: { type: string }
+                newPassword: { type: string, minLength: 8 }
+      responses:
+        '204': { description: Changed }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /me/notification-preferences:
+    get:
+      tags: [me]
+      summary: TODO(backend) — notification preferences per category and channel
+      responses:
+        '200':
+          description: Preferences
+          content: { application/json: { schema: { $ref: '#/components/schemas/NotificationPreferences' } } }
+    put:
+      tags: [me]
+      summary: TODO(backend) — replace notification preferences
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/NotificationPreferences' } } }
+      responses:
+        '200':
+          description: Saved
+          content: { application/json: { schema: { $ref: '#/components/schemas/NotificationPreferences' } } }
+
+  /me/deletion-request:
+    post:
+      tags: [me]
+      summary: TODO(backend) — request account deletion (App Store requirement)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason: { type: string }
+      responses:
+        '200':
+          description: Request status
+          content: { application/json: { schema: { $ref: '#/components/schemas/ServerStatus' } } }
+
+  /me/dashboard:
+    get:
+      tags: [me]
+      summary: Insured dashboard (contract, limits, dependants, recent claims, alerts)
+      responses:
+        '200':
+          description: Dashboard
+          content: { application/json: { schema: { $ref: '#/components/schemas/Dashboard' } } }
+
+  /me/card:
+    get:
+      tags: [card]
+      summary: Tiers-payant card data, one entry per beneficiary the user may display
+      responses:
+        '200':
+          description: Card
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [beneficiaries]
+                properties:
+                  beneficiaries: { type: array, items: { $ref: '#/components/schemas/CardBeneficiary' } }
+
+  /me/card/qr-token:
+    get:
+      tags: [card]
+      summary: Short-lived signed token encoded in the QR code. Contains no personal data in clear.
+      parameters:
+        - { name: beneficiaryId, in: query, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: Token
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token, expiresAt]
+                properties:
+                  token: { type: string }
+                  expiresAt: { type: string, format: date-time }
+
+  /me/card/wallet-pass:
+    get:
+      tags: [card]
+      summary: Signed Apple Wallet pass for a beneficiary
+      parameters:
+        - { name: beneficiaryId, in: query, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: Pass
+          content:
+            application/vnd.apple.pkpass:
+              schema: { type: string, format: binary }
+
+  /products:
+    get:
+      tags: [subscription]
+      summary: Products / formulas available for online subscription
+      security: []
+      responses:
+        '200':
+          description: Products
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: '#/components/schemas/Product' } }
+
+  /health-questionnaire:
+    get:
+      tags: [subscription]
+      summary: Health questionnaire (questions, conditional display)
+      parameters:
+        - { name: productId, in: query, schema: { type: string } }
+      responses:
+        '200':
+          description: Questionnaire
+          content: { application/json: { schema: { $ref: '#/components/schemas/HealthQuestionnaire' } } }
+
+  /quotes:
+    post:
+      tags: [subscription]
+      summary: Compute a premium (dynamic simulation; called on every change, debounced)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/QuoteRequest' } } }
+      responses:
+        '201':
+          description: Quote with eligibility messages and surcharges
+          content: { application/json: { schema: { $ref: '#/components/schemas/Quote' } } }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /policies:
+    post:
+      tags: [policies]
+      summary: Create a policy from an eligible quote (status pending_payment)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [quoteId, acceptedConditionsVersion]
+              properties:
+                quoteId: { type: string }
+                acceptedConditionsVersion: { type: string }
+      responses:
+        '201':
+          description: Policy awaiting payment
+          content: { application/json: { schema: { $ref: '#/components/schemas/CreatedPolicy' } } }
+        '410': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /policies/{id}:
+    get:
+      tags: [policies]
+      summary: Contract detail (members, guarantees, exclusions, renewal)
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '200':
+          description: Policy
+          content: { application/json: { schema: { $ref: '#/components/schemas/PolicyDetail' } } }
+        '404': { $ref: '#/components/responses/Error' }
+
+  /policies/{id}/conditions.pdf:
+    get:
+      tags: [policies]
+      summary: Conditions Particulières as PDF
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '200':
+          description: PDF
+          content:
+            application/pdf:
+              schema: { type: string, format: binary }
+
+  /policies/{id}/termination-requests:
+    post:
+      tags: [policies]
+      summary: TODO(backend) — request termination (allowed until the server-computed deadline)
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: { type: string }
+      responses:
+        '201':
+          description: Request status
+          content: { application/json: { schema: { $ref: '#/components/schemas/ServerStatus' } } }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /dependents:
+    get:
+      tags: [dependents]
+      summary: Beneficiaries of the user's contract and pending add/remove requests
+      responses:
+        '200':
+          description: Dependants
+          content: { application/json: { schema: { $ref: '#/components/schemas/DependentsResponse' } } }
+
+  /dependents/requests:
+    post:
+      tags: [dependents]
+      summary: Request the addition of a beneficiary (validated by the back office)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [firstName, lastName, relation, birthDate, gender, uploadIds]
+              properties:
+                firstName: { type: string }
+                lastName: { type: string }
+                relation: { type: string, enum: [spouse, child, other] }
+                birthDate: { type: string, format: date }
+                gender: { type: string, enum: [F, M] }
+                uploadIds: { type: array, items: { type: string }, description: Supporting documents (birth/marriage certificate) }
+      responses:
+        '201':
+          description: Request created
+          content: { application/json: { schema: { $ref: '#/components/schemas/DependentRequest' } } }
+
+  /dependents/{id}:
+    delete:
+      tags: [dependents]
+      summary: Request the removal of a beneficiary (creates a request, does not delete)
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: { type: string }
+      responses:
+        '202':
+          description: Removal request created
+          content: { application/json: { schema: { $ref: '#/components/schemas/DependentRequest' } } }
+
+  /payment-methods:
+    get:
+      tags: [payments]
+      summary: Available payment channels (Wave, Orange Money, card, …)
+      responses:
+        '200':
+          description: Methods
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: '#/components/schemas/PaymentMethod' } }
+
+  /payments:
+    get:
+      tags: [payments]
+      summary: Payment history
+      responses:
+        '200':
+          description: Payments
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: '#/components/schemas/Payment' } }
+    post:
+      tags: [payments]
+      summary: Start a payment. Returns a checkout URL and/or provider app link; the final status comes from the provider webhook.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [policyId, method, purpose, returnURL]
+              properties:
+                policyId: { type: string }
+                method: { type: string }
+                phone: { type: [string, 'null'] }
+                purpose: { type: string, enum: [subscription, renewal, premium] }
+                returnURL: { type: string, description: 'assurplus://payments/return' }
+      responses:
+        '201':
+          description: Payment created
+          content: { application/json: { schema: { $ref: '#/components/schemas/Payment' } } }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /payments/{id}:
+    get:
+      tags: [payments]
+      summary: Payment status (polled by the app until final)
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '200':
+          description: Payment
+          content: { application/json: { schema: { $ref: '#/components/schemas/Payment' } } }
+
+  /claim-types:
+    get:
+      tags: [claims]
+      summary: Types of service that can be claimed, with required documents
+      responses:
+        '200':
+          description: Claim types
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: '#/components/schemas/ClaimType' } }
+
+  /claims:
+    get:
+      tags: [claims]
+      summary: Claims visible to the user (a dependant only sees their own)
+      responses:
+        '200':
+          description: Claims
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: '#/components/schemas/ClaimSummary' } }
+    post:
+      tags: [claims]
+      summary: Create a draft claim
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [beneficiaryId, typeCode]
+              properties:
+                beneficiaryId: { type: string }
+                typeCode: { type: string }
+      responses:
+        '201':
+          description: Draft
+          content: { application/json: { schema: { $ref: '#/components/schemas/Claim' } } }
+        '403': { $ref: '#/components/responses/Error' }
+
+  /claims/{id}:
+    get:
+      tags: [claims]
+      summary: Claim detail with timeline, document requests and settlement
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '200':
+          description: Claim
+          content: { application/json: { schema: { $ref: '#/components/schemas/Claim' } } }
+    patch:
+      tags: [claims]
+      summary: Save the fields reviewed/corrected by the insured (draft only)
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fields, lines]
+              properties:
+                fields: { type: object, additionalProperties: { type: string } }
+                lines: { type: array, items: { $ref: '#/components/schemas/OCRLine' } }
+      responses:
+        '200':
+          description: Updated claim
+          content: { application/json: { schema: { $ref: '#/components/schemas/Claim' } } }
+        '409': { $ref: '#/components/responses/Error' }
+
+  /claims/{id}/documents:
+    post:
+      tags: [claims]
+      summary: Attach a completed upload (receipt, or answer to a document request). Attaching a receipt starts OCR.
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [uploadId, kind]
+              properties:
+                uploadId: { type: string }
+                kind: { type: string, enum: [receipt, additional] }
+                requestId: { type: [string, 'null'] }
+      responses:
+        '201':
+          description: Document
+          content: { application/json: { schema: { $ref: '#/components/schemas/ClaimDocument' } } }
+
+  /claims/{id}/ocr:
+    get:
+      tags: [claims]
+      summary: Server-side OCR result (polled; target < 15 s)
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '200':
+          description: OCR state and extracted fields with confidence scores
+          content: { application/json: { schema: { $ref: '#/components/schemas/OCRResult' } } }
+
+  /claims/{id}/submit:
+    post:
+      tags: [claims]
+      summary: Submit the draft; assigns the claim number
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '200':
+          description: Submitted claim
+          content: { application/json: { schema: { $ref: '#/components/schemas/Claim' } } }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /vault/documents:
+    get:
+      tags: [vault]
+      summary: Health vault documents (encrypted at rest on the server)
+      parameters:
+        - { name: category, in: query, schema: { $ref: '#/components/schemas/VaultCategory' } }
+      responses:
+        '200':
+          description: Documents
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: '#/components/schemas/VaultDocument' } }
+    post:
+      tags: [vault]
+      summary: Store a completed upload in the vault
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [uploadId, category, title]
+              properties:
+                uploadId: { type: string }
+                category: { $ref: '#/components/schemas/VaultCategory' }
+                title: { type: string }
+                beneficiaryId: { type: [string, 'null'] }
+      responses:
+        '201':
+          description: Document
+          content: { application/json: { schema: { $ref: '#/components/schemas/VaultDocument' } } }
+
+  /vault/documents/{id}:
+    delete:
+      tags: [vault]
+      summary: Delete a vault document
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '204': { description: Deleted }
+
+  /vault/documents/{id}/file:
+    get:
+      tags: [vault]
+      summary: TODO(backend) — download the decrypted file (short-lived, no caching headers)
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '200':
+          description: File
+          content:
+            application/octet-stream:
+              schema: { type: string, format: binary }
+
+  /providers:
+    get:
+      tags: [providers]
+      summary: Contracted care network search
+      parameters:
+        - { name: type, in: query, schema: { $ref: '#/components/schemas/ProviderType' } }
+        - { name: lat, in: query, schema: { type: number } }
+        - { name: lng, in: query, schema: { type: number } }
+        - { name: radius, in: query, description: km, schema: { type: integer } }
+        - { name: q, in: query, schema: { type: string } }
+      responses:
+        '200':
+          description: Providers (sorted by distance when lat/lng are given)
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [providers]
+                properties:
+                  providers: { type: array, items: { $ref: '#/components/schemas/Provider' } }
+
+  /providers/network.pdf:
+    get:
+      tags: [providers]
+      summary: The care network as PDF
+      parameters:
+        - { name: type, in: query, schema: { $ref: '#/components/schemas/ProviderType' } }
+      responses:
+        '200':
+          description: PDF
+          content:
+            application/pdf:
+              schema: { type: string, format: binary }
+
+  /notifications:
+    get:
+      tags: [notifications]
+      summary: In-app notification centre
+      responses:
+        '200':
+          description: Notifications
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [notifications, unreadCount]
+                properties:
+                  notifications: { type: array, items: { $ref: '#/components/schemas/AppNotification' } }
+                  unreadCount: { type: integer }
+
+  /notifications/{id}/read:
+    post:
+      tags: [notifications]
+      summary: TODO(backend) — mark one notification as read
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '204': { description: Marked }
+
+  /notifications/read-all:
+    post:
+      tags: [notifications]
+      summary: TODO(backend) — mark all notifications as read
+      responses:
+        '204': { description: Marked }
+
+  /devices:
+    post:
+      tags: [notifications]
+      summary: Register the APNs/FCM token. Push payloads carry only `target` and a generic title.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, platform, locale, appVersion]
+              properties:
+                token: { type: string }
+                platform: { type: string, enum: [ios, android] }
+                locale: { type: string }
+                appVersion: { type: string }
+      responses:
+        '204': { description: Registered }
+
+  /uploads:
+    post:
+      tags: [uploads]
+      summary: TODO(backend) — start a resumable upload (tus-like). Max 15 MB.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fileName, mimeType, size, purpose]
+              properties:
+                fileName: { type: string }
+                mimeType: { type: string }
+                size: { type: integer }
+                purpose: { type: string, enum: [claim_document, vault_document, dependent_document, profile_photo] }
+      responses:
+        '201':
+          description: Upload session
+          content: { application/json: { schema: { $ref: '#/components/schemas/UploadSession' } } }
+        '413': { $ref: '#/components/responses/Error' }
+
+  /uploads/{id}:
+    get:
+      tags: [uploads]
+      summary: TODO(backend) — committed offset, used to resume after a failure
+      parameters: [{ $ref: '#/components/parameters/id' }]
+      responses:
+        '200':
+          description: Upload session
+          content: { application/json: { schema: { $ref: '#/components/schemas/UploadSession' } } }
+    patch:
+      tags: [uploads]
+      summary: TODO(backend) — append a chunk at `Upload-Offset`
+      parameters:
+        - { $ref: '#/components/parameters/id' }
+        - { name: Upload-Offset, in: header, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/offset+octet-stream:
+            schema: { type: string, format: binary }
+      responses:
+        '200':
+          description: New offset
+          content: { application/json: { schema: { $ref: '#/components/schemas/UploadSession' } } }
+        '409':
+          description: Offset mismatch — client must GET the offset and resume
+          content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Short-lived access token (≈15 min), rotated through /auth/refresh.
+
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema: { type: string }
+
+  responses:
+    Error:
+      description: Error with a French user-facing message
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, examples: [otp_invalid] }
+            message: { type: string, examples: [Code incorrect.] }
+            fields: { type: object, additionalProperties: { type: string } }
+
+    ServerStatus:
+      type: object
+      description: Stable code for styling plus a French label for display
+      required: [code, label]
+      properties:
+        code: { type: string, examples: [active, pending, suspended] }
+        label: { type: string, examples: [Actif] }
+
+    Message:
+      type: object
+      required: [level, text]
+      properties:
+        level: { type: string, enum: [info, warning, error, success] }
+        text: { type: string }
+
+    Option:
+      type: object
+      required: [code, label]
+      properties:
+        code: { type: string }
+        label: { type: string }
+
+    AuthTokens:
+      type: object
+      required: [accessToken, refreshToken, expiresIn]
+      properties:
+        accessToken: { type: string }
+        refreshToken: { type: string }
+        expiresIn: { type: integer, description: seconds }
+
+    AuthResponse:
+      type: object
+      required: [tokens, user]
+      properties:
+        tokens: { $ref: '#/components/schemas/AuthTokens' }
+        user: { $ref: '#/components/schemas/Me' }
+
+    OTPChallenge:
+      type: object
+      required: [otpRequestId, expiresIn, resendAfter, maskedPhone]
+      properties:
+        otpRequestId: { type: string }
+        expiresIn: { type: integer }
+        resendAfter: { type: integer }
+        maskedPhone: { type: string, examples: ['+221 77 *** ** 01'] }
+
+    RegisterRequest:
+      type: object
+      required: [verificationToken, firstName, lastName, birthDate, gender, cguVersion]
+      properties:
+        verificationToken: { type: string }
+        firstName: { type: string }
+        lastName: { type: string }
+        birthDate: { type: string, format: date }
+        gender: { type: string, enum: [F, M] }
+        email: { type: [string, 'null'] }
+        address: { type: [string, 'null'] }
+        city: { type: [string, 'null'] }
+        password: { type: [string, 'null'], description: omitted for OTP-only accounts }
+        cguVersion: { type: string, description: accepted CGU version, recorded with a timestamp }
+
+    LegalDocument:
+      type: object
+      required: [id, title, version, url]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        version: { type: string }
+        url: { type: string, format: uri }
+
+    Permission:
+      type: string
+      enum: [policy.view, policy.manage, card.view, claims.view, claims.create, family.view, family.manage,
+             vault.view, vault.manage, payments.view, payments.create, subscription.create, profile.edit]
+
+    Me:
+      type: object
+      required: [id, firstName, lastName, phone, role, permissions, hasActivePolicy]
+      properties:
+        id: { type: string }
+        firstName: { type: string }
+        lastName: { type: string }
+        phone: { type: string }
+        email: { type: [string, 'null'] }
+        birthDate: { type: [string, 'null'], format: date }
+        gender: { type: [string, 'null'], enum: [F, M, null] }
+        address: { type: [string, 'null'] }
+        city: { type: [string, 'null'] }
+        photoURL: { type: [string, 'null'], format: uri }
+        role: { type: string, enum: [principal, dependent] }
+        permissions: { type: array, items: { $ref: '#/components/schemas/Permission' } }
+        memberNumber: { type: [string, 'null'] }
+        hasActivePolicy: { type: boolean }
+        preferredLanguage: { type: [string, 'null'] }
+
+    NotificationPreferences:
+      type: object
+      required: [categories]
+      properties:
+        categories:
+          type: array
+          items:
+            type: object
+            required: [id, label, push, sms, email]
+            properties:
+              id: { type: string }
+              label: { type: string }
+              push: { type: boolean }
+              sms: { type: boolean }
+              email: { type: boolean }
+
+    Limits:
+      type: object
+      required: [annualLimit, consumed, reimbursed, remaining]
+      properties:
+        annualLimit: { type: integer }
+        consumed: { type: integer }
+        reimbursed: { type: integer }
+        remaining: { type: integer }
+
+    PolicySummary:
+      type: object
+      required: [id, number, productName, formulaName, startDate, endDate, status, coverageRate]
+      properties:
+        id: { type: string }
+        number: { type: string }
+        productName: { type: string }
+        formulaName: { type: string }
+        startDate: { type: string, format: date }
+        endDate: { type: string, format: date }
+        status: { $ref: '#/components/schemas/ServerStatus' }
+        coverageRate: { type: integer, description: percent }
+        territoriality: { type: [string, 'null'] }
+
+    DependentSummary:
+      type: object
+      required: [id, fullName, relationLabel, status]
+      properties:
+        id: { type: string }
+        fullName: { type: string }
+        relationLabel: { type: string }
+        status: { $ref: '#/components/schemas/ServerStatus' }
+
+    Dashboard:
+      type: object
+      required: [fullName, dependents, recentClaims, unreadNotifications, alerts]
+      properties:
+        fullName: { type: string }
+        memberNumber: { type: [string, 'null'] }
+        policy: { oneOf: [{ $ref: '#/components/schemas/PolicySummary' }, { type: 'null' }] }
+        limits: { oneOf: [{ $ref: '#/components/schemas/Limits' }, { type: 'null' }] }
+        dependents: { type: array, items: { $ref: '#/components/schemas/DependentSummary' } }
+        recentClaims: { type: array, items: { $ref: '#/components/schemas/ClaimSummary' } }
+        unreadNotifications: { type: integer }
+        alerts: { type: array, items: { $ref: '#/components/schemas/Message' } }
+
+    Guarantee:
+      type: object
+      required: [code, label]
+      properties:
+        code: { type: string }
+        label: { type: string }
+        limitLabel: { type: [string, 'null'] }
+        rateLabel: { type: [string, 'null'] }
+        description: { type: [string, 'null'] }
+
+    RenewalInfo:
+      type: object
+      required: [renewalDate, tacitRenewal, canRequestTermination]
+      properties:
+        renewalDate: { type: string, format: date }
+        tacitRenewal: { type: boolean }
+        terminationDeadline: { type: [string, 'null'], format: date }
+        canRequestTermination: { type: boolean }
+        info: { type: [string, 'null'] }
+
+    PolicyDetail:
+      type: object
+      required: [summary, insurerName, members, guarantees, exclusions, waitingPeriods]
+      properties:
+        summary: { $ref: '#/components/schemas/PolicySummary' }
+        insurerName: { type: string }
+        premiumLabel: { type: [string, 'null'] }
+        members:
+          type: array
+          items:
+            type: object
+            required: [id, fullName, relationLabel]
+            properties:
+              id: { type: string }
+              fullName: { type: string }
+              relationLabel: { type: string }
+              birthDate: { type: [string, 'null'], format: date }
+        guarantees: { type: array, items: { $ref: '#/components/schemas/Guarantee' } }
+        exclusions: { type: array, items: { type: string } }
+        waitingPeriods: { type: array, items: { type: string } }
+        deductibleLabel: { type: [string, 'null'] }
+        renewal: { oneOf: [{ $ref: '#/components/schemas/RenewalInfo' }, { type: 'null' }] }
+        conditionsVersion: { type: [string, 'null'] }
+        pendingTermination: { oneOf: [{ $ref: '#/components/schemas/ServerStatus' }, { type: 'null' }] }
+
+    CardBeneficiary:
+      type: object
+      required: [id, fullName, relationLabel, memberNumber, policyNumber, insurerName, formulaName, coverageRate, validUntil, status]
+      properties:
+        id: { type: string }
+        fullName: { type: string }
+        relationLabel: { type: string }
+        memberNumber: { type: string }
+        policyNumber: { type: string }
+        insurerName: { type: string }
+        formulaName: { type: string }
+        coverageRate: { type: integer }
+        validUntil: { type: string, format: date }
+        photoURL: { type: [string, 'null'], format: uri }
+        status: { $ref: '#/components/schemas/ServerStatus' }
+        birthDate: { type: [string, 'null'], format: date }
+
+    Product:
+      type: object
+      required: [id, name, guarantees, coverageRates, territorialities, exclusions, waitingPeriods]
+      properties:
+        id: { type: string }
+        name: { type: string, examples: [Essentiel, Sérénité] }
+        tagline: { type: [string, 'null'] }
+        description: { type: [string, 'null'] }
+        premiumFrom: { type: [integer, 'null'] }
+        highlight: { type: [boolean, 'null'] }
+        guarantees: { type: array, items: { $ref: '#/components/schemas/Guarantee' } }
+        coverageRates: { type: array, items: { type: integer } }
+        territorialities: { type: array, items: { $ref: '#/components/schemas/Option' } }
+        exclusions: { type: array, items: { type: string } }
+        waitingPeriods: { type: array, items: { type: string } }
+        deductibleLabel: { type: [string, 'null'] }
+        maxDependents: { type: [integer, 'null'] }
+
+    HealthQuestionnaire:
+      type: object
+      required: [version, questions]
+      properties:
+        version: { type: string }
+        questions:
+          type: array
+          items:
+            type: object
+            required: [id, label, kind, required]
+            properties:
+              id: { type: string }
+              label: { type: string }
+              help: { type: [string, 'null'] }
+              kind: { type: string, enum: [boolean, single_choice, number, text] }
+              options: { type: [array, 'null'], items: { $ref: '#/components/schemas/Option' } }
+              required: { type: boolean }
+              dependsOn: { type: [string, 'null'], description: show only when this boolean question is answered true }
+
+    QuoteMember:
+      type: object
+      required: [firstName, lastName, relation, birthDate, gender]
+      properties:
+        firstName: { type: string }
+        lastName: { type: string }
+        relation: { type: string, enum: [spouse, child, other] }
+        birthDate: { type: string, format: date }
+        gender: { type: string, enum: [F, M] }
+
+    QuoteRequest:
+      type: object
+      required: [productId, coverageRate, territoriality, birthDate, gender, dependents, questionnaireVersion, answers]
+      properties:
+        productId: { type: string }
+        coverageRate: { type: integer }
+        territoriality: { type: string }
+        birthDate: { type: string, format: date }
+        gender: { type: string, enum: [F, M] }
+        dependents: { type: array, items: { $ref: '#/components/schemas/QuoteMember' } }
+        questionnaireVersion: { type: string }
+        answers:
+          type: array
+          items:
+            type: object
+            required: [questionId, value]
+            properties:
+              questionId: { type: string }
+              value: { type: string, description: '"true"/"false" for booleans, option code, or free text' }
+
+    QuoteLine:
+      type: object
+      required: [label, amount]
+      properties:
+        label: { type: string }
+        amount: { type: integer }
+
+    Quote:
+      type: object
+      required: [id, eligible, messages, basePremium, surcharges, fees, totalPremium, periodLabel, perMember, validUntil, conditionsVersion, specialConditions]
+      properties:
+        id: { type: string }
+        eligible: { type: boolean }
+        messages: { type: array, items: { $ref: '#/components/schemas/Message' } }
+        basePremium: { type: integer }
+        surcharges: { type: array, items: { $ref: '#/components/schemas/QuoteLine' } }
+        fees: { type: array, items: { $ref: '#/components/schemas/QuoteLine' } }
+        totalPremium: { type: integer }
+        periodLabel: { type: string, examples: [par an] }
+        perMember: { type: array, items: { $ref: '#/components/schemas/QuoteLine' } }
+        validUntil: { type: string, format: date-time }
+        conditionsVersion: { type: string }
+        specialConditions: { type: array, items: { type: string } }
+
+    CreatedPolicy:
+      type: object
+      required: [id, number, status, amountDue, startDate]
+      properties:
+        id: { type: string }
+        number: { type: string }
+        status: { $ref: '#/components/schemas/ServerStatus' }
+        amountDue: { type: integer }
+        startDate: { type: string, format: date }
+
+    DependentRequest:
+      type: object
+      required: [id, kind, fullName, status, createdAt]
+      properties:
+        id: { type: string }
+        kind: { type: string, enum: [add, remove] }
+        fullName: { type: string }
+        status: { $ref: '#/components/schemas/ServerStatus' }
+        createdAt: { type: string, format: date-time }
+        message: { type: [string, 'null'] }
+
+    Dependent:
+      type: object
+      required: [id, firstName, lastName, relation, relationLabel, birthDate, status, guarantees]
+      properties:
+        id: { type: string }
+        firstName: { type: string }
+        lastName: { type: string }
+        relation: { type: string, enum: [spouse, child, other] }
+        relationLabel: { type: string }
+        birthDate: { type: string, format: date }
+        status: { $ref: '#/components/schemas/ServerStatus' }
+        guarantees: { type: array, items: { type: string } }
+        limits: { oneOf: [{ $ref: '#/components/schemas/Limits' }, { type: 'null' }] }
+        pendingRequest: { oneOf: [{ $ref: '#/components/schemas/DependentRequest' }, { type: 'null' }] }
+
+    DependentsResponse:
+      type: object
+      required: [dependents, requests, canRequestChanges]
+      properties:
+        dependents: { type: array, items: { $ref: '#/components/schemas/Dependent' } }
+        requests: { type: array, items: { $ref: '#/components/schemas/DependentRequest' } }
+        canRequestChanges: { type: boolean }
+        info: { type: [string, 'null'] }
+
+    PaymentMethod:
+      type: object
+      required: [code, label, kind, enabled, requiresPhone]
+      properties:
+        code: { type: string }
+        label: { type: string }
+        kind: { type: string, enum: [wave, orange_money, card, other] }
+        enabled: { type: boolean }
+        requiresPhone: { type: boolean }
+        help: { type: [string, 'null'] }
+
+    Payment:
+      type: object
+      required: [id, reference, amount, methodLabel, status, createdAt, purposeLabel]
+      properties:
+        id: { type: string }
+        reference: { type: string }
+        amount: { type: integer }
+        methodLabel: { type: string }
+        status:
+          allOf: [{ $ref: '#/components/schemas/ServerStatus' }]
+          description: 'code ∈ pending, processing, succeeded, failed, cancelled, expired'
+        createdAt: { type: string, format: date-time }
+        policyNumber: { type: [string, 'null'] }
+        purposeLabel: { type: string }
+        checkoutURL: { type: [string, 'null'], format: uri }
+        appURL: { type: [string, 'null'], format: uri }
+
+    ClaimStatus:
+      type: string
+      enum: [draft, submitted, in_review, documents_requested, pre_validated, validated, rejected, paid, closed]
+      description: Brouillon, Soumis, En analyse, Pièces complémentaires demandées, Pré-validé, Validé, Rejeté, Payé, Clôturé
+
+    ClaimType:
+      type: object
+      required: [code, label, requiredDocuments]
+      properties:
+        code: { type: string }
+        label: { type: string }
+        symbol: { type: [string, 'null'], description: SF Symbol / icon hint }
+        requiredDocuments: { type: array, items: { type: string } }
+
+    ClaimSummary:
+      type: object
+      required: [id, status, typeLabel, beneficiaryName, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        number: { type: [string, 'null'] }
+        status: { $ref: '#/components/schemas/ClaimStatus' }
+        typeLabel: { type: string }
+        beneficiaryName: { type: string }
+        providerName: { type: [string, 'null'] }
+        amount: { type: [integer, 'null'] }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    ClaimDocument:
+      type: object
+      required: [id, kind, fileName, createdAt]
+      properties:
+        id: { type: string }
+        kind: { type: string }
+        fileName: { type: string }
+        createdAt: { type: string, format: date-time }
+
+    OCRField:
+      type: object
+      required: [key, label, value]
+      properties:
+        key: { type: string, enum: [invoiceNumber, date, provider, patient, act, medicine, quantity, unitPrice, amount, total] }
+        label: { type: string }
+        value: { type: string }
+        confidence: { type: [number, 'null'], minimum: 0, maximum: 1 }
+
+    OCRLine:
+      type: object
+      required: [id, label, quantity, unitPrice, amount]
+      properties:
+        id: { type: string }
+        label: { type: string, description: act or medicine }
+        quantity: { type: string }
+        unitPrice: { type: string }
+        amount: { type: string }
+        confidence: { type: [number, 'null'] }
+
+    OCRResult:
+      type: object
+      required: [state, fields, lines, reviewThreshold]
+      properties:
+        state: { type: string, enum: [pending, processing, done, failed] }
+        progress: { type: [number, 'null'] }
+        fields: { type: array, items: { $ref: '#/components/schemas/OCRField' } }
+        lines: { type: array, items: { $ref: '#/components/schemas/OCRLine' } }
+        reviewThreshold: { type: number, description: fields below this confidence are highlighted for review }
+        message: { type: [string, 'null'] }
+
+    Settlement:
+      type: object
+      required: [billedAmount, coveredAmount, reimbursementRate, deductible, insurerAmount, remainingAmount]
+      properties:
+        billedAmount: { type: integer }
+        coveredAmount: { type: integer }
+        reimbursementRate: { type: integer }
+        deductible: { type: integer }
+        insurerAmount: { type: integer }
+        remainingAmount: { type: integer, description: reste à charge }
+
+    Claim:
+      type: object
+      required: [id, status, typeCode, typeLabel, beneficiaryId, beneficiaryName, createdAt, fields, lines, documents, timeline, documentRequests]
+      properties:
+        id: { type: string }
+        number: { type: [string, 'null'], description: assigned on submit }
+        status: { $ref: '#/components/schemas/ClaimStatus' }
+        typeCode: { type: string }
+        typeLabel: { type: string }
+        beneficiaryId: { type: string }
+        beneficiaryName: { type: string }
+        createdAt: { type: string, format: date-time }
+        submittedAt: { type: [string, 'null'], format: date-time }
+        fields: { type: array, items: { $ref: '#/components/schemas/OCRField' } }
+        lines: { type: array, items: { $ref: '#/components/schemas/OCRLine' } }
+        documents: { type: array, items: { $ref: '#/components/schemas/ClaimDocument' } }
+        timeline:
+          type: array
+          items:
+            type: object
+            required: [status, date]
+            properties:
+              status: { $ref: '#/components/schemas/ClaimStatus' }
+              date: { type: string, format: date-time }
+              message: { type: [string, 'null'] }
+        documentRequests:
+          type: array
+          items:
+            type: object
+            required: [id, label, fulfilled]
+            properties:
+              id: { type: string }
+              label: { type: string }
+              fulfilled: { type: boolean }
+        settlement: { oneOf: [{ $ref: '#/components/schemas/Settlement' }, { type: 'null' }] }
+        rejectionReason: { type: [string, 'null'] }
+
+    VaultCategory:
+      type: string
+      enum: [prescription, lab_result, imaging, vaccine]
+
+    VaultDocument:
+      type: object
+      required: [id, category, title, fileName, mimeType, size, createdAt]
+      properties:
+        id: { type: string }
+        category: { $ref: '#/components/schemas/VaultCategory' }
+        title: { type: string }
+        fileName: { type: string }
+        mimeType: { type: string }
+        size: { type: integer }
+        createdAt: { type: string, format: date-time }
+        beneficiaryName: { type: [string, 'null'] }
+
+    ProviderType:
+      type: string
+      enum: [doctor, specialist, pharmacy, clinic, hospital, laboratory]
+
+    Provider:
+      type: object
+      required: [id, name, type, address, city, latitude, longitude, tiersPayant]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        type: { $ref: '#/components/schemas/ProviderType' }
+        specialty: { type: [string, 'null'] }
+        address: { type: string }
+        city: { type: string }
+        phone: { type: [string, 'null'] }
+        latitude: { type: number }
+        longitude: { type: number }
+        distanceMeters: { type: [integer, 'null'] }
+        tiersPayant: { type: boolean }
+        openingHours: { type: [string, 'null'] }
+
+    AppNotification:
+      type: object
+      required: [id, category, title, body, createdAt, read]
+      properties:
+        id: { type: string }
+        category: { type: string }
+        title: { type: string }
+        body: { type: string }
+        createdAt: { type: string, format: date-time }
+        read: { type: boolean }
+        target:
+          oneOf:
+            - type: 'null'
+            - type: object
+              required: [kind]
+              properties:
+                kind: { type: string, enum: [claim, payment, policy, dependents, card, vault, notifications, subscription] }
+                id: { type: [string, 'null'] }
+
+    UploadSession:
+      type: object
+      required: [uploadId, chunkSize, offset]
+      properties:
+        uploadId: { type: string }
+        chunkSize: { type: integer }
+        offset: { type: integer }

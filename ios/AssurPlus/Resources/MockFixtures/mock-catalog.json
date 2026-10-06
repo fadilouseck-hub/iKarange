@@ -1,0 +1,98 @@
+{
+  "_comment": "MockAPI fixture. Products, guarantees, rates and rules are FAKE placeholders: the real ones are not defined yet (CDC §40).",
+  "products": [
+    {
+      "id": "prd_essentiel",
+      "name": "Essentiel",
+      "tagline": "Les soins courants, l'essentiel pour bien démarrer",
+      "description": "Formule de démonstration. Garanties et plafonds fournis par l'API.",
+      "premiumFrom": 95000,
+      "highlight": false,
+      "guarantees": [
+        { "code": "consult", "label": "Consultations", "limitLabel": "Plafond fictif : 150 000 FCFA", "rateLabel": null, "description": null },
+        { "code": "pharma", "label": "Pharmacie", "limitLabel": "Plafond fictif : 300 000 FCFA", "rateLabel": null, "description": null },
+        { "code": "lab", "label": "Analyses", "limitLabel": "Plafond fictif : 150 000 FCFA", "rateLabel": null, "description": null }
+      ],
+      "coverageRates": [70, 80],
+      "territorialities": [ { "code": "SN", "label": "Sénégal" } ],
+      "exclusions": ["Exclusions à définir (fixture)."],
+      "waitingPeriods": ["Carence à définir (fixture)."],
+      "deductibleLabel": "Franchise à définir (fixture)",
+      "maxDependents": 5
+    },
+    {
+      "id": "prd_serenite",
+      "name": "Sérénité",
+      "tagline": "Une couverture complète pour toute la famille",
+      "description": "Formule de démonstration. Garanties et plafonds fournis par l'API.",
+      "premiumFrom": 180000,
+      "highlight": true,
+      "guarantees": [
+        { "code": "consult", "label": "Consultations", "limitLabel": "Plafond fictif : 300 000 FCFA", "rateLabel": null, "description": null },
+        { "code": "pharma", "label": "Pharmacie", "limitLabel": "Plafond fictif : 600 000 FCFA", "rateLabel": null, "description": null },
+        { "code": "lab", "label": "Analyses et imagerie", "limitLabel": "Plafond fictif : 400 000 FCFA", "rateLabel": null, "description": null },
+        { "code": "hospital", "label": "Hospitalisation", "limitLabel": "Plafond fictif : 1 500 000 FCFA", "rateLabel": null, "description": null }
+      ],
+      "coverageRates": [70, 80, 90, 100],
+      "territorialities": [ { "code": "SN", "label": "Sénégal" }, { "code": "CIMA", "label": "Zone CIMA" } ],
+      "exclusions": ["Exclusions à définir (fixture)."],
+      "waitingPeriods": ["Carence à définir (fixture)."],
+      "deductibleLabel": "Franchise à définir (fixture)",
+      "maxDependents": 8
+    }
+  ],
+  "questionnaire": {
+    "version": "HQ-DEMO-1",
+    "questions": [
+      { "id": "q_chronic", "label": "Suivez-vous un traitement pour une maladie chronique ?", "help": "Diabète, hypertension, asthme…", "kind": "boolean", "options": null, "required": true, "dependsOn": null },
+      { "id": "q_chronic_detail", "label": "Laquelle ?", "help": null, "kind": "single_choice", "options": [ { "code": "diabetes", "label": "Diabète" }, { "code": "hypertension", "label": "Hypertension" }, { "code": "asthma", "label": "Asthme" }, { "code": "other", "label": "Autre" } ], "required": true, "dependsOn": "q_chronic" },
+      { "id": "q_hospital", "label": "Avez-vous été hospitalisé(e) au cours des 12 derniers mois ?", "help": null, "kind": "boolean", "options": null, "required": true, "dependsOn": null },
+      { "id": "q_incurable", "label": "Êtes-vous atteint(e) d'une affection de longue durée non stabilisée ?", "help": "Réponse utilisée par l'assureur pour l'éligibilité.", "kind": "boolean", "options": null, "required": true, "dependsOn": null },
+      { "id": "q_pregnant", "label": "Êtes-vous enceinte ?", "help": null, "kind": "boolean", "options": null, "required": false, "dependsOn": null }
+    ]
+  },
+  "paymentMethods": [
+    { "code": "wave", "label": "Wave", "kind": "wave", "enabled": true, "requiresPhone": true, "help": "Vous serez redirigé vers l'application Wave pour valider." },
+    { "code": "orange_money", "label": "Orange Money", "kind": "orange_money", "enabled": true, "requiresPhone": true, "help": "Validez le paiement avec votre code secret Orange Money." },
+    { "code": "card", "label": "Carte bancaire", "kind": "card", "enabled": true, "requiresPhone": false, "help": "Visa, Mastercard — page sécurisée 3-D Secure." }
+  ],
+  "claimTypes": [
+    { "code": "consultation", "label": "Consultation", "symbol": "stethoscope", "requiredDocuments": ["Facture ou reçu de consultation"] },
+    { "code": "pharmacy", "label": "Pharmacie", "symbol": "pills", "requiredDocuments": ["Ticket de pharmacie", "Ordonnance"] },
+    { "code": "lab", "label": "Analyses de laboratoire", "symbol": "testtube.2", "requiredDocuments": ["Facture du laboratoire", "Prescription"] },
+    { "code": "imaging", "label": "Imagerie / radiologie", "symbol": "rays", "requiredDocuments": ["Facture", "Prescription"] },
+    { "code": "hospitalisation", "label": "Hospitalisation", "symbol": "bed.double", "requiredDocuments": ["Facture d'hospitalisation", "Compte rendu"] },
+    { "code": "dental", "label": "Dentaire", "symbol": "mouth", "requiredDocuments": ["Facture"] },
+    { "code": "optical", "label": "Optique", "symbol": "eyeglasses", "requiredDocuments": ["Facture", "Prescription"] }
+  ],
+  "ocr": {
+    "state": "done",
+    "progress": 1,
+    "reviewThreshold": 0.85,
+    "message": null,
+    "fields": [
+      { "key": "invoiceNumber", "label": "N° de facture", "value": "F-2026-10-0457", "confidence": 0.96 },
+      { "key": "date", "label": "Date", "value": "2026-10-03", "confidence": 0.98 },
+      { "key": "provider", "label": "Prestataire", "value": "Pharmacie Démo Mermoz", "confidence": 0.91 },
+      { "key": "patient", "label": "Patient", "value": "", "confidence": 0.42 },
+      { "key": "act", "label": "Acte", "value": "Délivrance de médicaments", "confidence": 0.88 },
+      { "key": "total", "label": "Montant total", "value": "20000", "confidence": 0.97 }
+    ],
+    "lines": [
+      { "id": "o1", "label": "Paracétamol 500 mg", "quantity": "2", "unitPrice": "1500", "amount": "3000", "confidence": 0.98 },
+      { "id": "o2", "label": "Amoxicilline 1 g", "quantity": "1", "unitPrice": "12500", "amount": "12500", "confidence": 0.79 },
+      { "id": "o3", "label": "Sirop antitussif", "quantity": "1", "unitPrice": "4500", "amount": "4500", "confidence": 0.93 }
+    ]
+  },
+  "legal": [
+    { "id": "cgu", "title": "Conditions générales d'utilisation", "version": "CGU-2026-01", "url": "https://assurplus.sn/legal/cgu" },
+    { "id": "privacy", "title": "Politique de confidentialité", "version": "PC-2026-01", "url": "https://assurplus.sn/legal/confidentialite" }
+  ],
+  "notificationPreferences": {
+    "categories": [
+      { "id": "claims", "label": "Sinistres et remboursements", "push": true, "sms": true, "email": false },
+      { "id": "payments", "label": "Paiements", "push": true, "sms": true, "email": true },
+      { "id": "contract", "label": "Contrat et échéances", "push": true, "sms": false, "email": true }
+    ]
+  }
+}

@@ -16,3 +16,10 @@ legacy/ikarange/fadpaydikarangex_mysql_db.sql
 
 # OS / editors
 .DS_Store
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+ios/build/
+ios/DerivedData/
+*.xcresult

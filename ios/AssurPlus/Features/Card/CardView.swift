@@ -47,7 +47,7 @@ private struct CardContent: View {
             .padding(DS.Spacing.l)
         }
         .screenBackground()
-        .refreshable { await model.load() }
+        .refreshable { await Task { await model.load() }.value }
         .task { await model.load() }
         .task(id: model.selected?.id) { await model.runTokenRefreshLoop() }
         .onAppear { brightness.boost() }

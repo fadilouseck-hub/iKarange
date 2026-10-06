@@ -8,7 +8,6 @@ private struct Placeholder: View {
     }
 }
 
-struct ClaimsListView: View { var body: some View { Placeholder(title: "Sinistres") } }
 struct NetworkView: View { var body: some View { Placeholder(title: "Réseau") } }
 struct ProfileView: View {
     @Environment(AppEnvironment.self) private var env
@@ -19,10 +18,8 @@ struct ProfileView: View {
 }
 struct SubscriptionFlowView: View { var body: some View { Placeholder(title: "Souscription") } }
 struct SubscriptionEntryView: View { var body: some View { Placeholder(title: "Souscription") } }
-struct NewClaimFlowView: View { var body: some View { Placeholder(title: "Déclarer") } }
 struct FamilyView: View { var body: some View { Placeholder(title: "Famille") } }
 struct PaymentHistoryView: View { var body: some View { Placeholder(title: "Paiements") } }
 struct VaultView: View { var body: some View { Placeholder(title: "Coffre santé") } }
 struct NotificationsView: View { var body: some View { Placeholder(title: "Notifications") } }
-struct ClaimDetailView: View { let claimId: String; var body: some View { Placeholder(title: "Sinistre") } }
 struct PaymentDetailView: View { let paymentId: String; var body: some View { Placeholder(title: "Paiement") } }

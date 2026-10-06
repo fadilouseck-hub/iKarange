@@ -36,6 +36,12 @@ final class RemoteResource<Value: Codable & Sendable> {
         }
     }
 
+    /// For `.refreshable`: SwiftUI cancels the refresh task as soon as the view re-renders (e.g. when
+    /// `isLoading` flips), which would drop the request. Run it unstructured and await it instead.
+    func refresh() async {
+        await Task { await self.load() }.value
+    }
+
     /// Replaces the value locally (after a mutation) and persists it.
     func update(_ newValue: Value) {
         value = newValue

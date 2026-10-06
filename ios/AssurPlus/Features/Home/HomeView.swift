@@ -28,7 +28,7 @@ private struct HomeContent: View {
             .padding(DS.Spacing.l)
         }
         .screenBackground()
-        .refreshable { await dashboard.load() }
+        .refreshable { await dashboard.refresh() }
         .navigationTitle(greeting)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

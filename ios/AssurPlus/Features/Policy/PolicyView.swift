@@ -90,7 +90,7 @@ private struct PolicyContent: View {
             .padding(DS.Spacing.l)
         }
         .screenBackground()
-        .refreshable { await model.resource.load() }
+        .refreshable { await model.resource.refresh() }
         .task { await model.resource.load() }
         .quickLookPreview($model.previewURL)
         .alert("Erreur", isPresented: Binding(get: { model.error != nil }, set: { if !$0 { model.error = nil } })) {

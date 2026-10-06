@@ -10,6 +10,13 @@ extension XCUIApplication {
         return app
     }
 
+    /// A slow drag from the top of the content, long enough to trigger `.refreshable`.
+    func pullToRefresh() {
+        let start = coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.3))
+        let end = coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.85))
+        start.press(forDuration: 0.1, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.3)
+    }
+
     func tab(_ label: String) -> XCUIElement { tabBars.buttons[label] }
 }
 

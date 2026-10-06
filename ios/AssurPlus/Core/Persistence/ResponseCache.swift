@@ -6,6 +6,7 @@ import SwiftData
 protocol ResponseCache: AnyObject {
     func load<T: Decodable>(_ type: T.Type, key: CacheKey) -> T?
     func store<T: Encodable>(_ value: T, key: CacheKey)
+    func remove(_ key: CacheKey)
     func clear()
 }
 
@@ -61,6 +62,12 @@ final class SwiftDataCache: ResponseCache {
         } else {
             context.insert(CachedResponse(key: key.rawValue, payload: data))
         }
+        try? context.save()
+    }
+
+    func remove(_ key: CacheKey) {
+        guard let entry = fetch(key) else { return }
+        context.delete(entry)
         try? context.save()
     }
 

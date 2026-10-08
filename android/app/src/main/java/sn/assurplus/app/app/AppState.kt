@@ -231,6 +231,8 @@ class Router {
     /** `assurplus://claims/<id>`, `assurplus://card`, … Payment return URLs are handled by the payment flow. */
     fun open(url: android.net.Uri) {
         if (url.scheme != "assurplus") return
+        // Payment provider return URL: the payment flow is already polling the server, nothing to open.
+        if (url.host == "payments" && url.pathSegments.firstOrNull() == "return") return
         val id = url.pathSegments.firstOrNull()
         val kind = when (url.host) {
             "claims" -> DeepLinkTarget.Kind.claim

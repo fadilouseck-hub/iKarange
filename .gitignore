@@ -26,3 +26,6 @@ ios/DerivedData/
 
 # Confidential AI handoff workspace (signing metadata, account screenshots)
 AI-Collaboration/
+
+# Claude Code agent worktrees
+.claude/worktrees/

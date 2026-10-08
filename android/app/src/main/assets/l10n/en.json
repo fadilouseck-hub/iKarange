@@ -1,5 +1,6 @@
 {
  "%@ · né(e) le %@": "%@ · born %@",
+ "%@ × %@": "%@ × %@",
  "%@, étape %lld sur %lld": "%@, step %lld of %lld",
  "%lld information(s) à vérifier en priorité (surlignées).": "%lld item(s) to check first (highlighted).",
  "8 caractères minimum.": "At least 8 characters.",

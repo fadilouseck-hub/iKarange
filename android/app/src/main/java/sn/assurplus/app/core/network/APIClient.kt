@@ -119,6 +119,8 @@ class APIClient(
     suspend fun sendRaw(endpoint: Endpoint, allowRefresh: Boolean = true): ByteArray {
         val response = try {
             transport.send(makeRequest(endpoint))
+        } catch (cancelled: kotlinx.coroutines.CancellationException) {
+            throw cancelled // structured concurrency: never turn cancellation into an API error
         } catch (error: Throwable) {
             throw APIError.wrap(error)
         }

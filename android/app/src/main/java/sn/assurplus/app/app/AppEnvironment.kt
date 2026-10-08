@@ -63,6 +63,11 @@ class AppEnvironment(
 
         val current: AppEnvironment get() = instance ?: error("AppEnvironment not created")
 
+        /** UI tests: the next activity launch builds a fresh environment from its extras. */
+        fun resetForTests() {
+            instance = null
+        }
+
         /**
          * Launch extras (debug / mock, used by UI tests — the counterpart of the iOS launch arguments):
          * `ResetState` (fresh in-memory session), `MockLatency` (seconds), `MockQRLifetime` (seconds),

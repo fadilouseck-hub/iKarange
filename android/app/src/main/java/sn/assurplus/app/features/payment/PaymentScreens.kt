@@ -76,6 +76,8 @@ import sn.assurplus.app.tenant.Tenant
 @Composable
 fun PaymentStepView(model: PaymentViewModel, onSuccess: () -> Unit) {
     LaunchedEffect(model) { if (model.methods.isEmpty()) model.loadMethods() }
+    // Owned by the whole step: the payment keeps running when the chooser is replaced by the waiting view.
+    val scope = rememberCoroutineScope()
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(DS.Spacing.l)) {
         Column(Modifier.card(), verticalArrangement = Arrangement.spacedBy(DS.Spacing.xs)) {
             Text(t("Montant à payer"), style = DS.Typography.callout, color = DS.Palette.textSecondary)
@@ -85,7 +87,7 @@ fun PaymentStepView(model: PaymentViewModel, onSuccess: () -> Unit) {
         model.error?.let { MessageBanner(Message(Message.Level.error, it.userMessage)) }
 
         when (model.phase) {
-            PaymentViewModel.Phase.choosing -> PaymentChooser(model)
+            PaymentViewModel.Phase.choosing -> PaymentChooser(model, scope)
             PaymentViewModel.Phase.launching, PaymentViewModel.Phase.confirming -> PaymentWaiting(model)
             PaymentViewModel.Phase.finished -> PaymentResult(model, onSuccess)
         }
@@ -93,8 +95,7 @@ fun PaymentStepView(model: PaymentViewModel, onSuccess: () -> Unit) {
 }
 
 @Composable
-private fun PaymentChooser(model: PaymentViewModel) {
-    val scope = rememberCoroutineScope()
+private fun PaymentChooser(model: PaymentViewModel, scope: kotlinx.coroutines.CoroutineScope) {
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(DS.Spacing.m)) {
         Text(t("Moyen de paiement"), style = DS.Typography.headline, color = DS.Palette.textPrimary)
         if (model.isLoadingMethods && model.methods.isEmpty()) SkeletonCard(lines = 2)

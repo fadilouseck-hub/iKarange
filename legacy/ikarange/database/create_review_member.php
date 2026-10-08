@@ -12,6 +12,8 @@
  * Usage (on the server, from the site root):
  *   php database/create_review_member.php [--reset-password]                    # App Store review member
  *   php database/create_review_member.php --login=test.owner [--reset-password] # extra fictional tester
+ *   MEMBER_PASSWORD='…' php database/create_review_member.php --login=Demo       # owner-chosen password (≥ 8 chars)
+ * The password is never stored in the repository; a chosen one is read from the environment at run time.
  */
 
 if (PHP_SAPI !== 'cli') {
@@ -22,10 +24,10 @@ if (PHP_SAPI !== 'cli') {
 // Optional --login=<name> creates another fictional tester in the same demo company.
 $requested = null;
 foreach ($argv as $arg) {
-    if (str_starts_with($arg, '--login=')) $requested = strtolower(substr($arg, 8));
+    if (str_starts_with($arg, '--login=')) $requested = substr($arg, 8);
 }
-if ($requested !== null && !preg_match('/^[a-z0-9][a-z0-9._-]{3,40}$/', $requested)) {
-    fwrite(STDERR, "Invalid --login (4-41 chars: a-z 0-9 . _ -)\n");
+if ($requested !== null && !preg_match('/^[A-Za-z0-9][A-Za-z0-9._-]{3,40}$/', $requested)) {
+    fwrite(STDERR, "Invalid --login (4-41 chars: letters, digits, . _ -)\n");
     exit(1);
 }
 define('REVIEW_LOGIN', $requested ?? 'review.assurplus');
@@ -48,6 +50,14 @@ $pdo = new PDO(
 // Readable but strong: 4 groups of 4 from an unambiguous alphabet (~80 bits).
 function newPassword(): string
 {
+    $chosen = getenv('MEMBER_PASSWORD');
+    if ($chosen !== false && $chosen !== '') {
+        if (mb_strlen($chosen) < 8) {
+            fwrite(STDERR, "MEMBER_PASSWORD must be at least 8 characters.\n");
+            exit(1);
+        }
+        return $chosen;
+    }
     $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
     $groups = [];
     for ($g = 0; $g < 4; $g++) {

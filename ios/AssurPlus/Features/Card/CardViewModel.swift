@@ -78,7 +78,7 @@ final class CardViewModel {
             switch try await wallet.add(passData: data) {
             case .added: walletMessage = Message(level: .success, text: String(localized: "Carte ajoutée à Cartes (Wallet)."))
             case .alreadyAdded: walletMessage = Message(level: .info, text: String(localized: "Cette carte est déjà dans Cartes (Wallet)."))
-            case .simulated: walletMessage = Message(level: .success, text: String(localized: "Carte ajoutée à Cartes (Wallet) — simulation MockAPI."))
+            case .simulated: walletMessage = Message(level: .success, text: String(localized: "Carte ajoutée à Cartes (Wallet) — démonstration."))
             case .cancelled: walletMessage = nil
             }
         } catch let error as WalletError {

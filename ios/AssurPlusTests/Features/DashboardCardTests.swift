@@ -1,3 +1,4 @@
+import CoreImage
 import Foundation
 import Testing
 @testable import AssurPlus
@@ -105,5 +106,26 @@ struct DashboardCardTests {
         #expect(data.starts(with: Data("%PDF".utf8)))
         let values = try url.resourceValues(forKeys: [.isExcludedFromBackupKey])
         #expect(values.isExcludedFromBackup == true)
+    }
+}
+
+@MainActor
+@Suite("Styled QR code")
+struct StyledQRCodeTests {
+    /// Dots, rounded eyes and the centre logo must not break decoding.
+    @Test(arguments: ["AP1.0f3c9a7d5b2e4c1a8d6f0b9e7c3a5d2f.sig", "AP1." + String(repeating: "a1b2c3d4", count: 6) + ".sig"])
+    func styledQRStillDecodes(payload: String) throws {
+        let image = try #require(QRCode.styledImage(for: payload))
+        let detector = try #require(CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: [CIDetectorAccuracy: CIDetectorAccuracyHigh]))
+        let features = detector.features(in: try #require(CIImage(image: image))).compactMap { $0 as? CIQRCodeFeature }
+        #expect(features.first?.messageString == payload)
+    }
+
+    @Test func matrixHasFinderPatterns() throws {
+        let matrix = try #require(QRMatrix.make("AP1.token.sig"))
+        #expect(matrix.size >= 21 && (matrix.size - 17) % 4 == 0) // valid QR versions
+        for (x, y) in matrix.finderOrigins {
+            #expect(matrix[x, y] && matrix[x + 6, y + 6] && !matrix[x + 1, y + 1] && matrix[x + 3, y + 3])
+        }
     }
 }

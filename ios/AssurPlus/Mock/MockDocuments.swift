@@ -25,7 +25,7 @@ enum MockDocuments {
                 (line as NSString).draw(in: rect, withAttributes: bodyAttributes)
                 y += height + 8
             }
-            ("Document de démonstration généré par MockAPI — sans valeur contractuelle." as NSString)
+            ("Document de démonstration — sans valeur contractuelle." as NSString)
                 .draw(at: CGPoint(x: 48, y: page.height - 40), withAttributes: noteAttributes)
         }
     }

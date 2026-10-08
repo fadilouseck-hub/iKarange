@@ -1,4 +1,3 @@
-import CoreImage.CIFilterBuiltins
 import PassKit
 import SwiftUI
 
@@ -180,10 +179,10 @@ private struct QRPanel: View {
             let token = model.currentToken(at: context.date)
             VStack(spacing: DS.Spacing.m) {
                 ZStack {
-                    if let token, let image = QRCode.image(for: token.token) {
+                    if let token, let image = StyledQRCache.image(for: token.token) {
                         Image(uiImage: image)
-                            .interpolation(.none)
                             .resizable()
+                            .interpolation(.high)
                             .scaledToFit()
                             .accessibilityLabel(Text("QR code de la carte tiers-payant"))
                             .accessibilityValue(Text(token.token))
@@ -219,18 +218,6 @@ private struct QRPanel: View {
             .frame(maxWidth: .infinity)
             .card()
         }
-    }
-}
-
-enum QRCode {
-    /// Generated locally with CoreImage; the payload is the server's signed token only.
-    static func image(for payload: String) -> UIImage? {
-        let filter = CIFilter.qrCodeGenerator()
-        filter.message = Data(payload.utf8)
-        filter.correctionLevel = "M"
-        guard let output = filter.outputImage?.transformed(by: CGAffineTransform(scaleX: 10, y: 10)),
-              let cgImage = CIContext().createCGImage(output, from: output.extent) else { return nil }
-        return UIImage(cgImage: cgImage)
     }
 }
 

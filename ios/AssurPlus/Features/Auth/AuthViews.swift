@@ -51,9 +51,7 @@ struct WelcomeView: View {
                     .buttonStyle(.secondary)
                     .accessibilityIdentifier("welcome.register")
             }
-            if env.isMock {
-                Text("Mode démonstration (MockAPI)").font(.caption).foregroundStyle(DS.Palette.textSecondary)
-            }
+            Text("Copyright MCE Group").font(.caption).foregroundStyle(DS.Palette.textSecondary)
         }
         .padding(DS.Spacing.xl)
         .screenBackground()

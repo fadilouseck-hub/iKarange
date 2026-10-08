@@ -107,7 +107,14 @@ fun BrandMark(modifier: Modifier = Modifier, size: Dp = 56.dp) {
         horizontalArrangement = Arrangement.spacedBy(size * 0.08f),
     ) {
         Box(Modifier.size(size).background(DS.Palette.teal, RoundedCornerShape(size * 0.28f)), contentAlignment = Alignment.Center) {
-            Icon(sym("plus"), null, tint = DS.Palette.mint, modifier = Modifier.size(size * 0.62f))
+            // Heavy "+" (SF Symbol "plus", weight black).
+            val mint = DS.Palette.mint
+            androidx.compose.foundation.Canvas(Modifier.size(size * 0.5f)) {
+                val bar = this.size.width * 0.26f
+                val r = androidx.compose.ui.geometry.CornerRadius(bar * 0.3f)
+                drawRoundRect(mint, androidx.compose.ui.geometry.Offset((this.size.width - bar) / 2, 0f), androidx.compose.ui.geometry.Size(bar, this.size.height), r)
+                drawRoundRect(mint, androidx.compose.ui.geometry.Offset(0f, (this.size.height - bar) / 2), androidx.compose.ui.geometry.Size(this.size.width, bar), r)
+            }
         }
         Text(Tenant.current.wordmark, color = DS.Palette.primary, fontWeight = FontWeight.Black, fontSize = (size.value * 0.42f).sp)
     }

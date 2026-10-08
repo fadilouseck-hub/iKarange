@@ -351,6 +351,24 @@ paths:
             application/vnd.apple.pkpass:
               schema: { type: string, format: binary }
 
+  /me/card/google-wallet:
+    get:
+      tags: [card]
+      summary: Signed "Save to Google Wallet" link for a beneficiary (Android)
+      description: TODO(backend) — issue a Google Wallet generic pass JWT (issuer account + service key) and return its save URL.
+      parameters:
+        - { name: beneficiaryId, in: query, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: Save link
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [saveUrl]
+                properties:
+                  saveUrl: { type: string, format: uri, example: 'https://pay.google.com/gp/v/save/eyJ…' }
+
   /products:
     get:
       tags: [subscription]

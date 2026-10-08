@@ -36,6 +36,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
@@ -552,7 +553,8 @@ private fun ProvidersMap(model: NetworkModel) {
     }
 
     AndroidView(
-        modifier = Modifier.fillMaxSize(),
+        // osmdroid paints its tile grid beyond its bounds: clip so it never covers the filters above.
+        modifier = Modifier.fillMaxSize().clipToBounds(),
         factory = { ctx ->
             Configuration.getInstance().apply {
                 userAgentValue = ctx.packageName

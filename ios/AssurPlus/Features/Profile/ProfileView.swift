@@ -141,7 +141,7 @@ private struct ProfileContent: View {
                     Button("Supprimer mon compte", role: .destructive) { confirmDeletion = true }
                 }
             } footer: {
-                Text("ASSUR+ \(AppConfig.version) · Copyright MCE Group")
+                Text("ASSUR+ \(AppConfig.version) · Copyright © MCE Group")
             }
         }
         .scrollContentBackground(.hidden)

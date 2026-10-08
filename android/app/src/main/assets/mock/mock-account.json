@@ -1,0 +1,178 @@
+{
+  "_comment": "MockAPI fixture. All people, numbers and amounts are FAKE placeholders — no real member data.",
+  "users": [
+    {
+      "phone": "+221770000001",
+      "password": "assur1234",
+      "me": {
+        "id": "usr_principal",
+        "firstName": "Awa",
+        "lastName": "Diop",
+        "phone": "+221770000001",
+        "email": "awa.diop@example.com",
+        "birthDate": "1988-04-12",
+        "gender": "F",
+        "address": "Rue 10, Sicap Liberté",
+        "city": "Dakar",
+        "role": "principal",
+        "permissions": ["policy.view", "policy.manage", "card.view", "claims.view", "claims.create", "family.view", "family.manage", "vault.view", "vault.manage", "payments.view", "payments.create", "subscription.create", "profile.edit"],
+        "memberNumber": "ASP-000184",
+        "hasActivePolicy": true,
+        "preferredLanguage": "fr"
+      }
+    },
+    {
+      "phone": "+221770000002",
+      "password": "assur1234",
+      "me": {
+        "id": "usr_dependent",
+        "firstName": "Moussa",
+        "lastName": "Diop",
+        "phone": "+221770000002",
+        "birthDate": "1985-09-30",
+        "gender": "M",
+        "city": "Dakar",
+        "role": "dependent",
+        "permissions": ["policy.view", "card.view", "claims.view", "claims.create", "vault.view", "vault.manage", "profile.edit"],
+        "memberNumber": "ASP-000185",
+        "hasActivePolicy": true,
+        "preferredLanguage": "fr"
+      }
+    }
+  ],
+  "policy": {
+    "summary": {
+      "id": "pol_1",
+      "number": "POL-2026-004521",
+      "productName": "Santé Famille",
+      "formulaName": "Sérénité",
+      "startDate": "2026-01-01",
+      "endDate": "2026-12-31",
+      "status": { "code": "active", "label": "Actif" },
+      "coverageRate": 80,
+      "territoriality": "Sénégal"
+    },
+    "insurerName": "Assureur Démo SA",
+    "premiumLabel": "245 000 FCFA / an",
+    "members": [
+      { "id": "ben_awa", "fullName": "Awa Diop", "relationLabel": "Assurée principale", "birthDate": "1988-04-12" },
+      { "id": "ben_moussa", "fullName": "Moussa Diop", "relationLabel": "Conjoint", "birthDate": "1985-09-30" },
+      { "id": "ben_fatou", "fullName": "Fatou Diop", "relationLabel": "Enfant", "birthDate": "2015-02-03" },
+      { "id": "ben_ibou", "fullName": "Ibrahima Diop", "relationLabel": "Enfant", "birthDate": "2019-11-21" }
+    ],
+    "guarantees": [
+      { "code": "consult", "label": "Consultations", "limitLabel": "Plafond fictif : 300 000 FCFA", "rateLabel": "80 %", "description": "Valeurs de démonstration." },
+      { "code": "pharma", "label": "Pharmacie", "limitLabel": "Plafond fictif : 600 000 FCFA", "rateLabel": "80 %", "description": null },
+      { "code": "lab", "label": "Analyses et imagerie", "limitLabel": "Plafond fictif : 400 000 FCFA", "rateLabel": "80 %", "description": null },
+      { "code": "hospital", "label": "Hospitalisation", "limitLabel": "Plafond fictif : 1 500 000 FCFA", "rateLabel": "80 %", "description": null }
+    ],
+    "exclusions": ["Exclusions à définir par l'assureur (fixture)."],
+    "waitingPeriods": ["Périodes de carence à définir par l'assureur (fixture)."],
+    "deductibleLabel": "Franchise à définir (fixture)",
+    "renewal": {
+      "renewalDate": "2027-01-01",
+      "tacitRenewal": true,
+      "terminationDeadline": "2026-10-31",
+      "canRequestTermination": true,
+      "info": "Contrat à tacite reconduction. Résiliation possible jusqu'à 2 mois avant l'échéance."
+    },
+    "conditionsVersion": "CP-2026-01",
+    "pendingTermination": null
+  },
+  "limits": { "annualLimit": 3000000, "consumed": 412500, "reimbursed": 318000, "remaining": 2587500 },
+  "card": {
+    "beneficiaries": [
+      { "id": "ben_awa", "fullName": "Awa Diop", "relationLabel": "Assurée principale", "memberNumber": "ASP-000184", "policyNumber": "POL-2026-004521", "insurerName": "Assureur Démo SA", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "1988-04-12" },
+      { "id": "ben_moussa", "fullName": "Moussa Diop", "relationLabel": "Conjoint", "memberNumber": "ASP-000185", "policyNumber": "POL-2026-004521", "insurerName": "Assureur Démo SA", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "1985-09-30" },
+      { "id": "ben_fatou", "fullName": "Fatou Diop", "relationLabel": "Enfant", "memberNumber": "ASP-000186", "policyNumber": "POL-2026-004521", "insurerName": "Assureur Démo SA", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "2015-02-03" },
+      { "id": "ben_ibou", "fullName": "Ibrahima Diop", "relationLabel": "Enfant", "memberNumber": "ASP-000187", "policyNumber": "POL-2026-004521", "insurerName": "Assureur Démo SA", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "2019-11-21" }
+    ]
+  },
+  "dependents": {
+    "dependents": [
+      { "id": "ben_moussa", "firstName": "Moussa", "lastName": "Diop", "relation": "spouse", "relationLabel": "Conjoint", "birthDate": "1985-09-30", "status": { "code": "active", "label": "Actif" }, "guarantees": ["Consultations", "Pharmacie", "Analyses et imagerie", "Hospitalisation"], "limits": { "annualLimit": 3000000, "consumed": 98000, "reimbursed": 78400, "remaining": 2902000 }, "pendingRequest": null },
+      { "id": "ben_fatou", "firstName": "Fatou", "lastName": "Diop", "relation": "child", "relationLabel": "Enfant", "birthDate": "2015-02-03", "status": { "code": "active", "label": "Actif" }, "guarantees": ["Consultations", "Pharmacie", "Analyses et imagerie", "Hospitalisation"], "limits": { "annualLimit": 3000000, "consumed": 154500, "reimbursed": 123600, "remaining": 2845500 }, "pendingRequest": null },
+      { "id": "ben_ibou", "firstName": "Ibrahima", "lastName": "Diop", "relation": "child", "relationLabel": "Enfant", "birthDate": "2019-11-21", "status": { "code": "active", "label": "Actif" }, "guarantees": ["Consultations", "Pharmacie", "Analyses et imagerie", "Hospitalisation"], "limits": { "annualLimit": 3000000, "consumed": 32000, "reimbursed": 25600, "remaining": 2968000 }, "pendingRequest": null }
+    ],
+    "requests": [],
+    "canRequestChanges": true,
+    "info": "Les ajouts et retraits sont validés par votre gestionnaire. Pièces justificatives possibles (acte de naissance, certificat de mariage)."
+  },
+  "claims": [
+    {
+      "id": "clm_1", "number": "SIN-2026-000412", "status": "paid", "typeCode": "pharmacy", "typeLabel": "Pharmacie",
+      "beneficiaryId": "ben_fatou", "beneficiaryName": "Fatou Diop",
+      "createdAt": "2026-08-14T10:12:00Z", "submittedAt": "2026-08-14T10:20:00Z",
+      "fields": [
+        { "key": "invoiceNumber", "label": "N° de facture", "value": "F-88231", "confidence": 0.97 },
+        { "key": "date", "label": "Date", "value": "2026-08-13", "confidence": 0.99 },
+        { "key": "provider", "label": "Prestataire", "value": "Pharmacie Démo Plateau", "confidence": 0.93 },
+        { "key": "patient", "label": "Patient", "value": "Fatou Diop", "confidence": 0.9 },
+        { "key": "total", "label": "Montant total", "value": "20000", "confidence": 0.98 }
+      ],
+      "lines": [
+        { "id": "l1", "label": "Paracétamol 500 mg", "quantity": "2", "unitPrice": "1500", "amount": "3000", "confidence": 0.98 },
+        { "id": "l2", "label": "Amoxicilline 1 g", "quantity": "1", "unitPrice": "17000", "amount": "17000", "confidence": 0.91 }
+      ],
+      "documents": [ { "id": "doc_1", "kind": "receipt", "fileName": "facture.jpg", "createdAt": "2026-08-14T10:13:00Z" } ],
+      "timeline": [
+        { "status": "submitted", "date": "2026-08-14T10:20:00Z", "message": "Déclaration reçue." },
+        { "status": "in_review", "date": "2026-08-15T08:00:00Z", "message": null },
+        { "status": "validated", "date": "2026-08-17T14:30:00Z", "message": "Prise en charge validée." },
+        { "status": "paid", "date": "2026-08-19T09:00:00Z", "message": "Remboursement envoyé sur votre compte Wave." }
+      ],
+      "documentRequests": [],
+      "settlement": { "billedAmount": 20000, "coveredAmount": 20000, "reimbursementRate": 80, "deductible": 0, "insurerAmount": 16000, "remainingAmount": 4000 },
+      "rejectionReason": null
+    },
+    {
+      "id": "clm_2", "number": "SIN-2026-000498", "status": "documents_requested", "typeCode": "lab", "typeLabel": "Analyses de laboratoire",
+      "beneficiaryId": "ben_moussa", "beneficiaryName": "Moussa Diop",
+      "createdAt": "2026-09-22T16:40:00Z", "submittedAt": "2026-09-22T16:52:00Z",
+      "fields": [
+        { "key": "invoiceNumber", "label": "N° de facture", "value": "LAB-5531", "confidence": 0.95 },
+        { "key": "date", "label": "Date", "value": "2026-09-21", "confidence": 0.97 },
+        { "key": "provider", "label": "Prestataire", "value": "Laboratoire Démo Point E", "confidence": 0.92 },
+        { "key": "total", "label": "Montant total", "value": "45000", "confidence": 0.96 }
+      ],
+      "lines": [],
+      "documents": [ { "id": "doc_2", "kind": "receipt", "fileName": "facture-labo.jpg", "createdAt": "2026-09-22T16:41:00Z" } ],
+      "timeline": [
+        { "status": "submitted", "date": "2026-09-22T16:52:00Z", "message": "Déclaration reçue." },
+        { "status": "in_review", "date": "2026-09-23T09:10:00Z", "message": null },
+        { "status": "documents_requested", "date": "2026-09-24T11:00:00Z", "message": "Merci de joindre l'ordonnance du médecin prescripteur." }
+      ],
+      "documentRequests": [ { "id": "req_1", "label": "Ordonnance du médecin prescripteur", "fulfilled": false } ],
+      "settlement": null,
+      "rejectionReason": null
+    },
+    {
+      "id": "clm_3", "number": "SIN-2026-000377", "status": "rejected", "typeCode": "consultation", "typeLabel": "Consultation",
+      "beneficiaryId": "ben_awa", "beneficiaryName": "Awa Diop",
+      "createdAt": "2026-07-02T09:00:00Z", "submittedAt": "2026-07-02T09:05:00Z",
+      "fields": [ { "key": "total", "label": "Montant total", "value": "15000", "confidence": 0.94 } ],
+      "lines": [],
+      "documents": [],
+      "timeline": [
+        { "status": "submitted", "date": "2026-07-02T09:05:00Z", "message": null },
+        { "status": "in_review", "date": "2026-07-03T10:00:00Z", "message": null },
+        { "status": "rejected", "date": "2026-07-05T15:00:00Z", "message": "Motif communiqué par le gestionnaire (fixture)." }
+      ],
+      "documentRequests": [],
+      "settlement": null,
+      "rejectionReason": "Facture illisible — motif de démonstration."
+    }
+  ],
+  "payments": [
+    { "id": "pay_1", "reference": "TX-2026-0001842", "amount": 245000, "methodLabel": "Wave", "status": { "code": "succeeded", "label": "Réussi" }, "createdAt": "2025-12-20T12:00:00Z", "policyNumber": "POL-2026-004521", "purposeLabel": "Cotisation annuelle 2026", "checkoutURL": null, "appURL": null }
+  ],
+  "vault": [
+    { "id": "vlt_1", "category": "prescription", "title": "Ordonnance Dr Démo", "fileName": "ordonnance.jpg", "mimeType": "image/jpeg", "size": 184320, "createdAt": "2026-09-21T10:00:00Z", "beneficiaryName": "Moussa Diop" },
+    { "id": "vlt_2", "category": "vaccine", "title": "Carnet de vaccination", "fileName": "vaccins.pdf", "mimeType": "application/pdf", "size": 402112, "createdAt": "2026-03-04T08:30:00Z", "beneficiaryName": "Ibrahima Diop" }
+  ],
+  "notifications": [
+    { "id": "ntf_1", "category": "claim", "title": "Pièce manquante", "body": "Un document est demandé pour votre sinistre SIN-2026-000498.", "createdAt": "2026-09-24T11:00:00Z", "read": false, "target": { "kind": "claim", "id": "clm_2" } },
+    { "id": "ntf_2", "category": "reimbursement", "title": "Remboursement effectué", "body": "Le sinistre SIN-2026-000412 a été payé.", "createdAt": "2026-08-19T09:00:00Z", "read": true, "target": { "kind": "claim", "id": "clm_1" } },
+    { "id": "ntf_3", "category": "contract", "title": "Échéance de votre contrat", "body": "Votre contrat arrive à échéance le 31 décembre 2026.", "createdAt": "2026-09-01T08:00:00Z", "read": false, "target": { "kind": "policy", "id": null } }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "apiBaseURL" : "https:\/\/ikarange.mcedge.sn\/api\/mobile\/v1",
+  "colors" : {
+    "accentOnLight" : "1C8F72",
+    "brandAccent" : "2DD4A8",
+    "brandDark" : "1A3A3A",
+    "brandDarkSecondary" : "2D5454"
+  },
+  "copyrightHolder" : "MCE Group",
+  "defaultLanguage" : "fr",
+  "displayName" : "Assur Plus",
+  "features" : {
+    "otpLogin" : false,
+    "passwordReset" : false,
+    "selfRegistration" : false
+  },
+  "id" : "assurplus",
+  "loginIdentifier" : "username",
+  "privacyPolicyURL" : "",
+  "supportedLanguages" : [
+    "fr",
+    "en"
+  ],
+  "supportEmail" : "",
+  "supportPhone" : "",
+  "termsURL" : "",
+  "wordmark" : "ASSUR+"
+}

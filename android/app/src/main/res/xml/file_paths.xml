@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- ProtectedStorage "Files" folder (noBackupFilesDir/Files). -->
+    <files-path name="protected" path="../no_backup/Files/" />
+    <cache-path name="cache" path="." />
+</paths>

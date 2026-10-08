@@ -19,6 +19,8 @@ fun sym(name: String): ImageVector = when (name) {
     "arrow.down.doc" -> Icons.Outlined.FileDownload
     "arrow.triangle.2.circlepath" -> Icons.Rounded.Sync
     "arrow.triangle.turn.up.right.diamond.fill" -> Icons.Rounded.Directions
+    "arrow.up" -> Icons.Rounded.ArrowUpward
+    "camera.fill" -> Icons.Rounded.PhotoCamera
     "arrow.up.circle.fill" -> Icons.Rounded.ArrowCircleUp
     "archivebox" -> Icons.Outlined.Archive
     "banknote" -> Icons.Outlined.Payments
@@ -35,6 +37,7 @@ fun sym(name: String): ImageVector = when (name) {
     "checkmark.seal.fill" -> Icons.Rounded.Verified
     "chevron.right" -> Icons.AutoMirrored.Rounded.KeyboardArrowRight
     "chevron.left" -> Icons.AutoMirrored.Rounded.ArrowBackIos
+    "chevron.up.chevron.down" -> Icons.Rounded.UnfoldMore
     "circle.lefthalf.filled" -> Icons.Outlined.Contrast
     "clock" -> Icons.Outlined.Schedule
     "creditcard" -> Icons.Outlined.CreditCard
@@ -87,6 +90,7 @@ fun sym(name: String): ImageVector = when (name) {
     "qrcode" -> Icons.Rounded.QrCode2
     "rays" -> Icons.Outlined.Flare
     "shield.lefthalf.filled.badge.checkmark" -> Icons.Outlined.VerifiedUser
+    "sparkles" -> Icons.Outlined.AutoAwesome
     "square.and.arrow.up" -> Icons.Outlined.IosShare
     "square.and.pencil" -> Icons.Outlined.EditNote
     "square.grid.2x2" -> Icons.Outlined.GridView

@@ -211,7 +211,7 @@ private fun DependentCard(dependent: Dependent, canRemove: Boolean, onRemove: ()
             } else if (canRemove) {
                 TextLink(
                     t("Demander le retrait"), onRemove,
-                    style = DS.Typography.footnote.copy(fontWeight = FontWeight.SemiBold), color = DS.Palette.danger,
+                    style = DS.Typography.footnote.copy(fontWeight = FontWeight.SemiBold), color = DS.Palette.destructive,
                     tag = "family.remove.${dependent.id}",
                 )
             }

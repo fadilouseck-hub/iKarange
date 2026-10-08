@@ -231,7 +231,7 @@ private fun RenewalSection(renewal: RenewalInfo, status: ServerStatus?, canTermi
             } else if (canTerminate) {
                 TextLink(
                     t("Demander la résiliation"), onTerminate, Modifier.padding(top = DS.Spacing.s),
-                    style = DS.Typography.callout.copy(fontWeight = FontWeight.SemiBold), color = DS.Palette.danger,
+                    style = DS.Typography.callout.copy(fontWeight = FontWeight.SemiBold), color = DS.Palette.destructive,
                 )
             }
         }

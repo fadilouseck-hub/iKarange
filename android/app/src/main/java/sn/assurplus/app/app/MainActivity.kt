@@ -17,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -65,7 +67,12 @@ class MainActivity : FragmentActivity() {
         setContent {
             AppTheme(env) {
                 // Re-render every string when the user switches language in Profile.
-                key(L10n.code) { RootView() }
+                key(L10n.code) {
+                    // Test tags double as resource ids, so UI Automator and adb can address them like XCUITest identifiers.
+                    androidx.compose.foundation.layout.Box(
+                        androidx.compose.ui.Modifier.semantics { testTagsAsResourceId = true }
+                    ) { RootView() }
+                }
             }
         }
     }
@@ -119,7 +126,19 @@ class MainActivity : FragmentActivity() {
                 surface = p.surface, onSurface = p.textPrimary, onBackground = p.textPrimary, error = p.danger,
                 surfaceContainerHigh = p.surface, surfaceContainer = p.surface, onSurfaceVariant = p.textSecondary,
             )
-            MaterialTheme(colorScheme = scheme, content = content)
+            val base = androidx.compose.material3.Typography()
+            val f = DS.Typography.family
+            val typography = androidx.compose.material3.Typography(
+                displayLarge = base.displayLarge.copy(fontFamily = f), displayMedium = base.displayMedium.copy(fontFamily = f),
+                displaySmall = base.displaySmall.copy(fontFamily = f), headlineLarge = base.headlineLarge.copy(fontFamily = f),
+                headlineMedium = base.headlineMedium.copy(fontFamily = f), headlineSmall = base.headlineSmall.copy(fontFamily = f),
+                titleLarge = base.titleLarge.copy(fontFamily = f), titleMedium = base.titleMedium.copy(fontFamily = f),
+                titleSmall = base.titleSmall.copy(fontFamily = f), bodyLarge = base.bodyLarge.copy(fontFamily = f),
+                bodyMedium = base.bodyMedium.copy(fontFamily = f), bodySmall = base.bodySmall.copy(fontFamily = f),
+                labelLarge = base.labelLarge.copy(fontFamily = f), labelMedium = base.labelMedium.copy(fontFamily = f),
+                labelSmall = base.labelSmall.copy(fontFamily = f),
+            )
+            MaterialTheme(colorScheme = scheme, typography = typography, content = content)
         }
     }
 }

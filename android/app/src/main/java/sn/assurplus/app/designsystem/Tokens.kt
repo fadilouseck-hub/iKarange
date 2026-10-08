@@ -5,7 +5,9 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import sn.assurplus.app.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
@@ -52,6 +54,9 @@ object DS {
         val info: Color @Composable @ReadOnlyComposable get() = dynamic(0x1F5FA8, 0x8AB8F0)
         val infoSoft: Color @Composable @ReadOnlyComposable get() = dynamic(0xE2EDFA, 0x1A2A3F)
 
+        /** iOS `systemRed`: destructive-role buttons (Supprimer, Se déconnecter, Demander le retrait…). */
+        val destructive: Color @Composable @ReadOnlyComposable get() = dynamic(0xFF3B30, 0xFF453A)
+
         /** iOS system separator (hairlines in lists and cards). */
         val separator: Color @Composable @ReadOnlyComposable get() = if (LocalIsDark.current) Color(0x5C545458) else Color(0x4A3C3C43)
 
@@ -81,7 +86,15 @@ object DS {
      * scale with the user's font setting through `sp`.
      */
     object Typography {
-        private val family = FontFamily.Default
+        /** Inter: the closest open font to Apple's SF Pro in widths and rhythm, so text wraps like on iOS (OFL). */
+        val family = FontFamily(
+            Font(R.font.inter_regular, FontWeight.Normal),
+            Font(R.font.inter_medium, FontWeight.Medium),
+            Font(R.font.inter_semibold, FontWeight.SemiBold),
+            Font(R.font.inter_bold, FontWeight.Bold),
+            Font(R.font.inter_black, FontWeight.Black),
+            Font(R.font.inter_black, FontWeight.ExtraBold),
+        )
         private val trim = LineHeightStyle(LineHeightStyle.Alignment.Center, LineHeightStyle.Trim.None)
         private fun style(size: Int, line: Int, weight: FontWeight = FontWeight.Normal, tracking: Double = 0.0) = TextStyle(
             fontFamily = family, fontSize = size.sp, lineHeight = line.sp, fontWeight = weight,

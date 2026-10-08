@@ -244,7 +244,7 @@ private fun DocumentRow(document: VaultDocument, isOpening: Boolean, canDelete: 
             scope.launch { state.reset() }
         },
         backgroundContent = {
-            Box(Modifier.fillMaxSize().background(DS.Palette.danger).padding(horizontal = DS.Spacing.xl), contentAlignment = Alignment.CenterEnd) {
+            Box(Modifier.fillMaxSize().background(DS.Palette.destructive).padding(horizontal = DS.Spacing.xl), contentAlignment = Alignment.CenterEnd) {
                 Text(t("Supprimer"), style = DS.Typography.body.copy(fontWeight = FontWeight.SemiBold), color = androidx.compose.ui.graphics.Color.White)
             }
         },

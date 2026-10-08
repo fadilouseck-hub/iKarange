@@ -75,7 +75,7 @@ fun ActionSheet(visible: Boolean, title: String?, actions: List<SheetAction>, on
                         }
                         actions.forEachIndexed { index, action ->
                             if (index > 0 || title != null || message != null) Hairline()
-                            SheetButton(action.title, if (action.destructive) DS.Palette.danger else DS.Palette.accent, FontWeight.Normal, action.tag) {
+                            SheetButton(action.title, if (action.destructive) DS.Palette.destructive else DS.Palette.accent, FontWeight.Normal, action.tag) {
                                 onDismiss(); action.onClick()
                             }
                         }

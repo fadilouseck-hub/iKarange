@@ -236,7 +236,7 @@ fun ProfileScreen() {
                     }
                 }
             } else {
-                FormRow(t("Supprimer mon compte"), titleColor = DS.Palette.danger, onClick = { confirmDeletion = true })
+                FormRow(t("Supprimer mon compte"), titleColor = DS.Palette.destructive, onClick = { confirmDeletion = true })
             }
         }
     }
@@ -273,7 +273,7 @@ fun ProfileScreen() {
                 TextButton({
                     dismiss()
                     scope.launch { model.requestDeletion(deletionReason) }
-                }) { Text(t("Demander la suppression"), style = DS.Typography.body.copy(fontWeight = FontWeight.SemiBold), color = DS.Palette.danger) }
+                }) { Text(t("Demander la suppression"), style = DS.Typography.body.copy(fontWeight = FontWeight.SemiBold), color = DS.Palette.destructive) }
             },
             dismissButton = {
                 TextButton(dismiss) { Text(t("Annuler"), style = DS.Typography.body, color = DS.Palette.accent) }

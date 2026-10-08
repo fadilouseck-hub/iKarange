@@ -114,7 +114,7 @@ fun TextFieldAlert(
         },
         confirmButton = {
             TextButton(onClick = { onDismiss(); onConfirm() }, modifier = if (confirmTag != null) Modifier.testTag(confirmTag) else Modifier) {
-                Text(confirmTitle, style = DS.Typography.body.copy(fontWeight = FontWeight.SemiBold), color = if (destructive) DS.Palette.danger else DS.Palette.accent)
+                Text(confirmTitle, style = DS.Typography.body.copy(fontWeight = FontWeight.SemiBold), color = if (destructive) DS.Palette.destructive else DS.Palette.accent)
             }
         },
         dismissButton = {

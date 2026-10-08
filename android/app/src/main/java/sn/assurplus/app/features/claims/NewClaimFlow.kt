@@ -137,7 +137,7 @@ private fun ResumeDraftAlert(updatedAt: Instant, onResume: () -> Unit, onRestart
             }
         },
         dismissButton = {
-            TextButton(onClick = onRestart) { Text(t("Recommencer"), style = DS.Typography.body, color = DS.Palette.danger) }
+            TextButton(onClick = onRestart) { Text(t("Recommencer"), style = DS.Typography.body, color = DS.Palette.destructive) }
         },
     )
 }

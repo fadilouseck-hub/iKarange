@@ -42,7 +42,7 @@ final class SubscriptionAcceptanceTests: XCTestCase {
         // Health questionnaire: answer "Non" to each yes/no question.
         for id in ["q_chronic", "q_hospital", "q_incurable"] {
             let picker = app.segmentedControls["question.\(id)"].waitToExist()
-            picker.buttons["Non"].tap()
+            picker.buttons[L("Non", "No")].tap()
         }
         next.tap()
 

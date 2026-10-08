@@ -19,7 +19,7 @@ final class ScreensTourTests: XCTestCase {
         app.textFields["family.lastName"].tap()
         app.textFields["family.lastName"].typeText("Diop")
         app.buttons["family.send"].tap()
-        app.staticTexts["Ajout de Aminata Diop"].firstMatch.waitToExist()
+        app.staticTexts[L("Ajout de Aminata Diop", "Adding Aminata Diop")].firstMatch.waitToExist()
         app.navigationBars.buttons.element(boundBy: 0).tap()
 
         tapHomeAction("policy", in: app)
@@ -50,7 +50,7 @@ final class ScreensTourTests: XCTestCase {
         app.buttons["network.type.pharmacy"].tap()
         waitUntil(5, { !app.descendants(matching: .any)["network.provider.prv_1"].firstMatch.exists }, message: "pharmacy filter")
         screenshot(app, "08-network-list")
-        app.segmentedControls.buttons["Carte"].tap()
+        app.segmentedControls.buttons[L("Carte", "Map")].tap()
         sleep(2)
         screenshot(app, "09-network-map")
 

@@ -4047,6 +4047,24 @@
         }
       }
     },
+    "network.mode.map": {
+      "comment": "Map view (not the insurance card)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Map"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carte"
+          }
+        }
+      }
+    },
     "nom@exemple.com": {
       "localizations": {
         "en": {

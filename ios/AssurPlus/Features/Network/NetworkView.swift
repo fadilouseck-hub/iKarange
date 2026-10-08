@@ -62,7 +62,7 @@ final class NetworkViewModel {
     enum Mode: String, CaseIterable, Identifiable {
         case map, list
         var id: Self { self }
-        var label: String { self == .map ? String(localized: "Carte", bundle: .appLanguage) : String(localized: "Liste", bundle: .appLanguage) }
+        var label: String { self == .map ? String(localized: "network.mode.map", defaultValue: "Carte", bundle: .appLanguage, comment: "Map view (not the insurance card)") : String(localized: "Liste", bundle: .appLanguage) }
     }
 
     static let dakar = CLLocationCoordinate2D(latitude: 14.7167, longitude: -17.4677)

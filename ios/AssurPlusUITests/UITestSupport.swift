@@ -1,10 +1,16 @@
 import XCTest
 
+/// Language of the UI-test run: French by default, English with `TEST_RUNNER_UI_LANGUAGE=en`.
+let uiLanguage = ProcessInfo.processInfo.environment["UI_LANGUAGE"] == "en" ? "en" : "fr"
+
+/// The app label in the language of the run.
+func L(_ fr: String, _ en: String) -> String { uiLanguage == "en" ? en : fr }
+
 extension XCUIApplication {
     /// Launches on the in-process MockAPI with a fresh state.
     static func mock(signedInAs account: String? = nil, extra: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["-UseMockAPI", "-ResetState", "-MockLatency", "0.05", "-AppleLanguages", "(fr)", "-AppleLocale", "fr_SN"] + extra
+        app.launchArguments = ["-UseMockAPI", "-ResetState", "-MockLatency", "0.05", "-AppleLanguages", "(\(uiLanguage))", "-AppleLocale", "\(uiLanguage)_SN"] + extra
         if let account { app.launchArguments += ["-MockSignIn", account] }
         app.launch()
         return app

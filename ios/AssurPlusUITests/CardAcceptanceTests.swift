@@ -25,7 +25,7 @@ final class CardAcceptanceTests: XCTestCase {
 
         app.buttons["card.addToWallet"].firstMatch.tap()
         let message = app.descendants(matching: .any)["card.walletMessage"].firstMatch.waitToExist()
-        XCTAssertTrue(message.label.contains("ajoutée"), message.label)
+        XCTAssertTrue(message.label.contains(L("ajoutée", "added")), message.label)
         screenshot(app, "card-wallet")
     }
 }

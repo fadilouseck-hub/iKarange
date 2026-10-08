@@ -14,11 +14,11 @@ final class ClaimAcceptanceTests: XCTestCase {
         app.buttons["claim.type.pharmacy"].waitToExist().tap()
         app.buttons["claim.addReceipt"].waitToExist().tap()
         // No camera in the Simulator: MockAPI offers a sample invoice (same pipeline: compress → upload → OCR).
-        app.buttons["Utiliser une facture d'exemple"].waitToExist().tap()
+        app.buttons[L("Utiliser une facture d'exemple", "Use a sample invoice")].waitToExist().tap()
 
         // Upload + server OCR, then the pre-filled review form.
         let submit = app.buttons["claim.submit"].waitToExist(20)
-        XCTAssertTrue(app.staticTexts["2 information(s) à vérifier en priorité (surlignées)."].exists)
+        XCTAssertTrue(app.staticTexts[L("2 information(s) à vérifier en priorité (surlignées).", "2 item(s) to check first (highlighted).")].exists)
         let total = app.textFields.matching(identifier: "claim.field.total").firstMatch
         XCTAssertEqual(total.value as? String, "20000")
         let patient = app.textFields.matching(identifier: "claim.field.patient").firstMatch
@@ -35,12 +35,12 @@ final class ClaimAcceptanceTests: XCTestCase {
         app.buttons["claim.track"].tap()
         let status = app.descendants(matching: .any)["claimDetail.status"].firstMatch.waitToExist()
         XCTAssertTrue(app.descendants(matching: .any)["claimDetail.number"].firstMatch.label.contains(claimNumber))
-        XCTAssertTrue(status.label.contains("Soumis") || status.label.contains("En analyse"), status.label)
+        XCTAssertTrue(status.label.contains(L("Soumis", "Submitted")) || status.label.contains(L("En analyse", "Under review")), status.label)
 
         // Pull to refresh: the claim progresses to "En analyse".
         waitUntil(15, {
             app.pullToRefresh()
-            return app.descendants(matching: .any)["claimDetail.status"].firstMatch.label.contains("En analyse")
+            return app.descendants(matching: .any)["claimDetail.status"].firstMatch.label.contains(L("En analyse", "Under review"))
         }, message: "status update")
         XCTAssertTrue(app.descendants(matching: .any)["claimDetail.timeline"].firstMatch.exists)
         screenshot(app, "claim-tracking")

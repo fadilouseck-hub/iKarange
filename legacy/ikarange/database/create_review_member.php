@@ -9,7 +9,9 @@
  * exists nothing is created; run with --reset-password to issue a new password for that same demo member only.
  * The password is generated here and printed once to the operator's terminal; it is not stored anywhere else.
  *
- * Usage (on the server, from the site root):  php database/create_review_member.php [--reset-password]
+ * Usage (on the server, from the site root):
+ *   php database/create_review_member.php [--reset-password]                    # App Store review member
+ *   php database/create_review_member.php --login=test.owner [--reset-password] # extra fictional tester
  */
 
 if (PHP_SAPI !== 'cli') {
@@ -17,7 +19,16 @@ if (PHP_SAPI !== 'cli') {
     exit;
 }
 
-const REVIEW_LOGIN = 'review.assurplus';
+// Optional --login=<name> creates another fictional tester in the same demo company.
+$requested = null;
+foreach ($argv as $arg) {
+    if (str_starts_with($arg, '--login=')) $requested = strtolower(substr($arg, 8));
+}
+if ($requested !== null && !preg_match('/^[a-z0-9][a-z0-9._-]{3,40}$/', $requested)) {
+    fwrite(STDERR, "Invalid --login (4-41 chars: a-z 0-9 . _ -)\n");
+    exit(1);
+}
+define('REVIEW_LOGIN', $requested ?? 'review.assurplus');
 const DEMO_COMPANY = 'DÉMO ASSUR PLUS — compte de test';
 
 $root = dirname(__DIR__);
@@ -98,10 +109,13 @@ if ($companyId === 0) {
     }
 }
 
+$count = $pdo->prepare('SELECT COUNT(*) FROM adherents WHERE entreprise_id = ?');
+$count->execute([$companyId]);
+$matricule = sprintf('DEMO-%04d', (int)$count->fetchColumn() + 1);
 $password = newPassword();
 $pdo->prepare("INSERT INTO adherents (org_id, entreprise_id, nom, prenom, matricule, sexe, date_naissance, telephone, categorie, plafond_annuel, date_adhesion, statut, login, password_hash)
-               VALUES (?, ?, 'DEMO', 'Revue', 'DEMO-0001', 'feminin', '1990-01-01', NULL, 'titulaire', 1000000, ?, 'actif', ?, ?)")
-    ->execute([$orgId, $companyId, date('Y-01-01'), REVIEW_LOGIN, password_hash($password, PASSWORD_BCRYPT)]);
+               VALUES (?, ?, 'DEMO', ?, ?, 'feminin', '1990-01-01', NULL, 'titulaire', 1000000, ?, 'actif', ?, ?)")
+    ->execute([$orgId, $companyId, REVIEW_LOGIN === 'review.assurplus' ? 'Revue' : 'Testeur', $matricule, date('Y-01-01'), REVIEW_LOGIN, password_hash($password, PASSWORD_BCRYPT)]);
 $pdo->commit();
 
 echo "Review member created in demo company #$companyId.\n";

@@ -38,6 +38,7 @@ fun sym(name: String): ImageVector = when (name) {
     "checkmark.seal" -> Icons.Outlined.Verified
     "checkmark.seal.fill" -> Icons.Rounded.Verified
     "chevron.right" -> Icons.AutoMirrored.Rounded.KeyboardArrowRight
+    "chevron.up.chevron.down" -> Icons.Rounded.UnfoldMore
     "chevron.left" -> Icons.AutoMirrored.Rounded.ArrowBackIos
     "chevron.up.chevron.down" -> Icons.Rounded.UnfoldMore
     "circle.lefthalf.filled" -> Icons.Outlined.Contrast
@@ -107,6 +108,7 @@ fun sym(name: String): ImageVector = when (name) {
     "viewfinder" -> Icons.Outlined.CropFree
     "water.waves" -> Icons.Outlined.Waves
     "wifi.slash" -> Icons.Outlined.WifiOff
+    "xmark.circle.fill" -> Icons.Rounded.Cancel
     "xmark" -> Icons.Rounded.Close
     "xmark.octagon" -> Icons.Outlined.Dangerous
     "xmark.octagon.fill" -> Icons.Rounded.Dangerous

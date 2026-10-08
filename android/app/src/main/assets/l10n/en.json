@@ -402,11 +402,13 @@
  "Vérification": "Verification",
  "Vérifier à nouveau": "Check again",
  "Vérifiez les informations": "Check the details",
+ "l'opérateur": "the operator",
  "network.mode.map": "Map",
  "nom@exemple.com": "name@example.com",
  "sur un plafond annuel de %@": "of an annual limit of %@",
  "À partir de %@ / an": "From %@ / year",
  "Échéance": "Renewal date",
  "Écrire au support": "Email support",
- "Étape %lld sur %lld": "Step %lld of %lld"
+ "Étape %lld sur %lld": "Step %lld of %lld",
+ "• %@": "• %@"
 }

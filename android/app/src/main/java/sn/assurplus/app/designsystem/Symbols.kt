@@ -33,6 +33,8 @@ fun sym(name: String): ImageVector = when (name) {
     "checkmark" -> Icons.Rounded.Check
     "checkmark.circle" -> Icons.Outlined.CheckCircle
     "checkmark.circle.fill" -> Icons.Rounded.CheckCircle
+    "chevron.up.chevron.down" -> Icons.Rounded.UnfoldMore
+    "circle" -> Icons.Outlined.RadioButtonUnchecked
     "checkmark.seal" -> Icons.Outlined.Verified
     "checkmark.seal.fill" -> Icons.Rounded.Verified
     "chevron.right" -> Icons.AutoMirrored.Rounded.KeyboardArrowRight

@@ -9,8 +9,16 @@ final class SubscriptionAcceptanceTests: XCTestCase {
 
         // 1. Create the account (phone verified by SMS OTP, CGU accepted).
         app.buttons["welcome.register"].waitToExist().tap()
-        app.textFields["auth.phone"].waitToExist().tap()
-        app.textFields["auth.phone"].typeText("781112233")
+        let phone = app.textFields["auth.phone"].waitToExist()
+        // Keystrokes can be dropped while the field formats input: retype until the full number is there.
+        for _ in 0..<3 where (phone.value as? String) != "78 111 22 33" {
+            phone.tap()
+            if let current = phone.value as? String, current != phone.placeholderValue {
+                phone.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count))
+            }
+            phone.typeText("781112233")
+        }
+        XCTAssertEqual(phone.value as? String, "78 111 22 33")
         app.buttons["register.sendCode"].tap()
         let otp = app.textFields["auth.otp"].waitToExist()
         otp.tap()

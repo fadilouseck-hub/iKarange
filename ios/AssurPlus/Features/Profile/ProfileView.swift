@@ -25,7 +25,7 @@ final class ProfileViewModel {
         do {
             let uploadId = try await env.uploader.upload(UploadFile(data: jpeg, fileName: "photo.jpg", mimeType: "image/jpeg"), purpose: "profile_photo") { _ in }
             env.session.updateUser(try await env.api.setPhoto(uploadId: uploadId))
-            message = Message(level: .success, text: String(localized: "Photo mise à jour. Elle apparaîtra sur votre carte après validation."))
+            message = Message(level: .success, text: String(localized: "Photo mise à jour. Elle apparaîtra sur votre carte après validation.", bundle: .appLanguage))
         } catch {
             message = Message(level: .error, text: APIError.wrap(error).userMessage)
         }
@@ -34,10 +34,10 @@ final class ProfileViewModel {
     func setBiometricLock(_ enabled: Bool) async {
         if enabled {
             guard env.biometrics.availableKind != .none || env.isMock else {
-                message = Message(level: .warning, text: String(localized: "Aucune biométrie configurée sur cet appareil."))
+                message = Message(level: .warning, text: String(localized: "Aucune biométrie configurée sur cet appareil.", bundle: .appLanguage))
                 return
             }
-            guard await env.biometrics.authenticate(reason: String(localized: "Activer le déverrouillage biométrique")) else { return }
+            guard await env.biometrics.authenticate(reason: String(localized: "Activer le déverrouillage biométrique", bundle: .appLanguage)) else { return }
         }
         env.settings.biometricLockEnabled = enabled
     }
@@ -107,15 +107,24 @@ private struct ProfileContent: View {
 
             Section("Préférences") {
                 Button { sheet = .notifications } label: { Label("Notifications", systemImage: "bell.badge") }
-                Picker(selection: Binding(get: { model.user?.preferredLanguage ?? "fr" }, set: { language in
-                    Task { if let me = try? await env.api.updateMe(MeUpdate(preferredLanguage: language)) { env.session.updateUser(me) } }
+                Picker(selection: Binding(get: { env.language.code }, set: { code in
+                    env.language.select(code)
+                    // Server-side preference: SMS, e-mails and push content in the same language.
+                    Task { if let me = try? await env.api.updateMe(MeUpdate(preferredLanguage: code)) { env.session.updateUser(me) } }
                 })) {
-                    Text("Français").tag("fr")
-                    Text("English (bientôt)").tag("en").disabled(true)
-                    Text("Wolof (bientôt)").tag("wo").disabled(true)
+                    ForEach(env.language.supported, id: \.self) { code in
+                        Text(verbatim: LanguageSettings.nativeName(code)).tag(code)
+                    }
                 } label: {
                     Label("Langue", systemImage: "globe")
                 }
+                .accessibilityIdentifier("profile.language")
+                Picker(selection: Binding(get: { env.settings.appearance }, set: { env.settings.appearance = $0 })) {
+                    ForEach(Appearance.allCases) { Text($0.title).tag($0) }
+                } label: {
+                    Label("Apparence", systemImage: "circle.lefthalf.filled")
+                }
+                .accessibilityIdentifier("profile.appearance")
             }
 
             Section("Aide et informations") {
@@ -124,10 +133,18 @@ private struct ProfileContent: View {
                         Label("\(document.title) (\(document.version))", systemImage: "doc.plaintext")
                     }
                 }
-                if let phone = AppConfig.supportPhone, let url = URL(string: "tel:\(phone)") {
+                if model.legal.isEmpty {
+                    if let url = Tenant.current.termsOfUseURL {
+                        Button { openURL(url) } label: { Label("Conditions générales d'utilisation", systemImage: "doc.plaintext") }
+                    }
+                    if let url = Tenant.current.privacyURL {
+                        Button { openURL(url) } label: { Label("Politique de confidentialité", systemImage: "hand.raised") }
+                    }
+                }
+                if let url = Tenant.current.supportPhoneURL {
                     Button { openURL(url) } label: { Label("Appeler le support", systemImage: "phone") }
                 }
-                if let email = AppConfig.supportEmail, let url = URL(string: "mailto:\(email)") {
+                if let url = Tenant.current.supportEmailURL {
                     Button { openURL(url) } label: { Label("Écrire au support", systemImage: "envelope") }
                 }
             }
@@ -141,7 +158,7 @@ private struct ProfileContent: View {
                     Button("Supprimer mon compte", role: .destructive) { confirmDeletion = true }
                 }
             } footer: {
-                Text("ASSUR+ \(AppConfig.version) · Copyright © MCE Group")
+                Text(verbatim: "\(Tenant.current.displayName) \(AppConfig.version) · Copyright © \(Tenant.current.copyrightHolder)")
             }
         }
         .scrollContentBackground(.hidden)
@@ -179,6 +196,7 @@ private struct ProfileContent: View {
 
     private func header(_ user: Me) -> some View {
         let isUploading = model.isUploadingPhoto
+        let canEditPhoto = env.session.can(.profileEdit)
         return HStack(spacing: DS.Spacing.l) {
             PhotosPicker(selection: $photoItem, matching: .images) {
                 ZStack(alignment: .bottomTrailing) {
@@ -188,20 +206,23 @@ private struct ProfileContent: View {
                     } else {
                         InitialsAvatar(name: user.fullName, size: 72)
                     }
+                    if canEditPhoto {
                     Image(systemName: isUploading ? "arrow.up.circle.fill" : "camera.circle.fill")
                         .font(.title3)
                         .foregroundStyle(DS.Palette.accent)
                         .background(Circle().fill(DS.Palette.surface))
+                    }
                 }
             }
             .accessibilityLabel(Text("Changer la photo de profil"))
+            .disabled(!canEditPhoto)
             VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                 Text(user.fullName).font(.title3.weight(.bold))
                 Text(PhoneNumber.display(user.phone)).font(.callout).foregroundStyle(DS.Palette.textSecondary)
                 if let member = user.memberNumber {
                     Text("N° \(member)").font(.caption).foregroundStyle(DS.Palette.textSecondary)
                 }
-                Text(user.role == .principal ? "Assuré principal" : "Ayant droit").font(.caption.weight(.semibold)).foregroundStyle(DS.Palette.accent)
+                (user.role == .principal ? Text("Assuré principal") : Text("Ayant droit")).font(.caption.weight(.semibold)).foregroundStyle(DS.Palette.accent)
             }
         }
         .listRowBackground(Color.clear)
@@ -214,8 +235,6 @@ enum AppConfig {
         let info = Bundle.main.infoDictionary
         return "\(info?["CFBundleShortVersionString"] as? String ?? "1.0") (\(info?["CFBundleVersion"] as? String ?? "1"))"
     }
-    static var supportPhone: String? { Bundle.main.object(forInfoDictionaryKey: "SUPPORT_PHONE") as? String }
-    static var supportEmail: String? { Bundle.main.object(forInfoDictionaryKey: "SUPPORT_EMAIL") as? String }
 }
 
 private struct ContactForm: View {

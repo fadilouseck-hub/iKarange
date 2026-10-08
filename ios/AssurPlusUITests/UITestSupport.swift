@@ -17,7 +17,11 @@ extension XCUIApplication {
         start.press(forDuration: 0.1, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.3)
     }
 
-    func tab(_ label: String) -> XCUIElement { tabBars.buttons[label] }
+    /// Floating menu button by its French label (identifiers are language-independent).
+    func tab(_ label: String) -> XCUIElement {
+        let ids = ["Accueil": "home", "Carte": "card", "Sinistres": "claims", "Réseau": "network", "Profil": "profile"]
+        return buttons["tab.\(ids[label] ?? label)"]
+    }
 }
 
 extension XCUIElement {

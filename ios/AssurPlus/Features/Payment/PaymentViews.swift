@@ -57,7 +57,7 @@ struct PaymentStepView: View {
             Text(model.phase == .launching ? "Ouverture de \(model.method?.label ?? "l'opérateur")…" : "Confirmation du paiement en cours…")
                 .font(.headline)
                 .multilineTextAlignment(.center)
-            Text("Validez le paiement dans l'application de l'opérateur, puis revenez ici. Ne fermez pas ASSUR+.")
+            Text("Validez le paiement dans l'application de l'opérateur, puis revenez ici. Ne fermez pas \(Tenant.current.displayName).")
                 .font(.callout).foregroundStyle(DS.Palette.textSecondary).multilineTextAlignment(.center)
             if let reference = model.payment?.reference {
                 Text("Référence \(reference)").font(.caption.monospaced()).foregroundStyle(DS.Palette.textSecondary)
@@ -79,7 +79,7 @@ struct PaymentStepView: View {
                 } else if payment.isFinal {
                     Button("Réessayer avec un autre moyen") { model.retry() }.buttonStyle(.primary)
                 } else {
-                    MessageBanner(message: Message(level: .info, text: String(localized: "Paiement toujours en attente de confirmation. Vous serez notifié dès sa validation.")))
+                    MessageBanner(message: Message(level: .info, text: String(localized: "Paiement toujours en attente de confirmation. Vous serez notifié dès sa validation.", bundle: .appLanguage)))
                     Button("Vérifier à nouveau") { Task { await model.pollUntilFinal() } }.buttonStyle(.secondary)
                 }
             }
@@ -116,12 +116,12 @@ struct PaymentSummary: View {
                 Spacer()
                 StatusBadge(payment.status).accessibilityIdentifier("payment.status")
             }
-            InfoRow(label: String(localized: "Montant"), value: Money.format(payment.amount), emphasized: true)
-            InfoRow(label: String(localized: "Moyen"), value: payment.methodLabel)
-            InfoRow(label: String(localized: "Référence"), value: payment.reference)
-            InfoRow(label: String(localized: "Date"), value: DateText.dateTime(payment.createdAt))
+            InfoRow(label: String(localized: "Montant", bundle: .appLanguage), value: Money.format(payment.amount), emphasized: true)
+            InfoRow(label: String(localized: "Moyen", bundle: .appLanguage), value: payment.methodLabel)
+            InfoRow(label: String(localized: "Référence", bundle: .appLanguage), value: payment.reference)
+            InfoRow(label: String(localized: "Date", bundle: .appLanguage), value: DateText.dateTime(payment.createdAt))
             if let policy = payment.policyNumber {
-                InfoRow(label: String(localized: "Contrat"), value: policy)
+                InfoRow(label: String(localized: "Contrat", bundle: .appLanguage), value: policy)
             }
         }
         .card()
@@ -136,7 +136,7 @@ struct PaymentHistoryView: View {
             ScrollView {
                 LoadableContent(value: payments.value, isLoading: payments.isLoading, error: payments.error, retry: { Task { await payments.load() } }) { list in
                     if list.isEmpty {
-                        EmptyStateView(title: String(localized: "Aucun paiement"), message: String(localized: "Vos paiements de cotisation apparaîtront ici."), symbol: "creditcard")
+                        EmptyStateView(title: String(localized: "Aucun paiement", bundle: .appLanguage), message: String(localized: "Vos paiements de cotisation apparaîtront ici.", bundle: .appLanguage), symbol: "creditcard")
                     } else {
                         LazyVStack(spacing: DS.Spacing.m) {
                             ForEach(list) { payment in

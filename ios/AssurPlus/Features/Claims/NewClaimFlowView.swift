@@ -53,7 +53,7 @@ private struct NewClaimSteps: View {
             }
         }
         .task { if model.beneficiaries.isEmpty { await model.loadOptions() } }
-        .documentPicker(isPresented: $showPicker, title: String(localized: "Ajouter le justificatif"), baseName: "facture") { document in
+        .documentPicker(isPresented: $showPicker, title: String(localized: "Ajouter le justificatif", bundle: .appLanguage), baseName: "facture") { document in
             Task { await model.setReceipt(document) }
         }
         .alert("Reprendre la déclaration ?", isPresented: Binding(get: { model.pendingDraft != nil && model.step == .beneficiary }, set: { _ in })) {
@@ -171,7 +171,7 @@ private struct NewClaimSteps: View {
             VStack(spacing: DS.Spacing.m) {
                 ProgressView(value: model.ocr?.progress ?? 0.1)
                     .tint(DS.Palette.accent)
-                Text(model.ocr?.message ?? String(localized: "Lecture automatique de votre justificatif…"))
+                Text(model.ocr?.message ?? String(localized: "Lecture automatique de votre justificatif…", bundle: .appLanguage))
                     .font(.headline)
                     .multilineTextAlignment(.center)
                 Text("Cela prend généralement moins de 15 secondes.")
@@ -265,9 +265,9 @@ private struct ClaimReviewForm: View {
         VStack(alignment: .leading, spacing: DS.Spacing.l) {
             Text("Vérifiez les informations").font(DS.Typography.title)
             if model.lowConfidenceCount > 0 {
-                MessageBanner(message: Message(level: .warning, text: String(localized: "\(model.lowConfidenceCount) information(s) à vérifier en priorité (surlignées).")))
+                MessageBanner(message: Message(level: .warning, text: String(localized: "\(model.lowConfidenceCount) information(s) à vérifier en priorité (surlignées).", bundle: .appLanguage)))
             } else if model.ocr?.state == .done {
-                MessageBanner(message: Message(level: .success, text: String(localized: "Lecture réussie. Corrigez si besoin avant d'envoyer.")))
+                MessageBanner(message: Message(level: .success, text: String(localized: "Lecture réussie. Corrigez si besoin avant d'envoyer.", bundle: .appLanguage)))
             }
 
             VStack(spacing: DS.Spacing.m) {
@@ -277,7 +277,7 @@ private struct ClaimReviewForm: View {
             }
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                SectionHeader(title: String(localized: "Actes et médicaments"), actionTitle: String(localized: "Ajouter")) { model.addLine() }
+                SectionHeader(title: String(localized: "Actes et médicaments", bundle: .appLanguage), actionTitle: String(localized: "Ajouter", bundle: .appLanguage)) { model.addLine() }
                 if model.lines.isEmpty {
                     Text("Aucune ligne détectée.").font(.callout).foregroundStyle(DS.Palette.textSecondary)
                 }
@@ -290,9 +290,9 @@ private struct ClaimReviewForm: View {
                                 .accessibilityLabel(Text("Supprimer la ligne"))
                         }
                         HStack(spacing: DS.Spacing.s) {
-                            MiniField(label: String(localized: "Qté"), text: $line.quantity)
-                            MiniField(label: String(localized: "Prix unitaire"), text: $line.unitPrice)
-                            MiniField(label: String(localized: "Montant"), text: $line.amount)
+                            MiniField(label: String(localized: "Qté", bundle: .appLanguage), text: $line.quantity)
+                            MiniField(label: String(localized: "Prix unitaire", bundle: .appLanguage), text: $line.unitPrice)
+                            MiniField(label: String(localized: "Montant", bundle: .appLanguage), text: $line.amount)
                         }
                     }
                     .padding(DS.Spacing.m)

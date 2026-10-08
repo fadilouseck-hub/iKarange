@@ -20,16 +20,16 @@ enum ClaimStatus: String, Codable, Sendable, CaseIterable {
 
     var label: String {
         switch self {
-        case .draft: String(localized: "Brouillon")
-        case .submitted: String(localized: "Soumis")
-        case .inReview: String(localized: "En analyse")
-        case .documentsRequested: String(localized: "Pièces complémentaires demandées")
-        case .preValidated: String(localized: "Pré-validé")
-        case .validated: String(localized: "Validé")
-        case .rejected: String(localized: "Rejeté")
-        case .paid: String(localized: "Payé")
-        case .closed: String(localized: "Clôturé")
-        case .unknown: String(localized: "En cours")
+        case .draft: String(localized: "Brouillon", bundle: .appLanguage)
+        case .submitted: String(localized: "Soumis", bundle: .appLanguage)
+        case .inReview: String(localized: "En analyse", bundle: .appLanguage)
+        case .documentsRequested: String(localized: "Pièces complémentaires demandées", bundle: .appLanguage)
+        case .preValidated: String(localized: "Pré-validé", bundle: .appLanguage)
+        case .validated: String(localized: "Validé", bundle: .appLanguage)
+        case .rejected: String(localized: "Rejeté", bundle: .appLanguage)
+        case .paid: String(localized: "Payé", bundle: .appLanguage)
+        case .closed: String(localized: "Clôturé", bundle: .appLanguage)
+        case .unknown: String(localized: "En cours", bundle: .appLanguage)
         }
     }
 
@@ -149,9 +149,9 @@ struct DocumentRequest: Codable, Equatable, Sendable, Identifiable {
 /// Computed by the server's guarantee engine once the claim is validated.
 struct Settlement: Codable, Equatable, Sendable {
     let billedAmount: Int
-    let coveredAmount: Int
+    let coveredAmount: Int?
     let reimbursementRate: Int
-    let deductible: Int
+    let deductible: Int?
     let insurerAmount: Int
     let remainingAmount: Int
 }

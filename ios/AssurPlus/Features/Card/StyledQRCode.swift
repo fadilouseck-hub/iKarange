@@ -68,11 +68,12 @@ enum QRCode {
     }
 
     struct Style {
-        var foreground = UIColor(hex: 0x1A3A3A)   // deep teal: high contrast on white for scanners
-        var eyeAccent = UIColor(hex: 0x1A3A3A)
+        // Deep brand colour: high contrast on white for scanners.
+        var foreground = UIColor(hex: Tenant.hex(Tenant.current.colors.brandDark))
+        var eyeAccent = UIColor(hex: Tenant.hex(Tenant.current.colors.brandDark))
         var background = UIColor.white
-        var logoBackground = UIColor(hex: 0x1A3A3A)
-        var logoMark = UIColor(hex: 0x2DD4A8)
+        var logoBackground = UIColor(hex: Tenant.hex(Tenant.current.colors.brandDark))
+        var logoMark = UIColor(hex: Tenant.hex(Tenant.current.colors.brandAccent))
         /// Dot diameter relative to the module size.
         var dotScale: CGFloat = 0.82
         /// Logo side relative to the symbol (≤ 0.24 keeps it well within "H" correction).
@@ -81,7 +82,7 @@ enum QRCode {
         var quietZone = 2
     }
 
-    /// Rounded "dots" modules, rounded finder eyes and the ASSUR+ mark in the centre.
+    /// Rounded "dots" modules, rounded finder eyes and the tenant mark in the centre.
     static func styledImage(for payload: String, side: CGFloat = 720, style: Style = Style()) -> UIImage? {
         guard let matrix = QRMatrix.make(payload) else { return nil }
         let total = CGFloat(matrix.size + style.quietZone * 2)

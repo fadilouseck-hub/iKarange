@@ -24,13 +24,13 @@ final class NewClaimViewModel {
 
         var title: String {
             switch self {
-            case .beneficiary: String(localized: "Bénéficiaire")
-            case .type: String(localized: "Type de prestation")
-            case .capture: String(localized: "Justificatif")
-            case .upload: String(localized: "Envoi")
-            case .ocr: String(localized: "Lecture automatique")
-            case .review: String(localized: "Vérification")
-            case .done: String(localized: "Confirmation")
+            case .beneficiary: String(localized: "Bénéficiaire", bundle: .appLanguage)
+            case .type: String(localized: "Type de prestation", bundle: .appLanguage)
+            case .capture: String(localized: "Justificatif", bundle: .appLanguage)
+            case .upload: String(localized: "Envoi", bundle: .appLanguage)
+            case .ocr: String(localized: "Lecture automatique", bundle: .appLanguage)
+            case .review: String(localized: "Vérification", bundle: .appLanguage)
+            case .done: String(localized: "Confirmation", bundle: .appLanguage)
             }
         }
     }
@@ -202,9 +202,9 @@ final class NewClaimViewModel {
     func startManualEntry() {
         if fields.isEmpty {
             fields = [
-                ("invoiceNumber", String(localized: "N° de facture")), ("date", String(localized: "Date")),
-                ("provider", String(localized: "Prestataire")), ("patient", String(localized: "Patient")),
-                ("act", String(localized: "Acte")), ("total", String(localized: "Montant total")),
+                ("invoiceNumber", String(localized: "N° de facture", bundle: .appLanguage)), ("date", String(localized: "Date", bundle: .appLanguage)),
+                ("provider", String(localized: "Prestataire", bundle: .appLanguage)), ("patient", String(localized: "Patient", bundle: .appLanguage)),
+                ("act", String(localized: "Acte", bundle: .appLanguage)), ("total", String(localized: "Montant total", bundle: .appLanguage)),
             ].map { OCRField(key: $0.0, label: $0.1, value: "", confidence: nil) }
         }
         step = .review

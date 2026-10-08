@@ -16,7 +16,6 @@ struct URLSessionTransport: HTTPTransport {
         configuration.waitsForConnectivity = false
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         configuration.urlCache = nil // health data must not land in the shared HTTP cache
-        configuration.httpAdditionalHeaders = ["Accept-Language": "fr"]
         // Certificate pinning is opt-in (Info.plist PINNED_PUBLIC_KEY_HASHES).
         return URLSessionTransport(session: URLSession(configuration: configuration, delegate: PinningDelegate.fromInfoPlist(), delegateQueue: nil))
     }

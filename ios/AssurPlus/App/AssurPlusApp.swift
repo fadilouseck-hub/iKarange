@@ -16,6 +16,10 @@ struct AssurPlusApp: App {
         WindowGroup {
             RootView()
                 .environment(environment)
+                // Re-render every string when the user switches language in Profile.
+                .environment(\.locale, environment.language.locale)
+                .id(environment.language.code)
+                .preferredColorScheme(environment.settings.appearance.colorScheme)
                 .tint(DS.Palette.accent)
                 .onOpenURL { environment.router.open(url: $0) }
         }

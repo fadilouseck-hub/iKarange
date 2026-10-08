@@ -47,11 +47,13 @@ struct WelcomeView: View {
                 Button("Se connecter") { path.append(.login) }
                     .buttonStyle(.primary)
                     .accessibilityIdentifier("welcome.login")
-                Button("Créer un compte") { path.append(.register) }
-                    .buttonStyle(.secondary)
-                    .accessibilityIdentifier("welcome.register")
+                if env.features.selfRegistration {
+                    Button("Créer un compte") { path.append(.register) }
+                        .buttonStyle(.secondary)
+                        .accessibilityIdentifier("welcome.register")
+                }
             }
-            Text("Copyright © MCE Group").font(.caption).foregroundStyle(DS.Palette.textSecondary)
+            Text(verbatim: "Copyright © \(Tenant.current.copyrightHolder)").font(.caption).foregroundStyle(DS.Palette.textSecondary)
         }
         .padding(DS.Spacing.xl)
         .screenBackground()
@@ -83,7 +85,7 @@ struct PhoneField: View {
     @State private var text = ""
 
     var body: some View {
-        LabeledField(label: String(localized: "Numéro de téléphone"), error: error) {
+        LabeledField(label: String(localized: "Numéro de téléphone", bundle: .appLanguage), error: error) {
             HStack(spacing: DS.Spacing.s) {
                 Text("🇸🇳 +221").foregroundStyle(DS.Palette.textSecondary).accessibilityHidden(true)
                 TextField("77 123 45 67", text: $text)
@@ -106,7 +108,7 @@ struct LoginView: View {
     @Binding var path: [AuthRoute]
 
     var body: some View {
-        WithModel({ LoginViewModel(api: $0.api, session: $0.session) }) { model in
+        WithModel({ LoginViewModel(api: $0.api, session: $0.session, identifierKind: $0.loginIdentifier) }) { model in
             LoginForm(model: model, path: $path)
         }
         .navigationTitle("Connexion")
@@ -118,26 +120,44 @@ struct LoginView: View {
 private struct LoginForm: View {
     @Bindable var model: LoginViewModel
     @Binding var path: [AuthRoute]
+    @Environment(AppEnvironment.self) private var env
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: DS.Spacing.l) {
                 Text("Heureux de vous revoir").font(DS.Typography.title)
-                Picker("Méthode", selection: $model.mode) {
-                    ForEach(LoginViewModel.Mode.allCases) { Text($0.label).tag($0) }
+                if env.features.otpLogin {
+                    Picker("Méthode", selection: $model.mode) {
+                        ForEach(LoginViewModel.Mode.allCases) { Text($0.label).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
                 }
-                .pickerStyle(.segmented)
 
-                PhoneField(phone: $model.otp.phone, error: model.error?.fieldErrors["phone"])
+                if model.identifierKind == .username {
+                    LabeledField(label: String(localized: "Identifiant", bundle: .appLanguage)) {
+                        TextField("Votre identifiant", text: $model.username)
+                            .textContentType(.username)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .accessibilityIdentifier("auth.username")
+                    }
+                } else {
+                    PhoneField(phone: $model.otp.phone, error: model.error?.fieldErrors["phone"])
+                }
 
                 if model.mode == .password {
-                    LabeledField(label: String(localized: "Mot de passe")) {
+                    LabeledField(label: String(localized: "Mot de passe", bundle: .appLanguage)) {
                         SecureField("Votre mot de passe", text: $model.password)
                             .textContentType(.password)
                             .accessibilityIdentifier("auth.password")
                     }
-                    Button("Mot de passe oublié ?") { path.append(.forgotPassword) }
-                        .font(.callout.weight(.semibold))
+                    if env.features.passwordReset {
+                        Button("Mot de passe oublié ?") { path.append(.forgotPassword) }
+                            .font(.callout.weight(.semibold))
+                    } else {
+                        Text("Mot de passe oublié ? Contactez votre gestionnaire.")
+                            .font(.footnote).foregroundStyle(DS.Palette.textSecondary)
+                    }
                 } else {
                     Text("Nous vous enverrons un code à 6 chiffres par SMS.")
                         .font(.callout).foregroundStyle(DS.Palette.textSecondary)
@@ -257,7 +277,7 @@ private struct RegisterSteps: View {
         case .phone:
             ScrollView {
                 VStack(alignment: .leading, spacing: DS.Spacing.l) {
-                    StepProgress(current: 1, total: 3, title: String(localized: "Votre numéro"))
+                    StepProgress(current: 1, total: 3, title: String(localized: "Votre numéro", bundle: .appLanguage))
                     Text("Votre numéro de téléphone servira d'identifiant. Nous allons le vérifier par SMS.")
                         .font(.callout).foregroundStyle(DS.Palette.textSecondary)
                     PhoneField(phone: $model.otp.phone, error: model.otp.error?.fieldErrors["phone"])
@@ -281,16 +301,16 @@ private struct RegisterSteps: View {
     private var detailsForm: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: DS.Spacing.l) {
-                StepProgress(current: 3, total: 3, title: String(localized: "Vos informations"))
-                LabeledField(label: String(localized: "Prénom"), error: model.error?.fieldErrors["firstName"]) {
+                StepProgress(current: 3, total: 3, title: String(localized: "Vos informations", bundle: .appLanguage))
+                LabeledField(label: String(localized: "Prénom", bundle: .appLanguage), error: model.error?.fieldErrors["firstName"]) {
                     TextField("Prénom", text: $model.firstName).textContentType(.givenName)
                         .accessibilityIdentifier("register.firstName")
                 }
-                LabeledField(label: String(localized: "Nom"), error: model.error?.fieldErrors["lastName"]) {
+                LabeledField(label: String(localized: "Nom", bundle: .appLanguage), error: model.error?.fieldErrors["lastName"]) {
                     TextField("Nom", text: $model.lastName).textContentType(.familyName)
                         .accessibilityIdentifier("register.lastName")
                 }
-                LabeledField(label: String(localized: "Date de naissance")) {
+                LabeledField(label: String(localized: "Date de naissance", bundle: .appLanguage)) {
                     DatePicker("Date de naissance", selection: $model.birthDate, in: ...Date.now, displayedComponents: .date)
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -299,11 +319,11 @@ private struct RegisterSteps: View {
                     ForEach(Gender.allCases) { Text($0.label).tag($0) }
                 }
                 .pickerStyle(.segmented)
-                LabeledField(label: String(localized: "E-mail (facultatif)"), error: model.emailError) {
+                LabeledField(label: String(localized: "E-mail (facultatif)", bundle: .appLanguage), error: model.emailError) {
                     TextField("nom@exemple.com", text: $model.email)
                         .keyboardType(.emailAddress).textContentType(.emailAddress).textInputAutocapitalization(.never)
                 }
-                LabeledField(label: String(localized: "Ville")) {
+                LabeledField(label: String(localized: "Ville", bundle: .appLanguage)) {
                     TextField("Dakar", text: $model.city).textContentType(.addressCity)
                 }
 
@@ -311,11 +331,11 @@ private struct RegisterSteps: View {
                     .tint(DS.Palette.accent)
                     .accessibilityIdentifier("register.usePassword")
                 if model.usePassword {
-                    LabeledField(label: String(localized: "Mot de passe (8 caractères min.)"), error: model.passwordError) {
+                    LabeledField(label: String(localized: "Mot de passe (8 caractères min.)", bundle: .appLanguage), error: model.passwordError) {
                         SecureField("Mot de passe", text: $model.password).textContentType(.newPassword)
                             .accessibilityIdentifier("register.password")
                     }
-                    LabeledField(label: String(localized: "Confirmation")) {
+                    LabeledField(label: String(localized: "Confirmation", bundle: .appLanguage)) {
                         SecureField("Confirmez", text: $model.passwordConfirmation).textContentType(.newPassword)
                             .accessibilityIdentifier("register.passwordConfirmation")
                     }
@@ -386,10 +406,10 @@ private struct ForgotSteps: View {
         case .newPassword:
             ScrollView {
                 VStack(alignment: .leading, spacing: DS.Spacing.l) {
-                    LabeledField(label: String(localized: "Nouveau mot de passe (8 caractères min.)")) {
+                    LabeledField(label: String(localized: "Nouveau mot de passe (8 caractères min.)", bundle: .appLanguage)) {
                         SecureField("Mot de passe", text: $model.password).textContentType(.newPassword)
                     }
-                    LabeledField(label: String(localized: "Confirmation"), error: !model.confirmation.isEmpty && model.confirmation != model.password ? String(localized: "Les mots de passe ne correspondent pas.") : nil) {
+                    LabeledField(label: String(localized: "Confirmation", bundle: .appLanguage), error: !model.confirmation.isEmpty && model.confirmation != model.password ? String(localized: "Les mots de passe ne correspondent pas.", bundle: .appLanguage) : nil) {
                         SecureField("Confirmez", text: $model.confirmation).textContentType(.newPassword)
                     }
                     if let error = model.error {

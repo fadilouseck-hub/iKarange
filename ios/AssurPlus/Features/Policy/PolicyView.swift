@@ -22,7 +22,7 @@ final class PolicyViewModel {
             } else if let fresh = try await env.api.dashboard().policy?.id {
                 policyId = fresh
             } else {
-                throw APIError.server(status: 404, code: "no_policy", message: String(localized: "Aucun contrat actif."), fields: [:])
+                throw APIError.server(status: 404, code: "no_policy", message: String(localized: "Aucun contrat actif.", bundle: .appLanguage), fields: [:])
             }
             return try await env.api.policy(id: policyId)
         }
@@ -78,7 +78,7 @@ private struct PolicyContent: View {
             LoadableContent(value: model.resource.value, isLoading: model.resource.isLoading, error: model.resource.error, retry: { Task { await model.resource.load() } }) { policy in
                 VStack(alignment: .leading, spacing: DS.Spacing.l) {
                     summary(policy)
-                    conditions(policy)
+                    if policy.conditionsVersion != nil { conditions(policy) }
                     members(policy)
                     guarantees(policy)
                     if let renewal = policy.renewal { renewalSection(renewal, pending: policy.pendingTermination) }
@@ -114,16 +114,16 @@ private struct PolicyContent: View {
                 Spacer()
                 StatusBadge(policy.summary.status)
             }
-            InfoRow(label: String(localized: "N° de contrat"), value: policy.summary.number, emphasized: true)
-            InfoRow(label: String(localized: "Assureur"), value: policy.insurerName)
-            InfoRow(label: String(localized: "Produit"), value: policy.summary.productName)
-            InfoRow(label: String(localized: "Taux de couverture"), value: Percent.format(policy.summary.coverageRate))
+            InfoRow(label: String(localized: "N° de contrat", bundle: .appLanguage), value: policy.summary.number, emphasized: true)
+            InfoRow(label: String(localized: "Assureur", bundle: .appLanguage), value: policy.insurerName)
+            InfoRow(label: String(localized: "Produit", bundle: .appLanguage), value: policy.summary.productName)
+            InfoRow(label: String(localized: "Taux de couverture", bundle: .appLanguage), value: Percent.format(policy.summary.coverageRate))
             if let territoriality = policy.summary.territoriality {
-                InfoRow(label: String(localized: "Territorialité"), value: territoriality)
+                InfoRow(label: String(localized: "Territorialité", bundle: .appLanguage), value: territoriality)
             }
-            InfoRow(label: String(localized: "Période"), value: "\(DateText.day(policy.summary.startDate)) → \(DateText.day(policy.summary.endDate))")
+            InfoRow(label: String(localized: "Période", bundle: .appLanguage), value: "\(DateText.day(policy.summary.startDate)) → \(DateText.day(policy.summary.endDate))")
             if let premium = policy.premiumLabel {
-                InfoRow(label: String(localized: "Prime"), value: premium)
+                InfoRow(label: String(localized: "Prime", bundle: .appLanguage), value: premium)
             }
         }
         .card()
@@ -131,7 +131,7 @@ private struct PolicyContent: View {
 
     private func conditions(_ policy: PolicyDetail) -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            SectionHeader(title: String(localized: "Conditions particulières"))
+            SectionHeader(title: String(localized: "Conditions particulières", bundle: .appLanguage))
             if let version = policy.conditionsVersion {
                 Text("Version \(version)").font(.caption).foregroundStyle(DS.Palette.textSecondary)
             }
@@ -156,7 +156,7 @@ private struct PolicyContent: View {
 
     private func members(_ policy: PolicyDetail) -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            SectionHeader(title: String(localized: "Bénéficiaires"))
+            SectionHeader(title: String(localized: "Bénéficiaires", bundle: .appLanguage))
             ForEach(policy.members) { member in
                 HStack(spacing: DS.Spacing.m) {
                     InitialsAvatar(name: member.fullName, size: 36)
@@ -177,7 +177,7 @@ private struct PolicyContent: View {
 
     private func guarantees(_ policy: PolicyDetail) -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            SectionHeader(title: String(localized: "Garanties"))
+            SectionHeader(title: String(localized: "Garanties", bundle: .appLanguage))
             ForEach(policy.guarantees) { guarantee in
                 VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                     HStack {
@@ -197,11 +197,11 @@ private struct PolicyContent: View {
 
     private func renewalSection(_ renewal: RenewalInfo, pending: ServerStatus?) -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            SectionHeader(title: String(localized: "Renouvellement"))
-            InfoRow(label: String(localized: "Échéance"), value: DateText.day(renewal.renewalDate))
-            InfoRow(label: String(localized: "Tacite reconduction"), value: renewal.tacitRenewal ? String(localized: "Oui") : String(localized: "Non"))
+            SectionHeader(title: String(localized: "Renouvellement", bundle: .appLanguage))
+            InfoRow(label: String(localized: "Échéance", bundle: .appLanguage), value: DateText.day(renewal.renewalDate))
+            InfoRow(label: String(localized: "Tacite reconduction", bundle: .appLanguage), value: renewal.tacitRenewal ? String(localized: "Oui", bundle: .appLanguage) : String(localized: "Non", bundle: .appLanguage))
             if let deadline = renewal.terminationDeadline {
-                InfoRow(label: String(localized: "Résiliation possible jusqu'au"), value: DateText.day(deadline))
+                InfoRow(label: String(localized: "Résiliation possible jusqu'au", bundle: .appLanguage), value: DateText.day(deadline))
             }
             if let info = renewal.info {
                 Text(info).font(.caption).foregroundStyle(DS.Palette.textSecondary)
@@ -219,12 +219,12 @@ private struct PolicyContent: View {
 
     private func rules(_ policy: PolicyDetail) -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            SectionHeader(title: String(localized: "Exclusions et carences"))
+            SectionHeader(title: String(localized: "Exclusions et carences", bundle: .appLanguage))
             ForEach(policy.exclusions + policy.waitingPeriods, id: \.self) { rule in
                 Label(rule, systemImage: "minus.circle").font(.callout)
             }
             if let deductible = policy.deductibleLabel {
-                InfoRow(label: String(localized: "Franchise"), value: deductible)
+                InfoRow(label: String(localized: "Franchise", bundle: .appLanguage), value: deductible)
             }
         }
         .card()

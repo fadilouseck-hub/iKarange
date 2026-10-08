@@ -36,7 +36,8 @@ func makeMockEnvironment() -> AppEnvironment {
     return AppEnvironment(
         api: api, uploader: ResumableUploader(api: api, baseDelay: .milliseconds(1)), cache: SwiftDataCache(inMemory: true),
         settings: AppSettings(defaults: UserDefaults(suiteName: "tests-\(UUID().uuidString)")!), tokens: tokens,
-        biometrics: AlwaysBiometrics(), paymentLauncher: MockPaymentLauncher(), wallet: MockWallet(), isMock: true)
+        biometrics: AlwaysBiometrics(), paymentLauncher: MockPaymentLauncher(), wallet: MockWallet(), isMock: true,
+        language: LanguageSettings(defaults: UserDefaults(suiteName: "lang-\(UUID().uuidString)")!, preferred: ["fr"]))
 }
 
 /// Logs the demo principal (or dependent) in on a mock environment.

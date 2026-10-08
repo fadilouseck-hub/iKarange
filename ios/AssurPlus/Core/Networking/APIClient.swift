@@ -58,7 +58,7 @@ final class APIClient: Sendable {
         request.httpMethod = endpoint.method.rawValue
         request.httpBody = endpoint.body
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("fr", forHTTPHeaderField: "Accept-Language")
+        request.setValue(AppLanguage.code, forHTTPHeaderField: "Accept-Language")
         for (name, value) in endpoint.headers { request.setValue(value, forHTTPHeaderField: name) }
         if endpoint.requiresAuth, let access = tokens.load()?.accessToken {
             request.setValue("Bearer \(access)", forHTTPHeaderField: "Authorization")
@@ -110,7 +110,7 @@ final class APIClient: Sendable {
         }
         return .server(
             status: status, code: "http_\(status)",
-            message: String(localized: "Le service est momentanément indisponible. Veuillez réessayer."),
+            message: String(localized: "Le service est momentanément indisponible. Veuillez réessayer.", bundle: .appLanguage),
             fields: [:])
     }
 }

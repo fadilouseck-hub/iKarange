@@ -1,19 +1,22 @@
 import SwiftUI
 import UIKit
 
-/// Design tokens. Brand colours come from the I'KARANGE back-office (mint #2DD4A8, deep teal #1A3A3A);
-/// to be reconciled with the ASSUR+ mockups when they are provided.
+/// Design tokens. Brand colours come from the tenant (`Tenant.plist`); neutral and status colours are shared.
 enum DS {
     enum Palette {
-        static let mint = Color(hex: 0x2DD4A8)
-        static let mintDark = Color(hex: 0x25B890)
-        static let teal = Color(hex: 0x1A3A3A)
-        static let tealMid = Color(hex: 0x2D5454)
+        private static let brand = Tenant.current.colors
+        private static let brandDarkHex = Tenant.hex(brand.brandDark)
+        private static let brandAccentHex = Tenant.hex(brand.brandAccent)
 
-        /// Primary action colour: deep teal on light (contrast 12:1 with white text), mint on dark.
-        static let primary = dynamic(light: 0x1A3A3A, dark: 0x2DD4A8)
+        /// Bright brand colour (mint for Assur Plus) and deep brand colour (teal).
+        static let mint = Color(hex: brandAccentHex)
+        static let teal = Color(hex: brandDarkHex)
+        static let tealMid = Color(hex: Tenant.hex(brand.brandDarkSecondary))
+
+        /// Primary action colour: deep brand colour on light, bright brand colour on dark.
+        static let primary = dynamic(light: brandDarkHex, dark: brandAccentHex)
         static let onPrimary = dynamic(light: 0xFFFFFF, dark: 0x0E2222)
-        static let accent = dynamic(light: 0x1C8F72, dark: 0x2DD4A8)
+        static let accent = dynamic(light: Tenant.hex(brand.accentOnLight), dark: brandAccentHex)
         static let accentSoft = dynamic(light: 0xE3F8F2, dark: 0x163A33)
 
         static let background = dynamic(light: 0xF5F5F9, dark: 0x0B1414)

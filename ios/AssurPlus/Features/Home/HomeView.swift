@@ -58,7 +58,7 @@ private struct HomeContent: View {
 
     private var greeting: String {
         let name = env.session.user?.firstName ?? dashboard.value?.fullName ?? ""
-        return String(localized: "Bonjour \(name)")
+        return String(localized: "Bonjour \(name)", bundle: .appLanguage)
     }
 
     private func reload() { Task { await dashboard.load() } }
@@ -84,7 +84,7 @@ private struct DashboardSections: View {
 
             if !data.dependents.isEmpty, env.session.can(.familyView) {
                 VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                    SectionHeader(title: String(localized: "Ma famille"), actionTitle: String(localized: "Gérer")) {
+                    SectionHeader(title: String(localized: "Ma famille", bundle: .appLanguage), actionTitle: String(localized: "Gérer", bundle: .appLanguage)) {
                         env.router.homePath.append(Route.family)
                     }
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -97,7 +97,7 @@ private struct DashboardSections: View {
 
             if env.session.can(.claimsView) {
                 VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                    SectionHeader(title: String(localized: "Derniers sinistres"), actionTitle: data.recentClaims.isEmpty ? nil : String(localized: "Tout voir")) {
+                    SectionHeader(title: String(localized: "Derniers sinistres", bundle: .appLanguage), actionTitle: data.recentClaims.isEmpty ? nil : String(localized: "Tout voir", bundle: .appLanguage)) {
                         env.router.selectedTab = .claims
                     }
                     if data.recentClaims.isEmpty {
@@ -145,17 +145,17 @@ private struct PolicyCard: View {
                 }
                 Divider().overlay(.white.opacity(0.3))
                 HStack {
-                    LabelValue(label: String(localized: "Contrat"), value: policy.number)
+                    LabelValue(label: String(localized: "Contrat", bundle: .appLanguage), value: policy.number)
                     Spacer()
-                    LabelValue(label: String(localized: "Couverture"), value: Percent.format(policy.coverageRate))
+                    LabelValue(label: String(localized: "Couverture", bundle: .appLanguage), value: Percent.format(policy.coverageRate))
                 }
                 HStack {
-                    LabelValue(label: String(localized: "Début"), value: DateText.day(policy.startDate))
+                    LabelValue(label: String(localized: "Début", bundle: .appLanguage), value: DateText.day(policy.startDate))
                     Spacer()
-                    LabelValue(label: String(localized: "Fin"), value: DateText.day(policy.endDate))
+                    LabelValue(label: String(localized: "Fin", bundle: .appLanguage), value: DateText.day(policy.endDate))
                 }
                 if let memberNumber {
-                    LabelValue(label: String(localized: "N° d'assuré"), value: memberNumber)
+                    LabelValue(label: String(localized: "N° d'assuré", bundle: .appLanguage), value: memberNumber)
                 }
             }
             .foregroundStyle(.white)
@@ -226,8 +226,8 @@ struct LimitsCard: View {
             Text("sur un plafond annuel de \(Money.format(limits.annualLimit))")
                 .font(.caption).foregroundStyle(DS.Palette.textSecondary)
             HStack(spacing: DS.Spacing.m) {
-                AmountTile(label: String(localized: "Consommé"), amount: limits.consumed)
-                AmountTile(label: String(localized: "Remboursé"), amount: limits.reimbursed, tone: .success)
+                AmountTile(label: String(localized: "Consommé", bundle: .appLanguage), amount: limits.consumed)
+                AmountTile(label: String(localized: "Remboursé", bundle: .appLanguage), amount: limits.reimbursed, tone: .success)
             }
         }
         .card()
@@ -249,22 +249,22 @@ private struct QuickActions: View {
         let router = env.router
         var list: [Action] = []
         if hasPolicy, env.session.can(.cardView) {
-            list.append(Action(id: "card", title: String(localized: "Ma carte"), symbol: "qrcode") { router.selectedTab = .card })
+            list.append(Action(id: "card", title: String(localized: "Ma carte", bundle: .appLanguage), symbol: "qrcode") { router.selectedTab = .card })
         }
         if hasPolicy, env.session.can(.claimsCreate) {
-            list.append(Action(id: "claim", title: String(localized: "Déclarer"), symbol: "camera.viewfinder") { router.presentedSheet = .newClaim })
+            list.append(Action(id: "claim", title: String(localized: "Déclarer", bundle: .appLanguage), symbol: "camera.viewfinder") { router.presentedSheet = .newClaim })
         }
         if hasPolicy, env.session.can(.familyView) {
-            list.append(Action(id: "family", title: String(localized: "Famille"), symbol: "person.3") { router.homePath.append(Route.family) })
+            list.append(Action(id: "family", title: String(localized: "Famille", bundle: .appLanguage), symbol: "person.3") { router.homePath.append(Route.family) })
         }
         if hasPolicy, env.session.can(.policyView) {
-            list.append(Action(id: "policy", title: String(localized: "Contrat"), symbol: "doc.text") { router.homePath.append(Route.policy) })
+            list.append(Action(id: "policy", title: String(localized: "Contrat", bundle: .appLanguage), symbol: "doc.text") { router.homePath.append(Route.policy) })
         }
         if env.session.can(.paymentsView) {
-            list.append(Action(id: "payments", title: String(localized: "Paiements"), symbol: "creditcard") { router.homePath.append(Route.payments) })
+            list.append(Action(id: "payments", title: String(localized: "Paiements", bundle: .appLanguage), symbol: "creditcard") { router.homePath.append(Route.payments) })
         }
         if env.session.can(.vaultView) {
-            list.append(Action(id: "vault", title: String(localized: "Coffre santé"), symbol: "lock.doc") { router.homePath.append(Route.vault) })
+            list.append(Action(id: "vault", title: String(localized: "Coffre santé", bundle: .appLanguage), symbol: "lock.doc") { router.homePath.append(Route.vault) })
         }
         return list
     }

@@ -27,7 +27,7 @@ final class OTPViewModel {
     @discardableResult
     func send() async -> Bool {
         guard let e164 = PhoneNumber.e164(phone) else {
-            error = .server(status: 422, code: "invalid_phone", message: String(localized: "Numéro de téléphone invalide."), fields: ["phone": String(localized: "Numéro sénégalais à 9 chiffres attendu.")])
+            error = .server(status: 422, code: "invalid_phone", message: String(localized: "Numéro de téléphone invalide.", bundle: .appLanguage), fields: ["phone": String(localized: "Numéro sénégalais à 9 chiffres attendu.", bundle: .appLanguage)])
             return false
         }
         isSending = true
@@ -72,7 +72,7 @@ final class LoginViewModel {
     enum Mode: String, CaseIterable, Identifiable {
         case password, otp
         var id: Self { self }
-        var label: String { self == .password ? String(localized: "Mot de passe") : String(localized: "Code SMS") }
+        var label: String { self == .password ? String(localized: "Mot de passe", bundle: .appLanguage) : String(localized: "Code SMS", bundle: .appLanguage) }
     }
 
     private let api: AssurAPI
@@ -80,24 +80,41 @@ final class LoginViewModel {
     var otp: OTPViewModel
 
     var mode: Mode = .password
+    /// Username-login tenants sign in with the member login instead of a phone number.
+    let identifierKind: Tenant.LoginIdentifier
+    var username = ""
     var password = ""
     var showOTPEntry = false
     private(set) var isLoading = false
     var error: APIError?
 
-    init(api: AssurAPI, session: AuthSession) {
+    init(api: AssurAPI, session: AuthSession, identifierKind: Tenant.LoginIdentifier = .phone) {
         self.api = api
         self.session = session
+        self.identifierKind = identifierKind
         otp = OTPViewModel(purpose: .login, api: api)
     }
 
     var canSubmit: Bool {
-        otp.phoneIsValid && (mode == .otp || !password.isEmpty) && !isLoading
+        if identifierKind == .username {
+            return !username.trimmingCharacters(in: .whitespaces).isEmpty && !password.isEmpty && !isLoading
+        }
+        return otp.phoneIsValid && (mode == .otp || !password.isEmpty) && !isLoading
     }
 
     func submit() async {
+        if identifierKind == .username {
+            isLoading = true
+            defer { isLoading = false }
+            do {
+                session.didAuthenticate(try await api.login(LoginRequest(identifier: username.trimmingCharacters(in: .whitespaces), password: password)))
+            } catch {
+                self.error = .wrap(error)
+            }
+            return
+        }
         guard let phone = PhoneNumber.e164(otp.phone) else {
-            error = .server(status: 422, code: "invalid_phone", message: String(localized: "Numéro de téléphone invalide."), fields: [:])
+            error = .server(status: 422, code: "invalid_phone", message: String(localized: "Numéro de téléphone invalide.", bundle: .appLanguage), fields: [:])
             return
         }
         switch mode {
@@ -161,14 +178,14 @@ final class RegisterViewModel {
 
     var passwordError: String? {
         guard usePassword, !password.isEmpty else { return nil }
-        if password.count < 8 { return String(localized: "8 caractères minimum.") }
-        if !passwordConfirmation.isEmpty, password != passwordConfirmation { return String(localized: "Les mots de passe ne correspondent pas.") }
+        if password.count < 8 { return String(localized: "8 caractères minimum.", bundle: .appLanguage) }
+        if !passwordConfirmation.isEmpty, password != passwordConfirmation { return String(localized: "Les mots de passe ne correspondent pas.", bundle: .appLanguage) }
         return nil
     }
 
     var emailError: String? {
         guard !email.isEmpty else { return nil }
-        return email.contains("@") && email.contains(".") ? nil : String(localized: "Adresse e-mail invalide.")
+        return email.contains("@") && email.contains(".") ? nil : String(localized: "Adresse e-mail invalide.", bundle: .appLanguage)
     }
 
     var canSubmitDetails: Bool {

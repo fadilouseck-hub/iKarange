@@ -62,7 +62,7 @@ final class NetworkViewModel {
     enum Mode: String, CaseIterable, Identifiable {
         case map, list
         var id: Self { self }
-        var label: String { self == .map ? String(localized: "Carte") : String(localized: "Liste") }
+        var label: String { self == .map ? String(localized: "Carte", bundle: .appLanguage) : String(localized: "Liste", bundle: .appLanguage) }
     }
 
     static let dakar = CLLocationCoordinate2D(latitude: 14.7167, longitude: -17.4677)
@@ -73,6 +73,8 @@ final class NetworkViewModel {
     private let location = LocationProvider()
 
     var mode: Mode = .list
+    /// The map and distance search only make sense when the backend provides coordinates.
+    var hasCoordinates: Bool { providers.contains { $0.coordinate != nil } }
     var type: ProviderType?
     var radiusKm: Int?
     var search = ""
@@ -154,10 +156,7 @@ private struct NetworkContent: View {
             if let error = model.error {
                 StaleDataBanner(error: error) { Task { await model.load() } }.padding(.horizontal, DS.Spacing.l)
             }
-            switch model.mode {
-            case .map: map
-            case .list: list
-            }
+            if model.mode == .map && model.hasCoordinates { map } else { list }
         }
         .screenBackground()
         .searchable(text: $model.search, prompt: Text("Nom, ville, spécialité"))
@@ -170,13 +169,13 @@ private struct NetworkContent: View {
             ProviderDetail(provider: provider).presentationDetents([.medium])
         }
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
+            if model.hasCoordinates { ToolbarItem(placement: .topBarLeading) {
                 Picker("Affichage", selection: $model.mode) {
                     ForEach(NetworkViewModel.Mode.allCases) { Text($0.label).tag($0) }
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 140)
-            }
+            } }
             ToolbarItem(placement: .topBarTrailing) {
                 Button { Task { await model.downloadPDF() } } label: {
                     if model.isDownloadingPDF { ProgressView() } else { Label("Télécharger en PDF", systemImage: "arrow.down.doc") }
@@ -190,7 +189,7 @@ private struct NetworkContent: View {
         VStack(spacing: DS.Spacing.s) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: DS.Spacing.s) {
-                    chip(selected: model.type == nil, label: String(localized: "Tous"), symbol: "square.grid.2x2") { model.type = nil }
+                    chip(selected: model.type == nil, label: String(localized: "Tous", bundle: .appLanguage), symbol: "square.grid.2x2") { model.type = nil }
                     ForEach(ProviderType.allCases.filter { $0 != .other }) { type in
                         chip(selected: model.type == type, label: type.label, symbol: type.symbol) { model.type = type }
                             .accessibilityIdentifier("network.type.\(type.rawValue)")
@@ -198,7 +197,7 @@ private struct NetworkContent: View {
                 }
                 .padding(.horizontal, DS.Spacing.l)
             }
-            HStack {
+            if model.hasCoordinates { HStack {
                 Button { Task { await model.locateMe() } } label: {
                     if model.isLocating { ProgressView() } else {
                         Label(model.userLocation == nil ? "Autour de moi" : "Position mise à jour", systemImage: "location")
@@ -209,13 +208,13 @@ private struct NetworkContent: View {
                 if model.userLocation != nil {
                     Picker("Distance", selection: $model.radiusKm) {
                         ForEach(NetworkViewModel.radiusOptions, id: \.self) { radius in
-                            Text(radius.map { "\($0) km" } ?? String(localized: "Toute distance")).tag(radius)
+                            Text(radius.map { "\($0) km" } ?? String(localized: "Toute distance", bundle: .appLanguage)).tag(radius)
                         }
                     }
                     .pickerStyle(.menu)
                 }
             }
-            .padding(.horizontal, DS.Spacing.l)
+            .padding(.horizontal, DS.Spacing.l) }
             if model.locationDenied {
                 Text("Localisation refusée. Activez-la dans Réglages pour trier par distance.")
                     .font(.caption).foregroundStyle(DS.Palette.textSecondary).padding(.horizontal, DS.Spacing.l)
@@ -243,7 +242,7 @@ private struct NetworkContent: View {
                     if model.isLoading {
                         ForEach(0..<4, id: \.self) { _ in SkeletonCard(lines: 2) }
                     } else {
-                        EmptyStateView(title: String(localized: "Aucun prestataire"), message: String(localized: "Modifiez les filtres ou élargissez la distance."), symbol: "mappin.slash")
+                        EmptyStateView(title: String(localized: "Aucun prestataire", bundle: .appLanguage), message: String(localized: "Modifiez les filtres ou élargissez la distance.", bundle: .appLanguage), symbol: "mappin.slash")
                     }
                 }
                 ForEach(model.providers) { provider in
@@ -265,8 +264,8 @@ private struct NetworkContent: View {
                     Circle().fill(DS.Palette.info).frame(width: 14, height: 14).overlay(Circle().stroke(.white, lineWidth: 3))
                 }
             }
-            ForEach(model.providers) { provider in
-                Annotation(provider.name, coordinate: CLLocationCoordinate2D(latitude: provider.latitude, longitude: provider.longitude)) {
+            ForEach(model.providers.filter { $0.coordinate != nil }) { provider in
+                Annotation(provider.name, coordinate: provider.coordinate!) {
                     Button { model.selected = provider } label: {
                         Image(systemName: provider.type.symbol)
                             .font(.caption.weight(.bold))
@@ -297,12 +296,12 @@ private struct ProviderRow: View {
                 Text(provider.specialty ?? provider.type.label).font(.caption).foregroundStyle(DS.Palette.textSecondary)
                 Text("\(provider.address), \(provider.city)").font(.caption).foregroundStyle(DS.Palette.textSecondary)
                 if provider.tiersPayant {
-                    StatusBadge(text: String(localized: "Tiers-payant"), tone: .success)
+                    StatusBadge(text: String(localized: "Tiers-payant", bundle: .appLanguage), tone: .success)
                 }
             }
             Spacer()
             if let distance = provider.distanceMeters {
-                Text(Measurement(value: Double(distance), unit: UnitLength.meters).formatted(.measurement(width: .abbreviated, usage: .road).locale(Locale(identifier: "fr_SN"))))
+                Text(Measurement(value: Double(distance), unit: UnitLength.meters).formatted(.measurement(width: .abbreviated, usage: .road).locale(AppLanguage.locale)))
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(DS.Palette.textSecondary)
             }
@@ -320,24 +319,39 @@ private struct ProviderDetail: View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text(provider.name).font(DS.Typography.title)
             Text(provider.specialty ?? provider.type.label).foregroundStyle(DS.Palette.textSecondary)
-            InfoRow(label: String(localized: "Adresse"), value: "\(provider.address), \(provider.city)")
-            if let hours = provider.openingHours { InfoRow(label: String(localized: "Horaires"), value: hours) }
-            InfoRow(label: String(localized: "Tiers-payant"), value: provider.tiersPayant ? String(localized: "Accepté") : String(localized: "Non"))
+            InfoRow(label: String(localized: "Adresse", bundle: .appLanguage), value: "\(provider.address), \(provider.city)")
+            if let hours = provider.openingHours { InfoRow(label: String(localized: "Horaires", bundle: .appLanguage), value: hours) }
+            InfoRow(label: String(localized: "Tiers-payant", bundle: .appLanguage), value: provider.tiersPayant ? String(localized: "Accepté", bundle: .appLanguage) : String(localized: "Non", bundle: .appLanguage))
+            if provider.locationApproximate == true {
+                Label("Position approximative sur la carte : l'itinéraire utilise l'adresse.", systemImage: "mappin.and.ellipse")
+                    .font(.footnote).foregroundStyle(DS.Palette.textSecondary)
+            }
             HStack(spacing: DS.Spacing.m) {
                 if let phone = provider.phone, let url = URL(string: "tel:\(phone.filter { $0.isNumber || $0 == "+" })") {
                     Button { openURL(url) } label: { Label("Appeler", systemImage: "phone.fill") }
                         .buttonStyle(.secondary)
                 }
                 Button {
-                    let item = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: provider.latitude, longitude: provider.longitude)))
-                    item.name = provider.name
-                    item.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+                    if let coordinate = provider.coordinate, provider.locationApproximate != true {
+                        let item = MKMapItem(placemark: MKPlacemark(coordinate: coordinate))
+                        item.name = provider.name
+                        item.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+                    } else if let url = URL(string: "maps://?q=" + "\(provider.name), \(provider.address), \(provider.city)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!) {
+                        openURL(url)
+                    }
                 } label: { Label("Itinéraire", systemImage: "arrow.triangle.turn.up.right.diamond.fill") }
                     .buttonStyle(.primary)
             }
             Spacer()
         }
         .padding(DS.Spacing.xl)
+    }
+}
+
+extension Provider {
+    var coordinate: CLLocationCoordinate2D? {
+        guard let latitude, let longitude else { return nil }
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
 

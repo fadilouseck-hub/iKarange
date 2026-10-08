@@ -7,13 +7,13 @@ enum MockDocuments {
         return UIGraphicsPDFRenderer(bounds: page).pdfData { context in
             context.beginPage()
             let titleAttributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor(hex: 0x1A3A3A),
+                .font: UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor(hex: Tenant.hex(Tenant.current.colors.brandDark)),
             ]
             let bodyAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 12)]
             let noteAttributes: [NSAttributedString.Key: Any] = [
                 .font: UIFont.italicSystemFont(ofSize: 10), .foregroundColor: UIColor.gray,
             ]
-            ("ASSUR+ — " + title as NSString).draw(at: CGPoint(x: 48, y: 48), withAttributes: titleAttributes)
+            (Tenant.current.displayName + " — " + title as NSString).draw(at: CGPoint(x: 48, y: 48), withAttributes: titleAttributes)
             var y: CGFloat = 96
             for line in lines {
                 if y > page.height - 72 {

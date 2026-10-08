@@ -28,7 +28,7 @@ final class FamilyViewModel {
             let request = try await api.requestDependentAddition(DependentAddRequest(
                 firstName: member.firstName, lastName: member.lastName, relation: member.relation,
                 birthDate: member.birthDate, gender: member.gender, uploadIds: uploadIds))
-            confirmation = Message(level: .success, text: String(localized: "Demande d'ajout de \(request.fullName) envoyée. \(request.status.label)."))
+            confirmation = Message(level: .success, text: String(localized: "Demande d'ajout de \(request.fullName) envoyée. \(request.status.label).", bundle: .appLanguage))
             await resource.load()
             return true
         } catch {
@@ -42,7 +42,7 @@ final class FamilyViewModel {
         defer { isSending = false }
         do {
             let request = try await api.requestDependentRemoval(id: dependent.id, reason: reason)
-            confirmation = Message(level: .success, text: String(localized: "Demande de retrait de \(request.fullName) envoyée."))
+            confirmation = Message(level: .success, text: String(localized: "Demande de retrait de \(request.fullName) envoyée.", bundle: .appLanguage))
             await resource.load()
         } catch {
             self.error = .wrap(error)
@@ -79,7 +79,7 @@ private struct FamilyContent: View {
                             Text(info).font(.footnote).foregroundStyle(DS.Palette.textSecondary)
                         }
                         if response.dependents.isEmpty {
-                            EmptyStateView(title: String(localized: "Aucun ayant droit"), message: String(localized: "Ajoutez votre conjoint(e) ou vos enfants à votre contrat."), symbol: "person.3")
+                            EmptyStateView(title: String(localized: "Aucun ayant droit", bundle: .appLanguage), message: String(localized: "Ajoutez votre conjoint(e) ou vos enfants à votre contrat.", bundle: .appLanguage), symbol: "person.3")
                         }
                         ForEach(response.dependents) { dependent in
                             DependentCard(dependent: dependent, canRemove: canManage && dependent.pendingRequest == nil) {
@@ -89,7 +89,7 @@ private struct FamilyContent: View {
                         }
                         if !response.requests.isEmpty {
                             VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                                SectionHeader(title: String(localized: "Demandes en cours"))
+                                SectionHeader(title: String(localized: "Demandes en cours", bundle: .appLanguage))
                                 ForEach(response.requests) { request in
                                     HStack(alignment: .top) {
                                         Image(systemName: request.kind == .add ? "person.badge.plus" : "person.badge.minus")
@@ -169,8 +169,8 @@ private struct DependentCard: View {
             if let limits = dependent.limits {
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     HStack {
-                        AmountTile(label: String(localized: "Consommé"), amount: limits.consumed)
-                        AmountTile(label: String(localized: "Plafond disponible"), amount: limits.remaining, tone: .success)
+                        AmountTile(label: String(localized: "Consommé", bundle: .appLanguage), amount: limits.consumed)
+                        AmountTile(label: String(localized: "Plafond disponible", bundle: .appLanguage), amount: limits.remaining, tone: .success)
                     }
                     ProgressView(value: limits.annualLimit > 0 ? min(Double(limits.consumed) / Double(limits.annualLimit), 1) : 0)
                         .tint(DS.Palette.accent)
@@ -250,7 +250,7 @@ private struct AddDependentRequestSheet: View {
                     }
                 }
             }
-            .documentPicker(isPresented: $showPicker, title: String(localized: "Ajouter un justificatif"), baseName: "justificatif-\(documents.count + 1)") {
+            .documentPicker(isPresented: $showPicker, title: String(localized: "Ajouter un justificatif", bundle: .appLanguage), baseName: "justificatif-\(documents.count + 1)") {
                 documents.append($0)
             }
         }

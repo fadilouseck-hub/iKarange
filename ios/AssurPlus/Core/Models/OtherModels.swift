@@ -54,10 +54,10 @@ enum VaultCategory: String, Codable, Sendable, CaseIterable, Identifiable {
     var id: String { rawValue }
     var label: String {
         switch self {
-        case .prescription: String(localized: "Ordonnances")
-        case .labResult: String(localized: "Analyses")
-        case .imaging: String(localized: "Radios")
-        case .vaccine: String(localized: "Vaccins")
+        case .prescription: String(localized: "Ordonnances", bundle: .appLanguage)
+        case .labResult: String(localized: "Analyses", bundle: .appLanguage)
+        case .imaging: String(localized: "Radios", bundle: .appLanguage)
+        case .vaccine: String(localized: "Vaccins", bundle: .appLanguage)
         }
     }
     var symbol: String {
@@ -101,13 +101,13 @@ enum ProviderType: String, Codable, Sendable, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .doctor: String(localized: "Médecins")
-        case .specialist: String(localized: "Spécialistes")
-        case .pharmacy: String(localized: "Pharmacies")
-        case .clinic: String(localized: "Cliniques")
-        case .hospital: String(localized: "Hôpitaux")
-        case .laboratory: String(localized: "Laboratoires")
-        case .other: String(localized: "Autres")
+        case .doctor: String(localized: "Médecins", bundle: .appLanguage)
+        case .specialist: String(localized: "Spécialistes", bundle: .appLanguage)
+        case .pharmacy: String(localized: "Pharmacies", bundle: .appLanguage)
+        case .clinic: String(localized: "Cliniques", bundle: .appLanguage)
+        case .hospital: String(localized: "Hôpitaux", bundle: .appLanguage)
+        case .laboratory: String(localized: "Laboratoires", bundle: .appLanguage)
+        case .other: String(localized: "Autres", bundle: .appLanguage)
         }
     }
 
@@ -132,8 +132,11 @@ struct Provider: Codable, Equatable, Sendable, Identifiable {
     let address: String
     let city: String
     let phone: String?
-    let latitude: Double
-    let longitude: Double
+    /// Coordinates are optional: providers without them appear in the list but not on the map.
+    let latitude: Double?
+    let longitude: Double?
+    /// True when the backend estimated the position (e.g. city centre): show it as approximate, route by address.
+    var locationApproximate: Bool?
     let distanceMeters: Int?
     let tiersPayant: Bool
     let openingHours: String?

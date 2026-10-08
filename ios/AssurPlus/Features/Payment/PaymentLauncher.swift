@@ -22,12 +22,12 @@ final class LivePaymentLauncher: NSObject, PaymentLaunching, ASWebAuthentication
 
     func launch(_ payment: Payment) async -> PaymentLaunchResult {
         if let appURL = payment.appURL, UIApplication.shared.canOpenURL(appURL) {
-            guard await UIApplication.shared.open(appURL) else { return .failed(String(localized: "Impossible d'ouvrir l'application de paiement.")) }
+            guard await UIApplication.shared.open(appURL) else { return .failed(String(localized: "Impossible d'ouvrir l'application de paiement.", bundle: .appLanguage)) }
             await waitForReturnToForeground()
             return .returned
         }
         guard let checkoutURL = payment.checkoutURL else {
-            return .failed(String(localized: "Aucun lien de paiement reçu."))
+            return .failed(String(localized: "Aucun lien de paiement reçu.", bundle: .appLanguage))
         }
         return await withCheckedContinuation { continuation in
             let session = ASWebAuthenticationSession(url: checkoutURL, callbackURLScheme: Self.callbackScheme) { _, error in
@@ -41,7 +41,7 @@ final class LivePaymentLauncher: NSObject, PaymentLaunching, ASWebAuthentication
             session.presentationContextProvider = self
             session.prefersEphemeralWebBrowserSession = true
             self.session = session
-            if !session.start() { continuation.resume(returning: .failed(String(localized: "Impossible d'ouvrir la page de paiement."))) }
+            if !session.start() { continuation.resume(returning: .failed(String(localized: "Impossible d'ouvrir la page de paiement.", bundle: .appLanguage))) }
         }
     }
 

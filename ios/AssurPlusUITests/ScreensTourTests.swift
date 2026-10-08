@@ -9,7 +9,7 @@ final class ScreensTourTests: XCTestCase {
         app.descendants(matching: .any)["home.policyCard"].firstMatch.waitToExist()
         screenshot(app, "01-home")
 
-        app.buttons["home.action.family"].waitToExist().tap()
+        tapHomeAction("family", in: app)
         app.staticTexts["Fatou Diop"].waitToExist()
         screenshot(app, "02-family")
         // Request a new dependant (validated by the back office).
@@ -22,17 +22,17 @@ final class ScreensTourTests: XCTestCase {
         app.staticTexts["Ajout de Aminata Diop"].firstMatch.waitToExist()
         app.navigationBars.buttons.element(boundBy: 0).tap()
 
-        app.buttons["home.action.policy"].waitToExist().tap()
+        tapHomeAction("policy", in: app)
         app.buttons["policy.openConditions"].waitToExist()
         screenshot(app, "03-policy")
         app.navigationBars.buttons.element(boundBy: 0).tap()
 
-        app.buttons["home.action.vault"].waitToExist().tap()
+        tapHomeAction("vault", in: app)
         app.descendants(matching: .any)["vault.document.vlt_1"].firstMatch.waitToExist()
         screenshot(app, "04-vault")
         app.navigationBars.buttons.element(boundBy: 0).tap()
 
-        app.buttons["home.action.payments"].waitToExist().tap()
+        tapHomeAction("payments", in: app)
         app.staticTexts["Cotisation annuelle 2026"].waitToExist()
         screenshot(app, "05-payments")
         app.navigationBars.buttons.element(boundBy: 0).tap()
@@ -61,6 +61,18 @@ final class ScreensTourTests: XCTestCase {
         app.buttons["profile.logout"].waitToExist().tap()
         app.buttons["profile.logout.confirm"].firstMatch.waitToExist().tap()
         app.buttons["welcome.login"].waitToExist()
+    }
+
+    /// Quick actions can sit under the floating menu: scroll them into view first.
+    private func tapHomeAction(_ id: String, in app: XCUIApplication) {
+        let button = app.buttons["home.action.\(id)"].waitToExist()
+        let bar = app.buttons["tab.home"].frame
+        var attempts = 0
+        while button.frame.maxY > bar.minY - 8 && attempts < 4 {
+            app.swipeUp()
+            attempts += 1
+        }
+        button.tap()
     }
 
     func testDependentSeesRestrictedFeatures() {

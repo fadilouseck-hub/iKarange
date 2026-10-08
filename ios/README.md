@@ -1,6 +1,7 @@
-# ASSUR+ — iOS app (insured)
+# Assur Plus — iOS app (insured)
 
-Native SwiftUI app for insured people and their dependants. It is one client of the ASSUR+ platform:
+Native SwiftUI app for insured people and their dependants, built as a white-label client of the iKarangue
+platform (MCE Group). Assur Plus is the first tenant. It is one client of the ASSUR+ platform:
 premiums, eligibility, coverage, claim amounts and statuses are computed by the API and only displayed here.
 
 - Spec: [`docs/ios-app-prompt.md`](../docs/ios-app-prompt.md), *Cahier des charges ASSUR+*
@@ -20,7 +21,7 @@ open ios/AssurPlus.xcodeproj
 | Scheme | Configuration | Backend |
 |---|---|---|
 | `AssurPlus-Mock` | `MockAPI` (`MOCK_API` flag, bundle id `sn.assurplus.app.mock`) | in-process `MockServer` on JSON fixtures — no network |
-| `AssurPlus` | `Debug` / `Release` | `API_BASE_URL` in `Config/Info.plist` (placeholder `https://api.assurplus.sn/v1`) |
+| `AssurPlus` | `Debug` / `Release` | Tenant `apiBaseURL` — `https://ikarange.mcedge.sn/api/mobile/v1` (Debug only: `-APIBaseURL <url>` override) |
 
 Command line:
 
@@ -47,6 +48,37 @@ Launch arguments (any configuration with `-UseMockAPI`, or the MockAPI configura
 | `-MockSignIn principal\|dependent` | Skip the login screen |
 | `-MockLatency 0.05` | Simulated network latency in seconds (default 0.35) |
 | `-MockQRLifetime 12` | QR token lifetime in seconds (default 60) |
+
+## Tenant (white-label) configuration
+
+Everything customer-specific is in [`AssurPlus/Tenant/Tenant.plist`](AssurPlus/Tenant/Tenant.plist), read by `Tenant`:
+display name, wordmark, copyright holder, brand colours, API URL, login identifier (`username` or `phone`),
+backend feature flags (self-registration, OTP login, password reset), support contacts, terms / privacy URLs,
+default and supported languages. Shared features never hard-code the customer. MockAPI builds enable every feature
+and phone login for demos. The App Store display name is set per configuration (`Assur Plus` / `Assur Plus Mock`).
+
+## Languages
+
+French is the source and fallback language, English is fully translated (`Resources/Localizable.xcstrings`,
+`Resources/InfoPlist.xcstrings` for permission prompts). At first launch the app follows the device language when
+it is supported, otherwise French; a choice in Profil › Langue persists and applies immediately (also sent to the
+server as `preferredLanguage`, and as `Accept-Language` on every request). Use `String(localized: …, bundle: .appLanguage)`
+for strings built in code; SwiftUI `Text` literals are handled automatically. Re-extract with
+`xcodebuild -exportLocalizations -project ios/AssurPlus.xcodeproj -localizationPath /tmp/loc -exportLanguage en`.
+
+## Backend
+
+The production backend is the I'KARANGE PHP site. Its mobile API lives in
+[`legacy/ikarange/src/api/mobile/index.php`](../legacy/ikarange/src/api/mobile/index.php) (hooked in `src/router.php`)
+with new tables in [`database/008_mobile_api.sql`](../legacy/ikarange/database/008_mobile_api.sql); existing tables
+are not altered. It needs a `MOBILE_SECRET` (≥ 32 random characters) in the server `.env` for vault encryption.
+Members sign in with their portal username; SMS OTP, self-registration, online subscription/payments and OCR are not
+available on this platform yet (the app hides or degrades those features through the tenant flags). Provider
+positions are approximate (city level) until real coordinates exist.
+
+Local run: `dev/serve.sh` (PHP built-in server on the local MySQL copy), then run the `AssurPlus` scheme with
+`-APIBaseURL http://localhost:8080/api/mobile/v1`. `LiveBackendTests` drives the real app against it when
+`TEST_RUNNER_LIVE_API_URL`, `TEST_RUNNER_LIVE_USER` and `TEST_RUNNER_LIVE_PASSWORD` are set (synthetic test member only).
 
 ## Architecture
 
@@ -80,6 +112,8 @@ AssurPlus/
   the app is suspended. Images are converted to JPEG, at most 1600 px on the long edge, quality 0.7.
 - **Payments**: `POST /payments` → Wave / Orange Money app link or hosted page (`ASWebAuthenticationSession`) →
   the app polls `GET /payments/{id}` until a final status. The client-side outcome is never trusted.
+- **Navigation**: floating capsule menu (`FloatingTabBar`) over a `TabView` with the system tab bar hidden.
+- **Appearance**: light, dark or automatic (Profil › Apparence); colours are dynamic tokens.
 - **QR code**: generated locally with CoreImage from the short-lived signed token (`GET /me/card/qr-token`); renewed
   10 s before expiry; contains no personal data in clear.
 
@@ -100,7 +134,8 @@ AssurPlus/
 - Unit tests (`AssurPlusTests`, Swift Testing): API client (refresh / rotation / concurrency / offline), formatting,
   auth, dashboard/card/QR, claims (OCR, drafts, resumable upload with failures), subscription (debounce, eligibility,
   full flow), family, vault, network, routing.
-- UI tests (`AssurPlusUITests`, XCUITest on MockAPI): the 3 acceptance scenarios —
+- UI tests (`AssurPlusUITests`, XCUITest on MockAPI): `LanguageTests` (English device, in-app switch, French
+  fallback), the 3 acceptance scenarios —
   `SubscriptionAcceptanceTests`, `CardAcceptanceTests`, `ClaimAcceptanceTests` — plus `ScreensTourTests`, which
   walks every secondary screen, checks the dependant restrictions and attaches screenshots to the result bundle.
 

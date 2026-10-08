@@ -17,13 +17,17 @@ final class AppEnvironment {
     let wallet: WalletAdding
     let isMock: Bool
     let backgroundUploads: BackgroundUploadTransport?
+    let language: LanguageSettings
+    /// Backend capabilities: the tenant's in production, everything in MockAPI.
+    var features: Tenant.Features { isMock ? .all : Tenant.current.features }
+    var loginIdentifier: Tenant.LoginIdentifier { isMock ? .phone : Tenant.current.loginIdentifier }
     /// MockAPI only: demo account to sign in automatically at launch ("principal" or "dependent").
     var mockSignIn: String?
 
     init(
         api: AssurAPI, uploader: Uploading, cache: ResponseCache, settings: AppSettings, tokens: TokenStore,
         biometrics: BiometricAuthenticating, paymentLauncher: PaymentLaunching, wallet: WalletAdding,
-        isMock: Bool, backgroundUploads: BackgroundUploadTransport? = nil
+        isMock: Bool, backgroundUploads: BackgroundUploadTransport? = nil, language: LanguageSettings? = nil
     ) {
         self.api = api
         self.uploader = uploader
@@ -34,6 +38,7 @@ final class AppEnvironment {
         self.wallet = wallet
         self.isMock = isMock
         self.backgroundUploads = backgroundUploads
+        self.language = language ?? LanguageSettings(defaults: settings.defaults)
         router = Router()
         session = AuthSession(api: api, tokens: tokens, cache: cache, settings: settings)
     }
@@ -62,8 +67,11 @@ final class AppEnvironment {
             return environment
         }
 
-        let baseURL = (Bundle.main.object(forInfoDictionaryKey: "API_BASE_URL") as? String).flatMap(URL.init(string:))
-            ?? URL(string: "https://api.assurplus.sn/v1")!
+        guard var baseURL = Tenant.current.apiURL else { fatalError("Tenant.plist apiBaseURL is invalid") }
+        #if DEBUG
+        // Debug builds only: point at a local copy of the backend, e.g. `-APIBaseURL http://localhost:8080/api/mobile/v1`.
+        if let override = value(after: "-APIBaseURL", in: arguments).flatMap(URL.init(string:)) { baseURL = override }
+        #endif
         let transport = URLSessionTransport.makeDefault()
         let client = APIClient(baseURL: baseURL, transport: transport, tokens: tokens)
         let uploadTransport = BackgroundUploadTransport(fallback: transport)

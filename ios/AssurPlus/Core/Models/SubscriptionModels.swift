@@ -49,9 +49,9 @@ enum Relation: String, Codable, Sendable, CaseIterable, Identifiable {
     var id: String { rawValue }
     var label: String {
         switch self {
-        case .spouse: String(localized: "Conjoint(e)")
-        case .child: String(localized: "Enfant")
-        case .other: String(localized: "Autre ayant droit")
+        case .spouse: String(localized: "Conjoint(e)", bundle: .appLanguage)
+        case .child: String(localized: "Enfant", bundle: .appLanguage)
+        case .other: String(localized: "Autre ayant droit", bundle: .appLanguage)
         }
     }
 }

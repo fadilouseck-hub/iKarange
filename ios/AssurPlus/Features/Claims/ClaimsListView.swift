@@ -21,9 +21,9 @@ private struct ClaimsListContent: View {
         var id: Self { self }
         var label: String {
             switch self {
-            case .all: String(localized: "Tous")
-            case .ongoing: String(localized: "En cours")
-            case .finished: String(localized: "Terminés")
+            case .all: String(localized: "Tous", bundle: .appLanguage)
+            case .ongoing: String(localized: "En cours", bundle: .appLanguage)
+            case .finished: String(localized: "Terminés", bundle: .appLanguage)
             }
         }
 
@@ -41,7 +41,7 @@ private struct ClaimsListContent: View {
             VStack(spacing: DS.Spacing.m) {
                 if env.cache.load(ClaimDraft.self, key: .claimDraft) != nil {
                     Button { env.router.presentedSheet = .newClaim } label: {
-                        MessageBanner(message: Message(level: .info, text: String(localized: "Une déclaration est en brouillon. Touchez pour la reprendre.")))
+                        MessageBanner(message: Message(level: .info, text: String(localized: "Une déclaration est en brouillon. Touchez pour la reprendre.", bundle: .appLanguage)))
                     }
                     .buttonStyle(.plain)
                 }
@@ -54,8 +54,8 @@ private struct ClaimsListContent: View {
                     let visible = list.filter { filter.includes($0.status) }
                     if visible.isEmpty {
                         EmptyStateView(
-                            title: String(localized: "Aucun sinistre"),
-                            message: String(localized: "Photographiez une facture pour déclarer vos frais de santé."),
+                            title: String(localized: "Aucun sinistre", bundle: .appLanguage),
+                            message: String(localized: "Photographiez une facture pour déclarer vos frais de santé.", bundle: .appLanguage),
                             symbol: "doc.text.magnifyingglass")
                     } else {
                         LazyVStack(spacing: 0) {

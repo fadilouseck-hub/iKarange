@@ -15,11 +15,16 @@ info:
       server only. The apps display what they receive.
 
     Endpoints marked `TODO(backend)` were not in the initial resource list and were added for the app.
+
+    I'KARANGE implementation notes (corporate IPM members): login by member username; SMS OTP, self-registration,
+    password reset, online subscription/payments, termination and dependant requests answer 501 `not_available`;
+    OCR answers `state: failed` (manual entry); providers carry approximate city-level coordinates
+    (`locationApproximate: true`).
 servers:
-  - url: https://api.assurplus.sn/v1
-    description: Production (placeholder)
-  - url: https://staging-api.assurplus.sn/v1
-    description: Staging (placeholder)
+  - url: https://ikarange.mcedge.sn/api/mobile/v1
+    description: I'KARANGE production — implemented by legacy/ikarange/src/api/mobile/index.php
+  - url: http://localhost:8080/api/mobile/v1
+    description: Local copy (dev/serve.sh)
 security:
   - bearerAuth: []
 tags:
@@ -107,7 +112,7 @@ paths:
   /auth/login:
     post:
       tags: [auth]
-      summary: Log in with phone + password, or phone + verificationToken (OTP login)
+      summary: Log in with phone or username + password, or phone + verificationToken (OTP login)
       security: []
       requestBody:
         required: true
@@ -115,9 +120,9 @@ paths:
           application/json:
             schema:
               type: object
-              required: [phone]
               properties:
-                phone: { type: string }
+                phone: { type: string, description: E.164 (phone-login tenants) }
+                identifier: { type: string, description: member username (username-login tenants) }
                 password: { type: string }
                 verificationToken: { type: string }
       responses:
@@ -1331,12 +1336,12 @@ components:
 
     Settlement:
       type: object
-      required: [billedAmount, coveredAmount, reimbursementRate, deductible, insurerAmount, remainingAmount]
+      required: [billedAmount, reimbursementRate, insurerAmount, remainingAmount]
       properties:
         billedAmount: { type: integer }
-        coveredAmount: { type: integer }
+        coveredAmount: { type: [integer, 'null'] }
         reimbursementRate: { type: integer }
-        deductible: { type: integer }
+        deductible: { type: [integer, 'null'] }
         insurerAmount: { type: integer }
         remainingAmount: { type: integer, description: reste à charge }
 
@@ -1400,7 +1405,7 @@ components:
 
     Provider:
       type: object
-      required: [id, name, type, address, city, latitude, longitude, tiersPayant]
+      required: [id, name, type, address, city, tiersPayant]
       properties:
         id: { type: string }
         name: { type: string }
@@ -1409,8 +1414,9 @@ components:
         address: { type: string }
         city: { type: string }
         phone: { type: [string, 'null'] }
-        latitude: { type: number }
-        longitude: { type: number }
+        latitude: { type: [number, 'null'] }
+        longitude: { type: [number, 'null'] }
+        locationApproximate: { type: [boolean, 'null'], description: true when the position is estimated (e.g. city centre); route by address }
         distanceMeters: { type: [integer, 'null'] }
         tiersPayant: { type: boolean }
         openingHours: { type: [string, 'null'] }

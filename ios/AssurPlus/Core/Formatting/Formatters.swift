@@ -53,7 +53,7 @@ enum PhoneNumber {
 }
 
 enum DateText {
-    private static let locale = Locale(identifier: "fr_SN")
+    private static var locale: Locale { AppLanguage.locale }
 
     static func day(_ day: LocalDay) -> String { self.day(day.date) }
 

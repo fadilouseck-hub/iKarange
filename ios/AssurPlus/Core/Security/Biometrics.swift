@@ -11,7 +11,7 @@ enum BiometricKind: Sendable {
 
     var label: String {
         switch self {
-        case .none: String(localized: "Verrouillage biométrique")
+        case .none: String(localized: "Verrouillage biométrique", bundle: .appLanguage)
         case .faceID: "Face ID"
         case .touchID: "Touch ID"
         case .opticID: "Optic ID"
@@ -41,7 +41,7 @@ struct DeviceBiometrics: BiometricAuthenticating {
 
     func authenticate(reason: String) async -> Bool {
         let context = LAContext()
-        context.localizedFallbackTitle = String(localized: "Utiliser le code")
+        context.localizedFallbackTitle = String(localized: "Utiliser le code", bundle: .appLanguage)
         return (try? await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)) ?? false
     }
 }

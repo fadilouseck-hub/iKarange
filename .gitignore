@@ -23,3 +23,6 @@ xcuserdata/
 ios/build/
 ios/DerivedData/
 *.xcresult
+
+# Confidential AI handoff workspace (signing metadata, account screenshots)
+AI-Collaboration/

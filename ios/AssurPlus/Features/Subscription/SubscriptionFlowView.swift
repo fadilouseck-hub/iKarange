@@ -94,8 +94,8 @@ private struct SubscriptionSteps: View {
             Text("Souscrivez en moins de 3 minutes").font(DS.Typography.title)
             if let user = model.user {
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    InfoRow(label: String(localized: "Souscripteur"), value: user.fullName, emphasized: true)
-                    InfoRow(label: String(localized: "Téléphone vérifié"), value: PhoneNumber.display(user.phone))
+                    InfoRow(label: String(localized: "Souscripteur", bundle: .appLanguage), value: user.fullName, emphasized: true)
+                    InfoRow(label: String(localized: "Téléphone vérifié", bundle: .appLanguage), value: PhoneNumber.display(user.phone))
                 }
                 .card()
             }
@@ -106,7 +106,7 @@ private struct SubscriptionSteps: View {
 
     private var personal: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.l) {
-            LabeledField(label: String(localized: "Date de naissance")) {
+            LabeledField(label: String(localized: "Date de naissance", bundle: .appLanguage)) {
                 DatePicker("Date de naissance", selection: $model.birthDate, in: ...Date.now, displayedComponents: .date)
                     .labelsHidden().frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -114,11 +114,11 @@ private struct SubscriptionSteps: View {
                 ForEach(Gender.allCases) { Text($0.label).tag($0) }
             }
             .pickerStyle(.segmented)
-            LabeledField(label: String(localized: "E-mail (facultatif)")) {
+            LabeledField(label: String(localized: "E-mail (facultatif)", bundle: .appLanguage)) {
                 TextField("nom@exemple.com", text: $model.email)
                     .keyboardType(.emailAddress).textInputAutocapitalization(.never).textContentType(.emailAddress)
             }
-            LabeledField(label: String(localized: "Ville")) {
+            LabeledField(label: String(localized: "Ville", bundle: .appLanguage)) {
                 TextField("Dakar", text: $model.city).textContentType(.addressCity)
             }
         }
@@ -163,7 +163,7 @@ private struct SubscriptionSteps: View {
                     }
                 }
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    SectionHeader(title: String(localized: "Ayants droit"), actionTitle: model.canAddDependent ? String(localized: "Ajouter") : nil) {
+                    SectionHeader(title: String(localized: "Ayants droit", bundle: .appLanguage), actionTitle: model.canAddDependent ? String(localized: "Ajouter", bundle: .appLanguage) : nil) {
                         showDependentForm = true
                     }
                     if model.dependents.isEmpty {
@@ -197,7 +197,7 @@ private struct SubscriptionSteps: View {
                     ForEach(quote.surcharges, id: \.self) { InfoRow(label: $0.label, value: "+ " + Money.format($0.amount)) }
                     ForEach(quote.fees, id: \.self) { InfoRow(label: $0.label, value: Money.format($0.amount)) }
                     Divider()
-                    InfoRow(label: String(localized: "Total \(quote.periodLabel)"), value: Money.format(quote.totalPremium), emphasized: true)
+                    InfoRow(label: String(localized: "Total \(quote.periodLabel)", bundle: .appLanguage), value: Money.format(quote.totalPremium), emphasized: true)
                     Text("Devis valable jusqu'au \(DateText.day(quote.validUntil))").font(.caption).foregroundStyle(DS.Palette.textSecondary)
                 }
                 .card()
@@ -214,10 +214,10 @@ private struct SubscriptionSteps: View {
             if let product = model.product, let quote = model.quote {
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     Text("Récapitulatif").font(.headline)
-                    InfoRow(label: String(localized: "Formule"), value: product.name)
-                    InfoRow(label: String(localized: "Couverture"), value: Percent.format(model.coverageRate ?? 0))
-                    InfoRow(label: String(localized: "Bénéficiaires"), value: "\(model.dependents.count + 1)")
-                    InfoRow(label: String(localized: "Prime \(quote.periodLabel)"), value: Money.format(quote.totalPremium), emphasized: true)
+                    InfoRow(label: String(localized: "Formule", bundle: .appLanguage), value: product.name)
+                    InfoRow(label: String(localized: "Couverture", bundle: .appLanguage), value: Percent.format(model.coverageRate ?? 0))
+                    InfoRow(label: String(localized: "Bénéficiaires", bundle: .appLanguage), value: "\(model.dependents.count + 1)")
+                    InfoRow(label: String(localized: "Prime \(quote.periodLabel)", bundle: .appLanguage), value: Money.format(quote.totalPremium), emphasized: true)
                 }
                 .card()
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
@@ -237,12 +237,12 @@ private struct SubscriptionSteps: View {
         VStack(spacing: DS.Spacing.l) {
             Image(systemName: "checkmark.seal.fill").font(.system(size: 64)).foregroundStyle(DS.Palette.success)
                 .accessibilityHidden(true)
-            Text("Bienvenue chez ASSUR+ !").font(DS.Typography.title)
+            Text("Bienvenue chez \(Tenant.current.displayName) !").font(DS.Typography.title)
             if let policy = model.createdPolicy {
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    InfoRow(label: String(localized: "N° de contrat"), value: policy.number, emphasized: true)
+                    InfoRow(label: String(localized: "N° de contrat", bundle: .appLanguage), value: policy.number, emphasized: true)
                         .accessibilityIdentifier("subscription.policyNumber")
-                    InfoRow(label: String(localized: "Début de couverture"), value: DateText.day(policy.startDate))
+                    InfoRow(label: String(localized: "Début de couverture", bundle: .appLanguage), value: DateText.day(policy.startDate))
                 }
                 .card()
             }
@@ -279,7 +279,7 @@ private struct SubscriptionSteps: View {
             if model.isQuoting {
                 ProgressView()
             } else if let quote = model.quote, !quote.eligible {
-                StatusBadge(text: String(localized: "Non éligible"), tone: .danger)
+                StatusBadge(text: String(localized: "Non éligible", bundle: .appLanguage), tone: .danger)
             }
         }
         .padding(.horizontal, DS.Spacing.l)
@@ -332,7 +332,7 @@ private struct ProductCard: View {
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 HStack {
                     Text(product.name).font(.title3.weight(.bold))
-                    if product.highlight == true { StatusBadge(text: String(localized: "Recommandée"), tone: .success) }
+                    if product.highlight == true { StatusBadge(text: String(localized: "Recommandée", bundle: .appLanguage), tone: .success) }
                     Spacer()
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                         .font(.title2)

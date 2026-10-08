@@ -21,8 +21,8 @@ enum WalletError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidPass: String(localized: "La carte reçue n'a pas pu être ajoutée à Cartes (Wallet).")
-        case .unavailable: String(localized: "Cartes (Wallet) n'est pas disponible sur cet appareil.")
+        case .invalidPass: String(localized: "La carte reçue n'a pas pu être ajoutée à Cartes (Wallet).", bundle: .appLanguage)
+        case .unavailable: String(localized: "Cartes (Wallet) n'est pas disponible sur cet appareil.", bundle: .appLanguage)
         }
     }
 }

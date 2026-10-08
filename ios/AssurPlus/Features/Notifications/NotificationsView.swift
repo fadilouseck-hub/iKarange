@@ -19,7 +19,7 @@ private struct NotificationsContent: View {
         ScrollView {
             LoadableContent(value: resource.value, isLoading: resource.isLoading, error: resource.error, retry: { Task { await resource.load() } }) { response in
                 if response.notifications.isEmpty {
-                    EmptyStateView(title: String(localized: "Aucune notification"), message: String(localized: "Vous serez informé ici de l'avancement de vos sinistres, paiements et contrat."), symbol: "bell")
+                    EmptyStateView(title: String(localized: "Aucune notification", bundle: .appLanguage), message: String(localized: "Vous serez informé ici de l'avancement de vos sinistres, paiements et contrat.", bundle: .appLanguage), symbol: "bell")
                 } else {
                     LazyVStack(spacing: DS.Spacing.s) {
                         ForEach(response.notifications) { notification in

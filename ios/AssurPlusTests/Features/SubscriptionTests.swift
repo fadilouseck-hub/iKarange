@@ -24,7 +24,8 @@ struct SubscriptionTests {
         let env = AppEnvironment(
             api: api, uploader: ResumableUploader(api: api), cache: SwiftDataCache(inMemory: true),
             settings: AppSettings(defaults: UserDefaults(suiteName: "tests-\(UUID().uuidString)")!), tokens: tokens,
-            biometrics: AlwaysBiometrics(), paymentLauncher: MockPaymentLauncher(), wallet: MockWallet(), isMock: true)
+            biometrics: AlwaysBiometrics(), paymentLauncher: MockPaymentLauncher(), wallet: MockWallet(), isMock: true,
+            language: LanguageSettings(defaults: UserDefaults(suiteName: "lang-\(UUID().uuidString)")!, preferred: ["fr"]))
         let challenge = try await api.sendOTP(phone: "+221781112233", purpose: .register)
         let token = try await api.verifyOTP(requestId: challenge.otpRequestId, code: MockServer.otpCode).verificationToken
         env.session.didAuthenticate(try await api.register(RegisterRequest(

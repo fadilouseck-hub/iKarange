@@ -20,8 +20,8 @@ private struct CardContent: View {
             LoadableContent(value: model.card.value, isLoading: model.card.isLoading, error: model.card.error, retry: { Task { await model.load() } }) { card in
                 if card.beneficiaries.isEmpty {
                     EmptyStateView(
-                        title: String(localized: "Pas encore de carte"),
-                        message: String(localized: "Votre carte tiers-payant sera disponible dès l'activation de votre contrat."),
+                        title: String(localized: "Pas encore de carte", bundle: .appLanguage),
+                        message: String(localized: "Votre carte tiers-payant sera disponible dès l'activation de votre contrat.", bundle: .appLanguage),
                         symbol: "creditcard")
                 } else {
                     VStack(spacing: DS.Spacing.l) {
@@ -99,7 +99,7 @@ struct MemberCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             HStack {
-                Text("ASSUR+").font(.system(.headline, design: .rounded).weight(.heavy))
+                Text(verbatim: Tenant.current.wordmark).font(.system(.headline, design: .rounded).weight(.heavy))
                 Spacer()
                 Text(beneficiary.insurerName).font(.caption.weight(.semibold)).opacity(0.85)
             }
@@ -114,16 +114,18 @@ struct MemberCardView: View {
                 }
             }
             HStack(alignment: .bottom) {
-                field(String(localized: "N° assuré"), beneficiary.memberNumber)
+                field(String(localized: "N° assuré", bundle: .appLanguage), beneficiary.memberNumber)
                 Spacer()
-                field(String(localized: "Contrat"), beneficiary.policyNumber)
+                field(String(localized: "Contrat", bundle: .appLanguage), beneficiary.policyNumber)
             }
             HStack(alignment: .bottom) {
-                field(String(localized: "Formule"), beneficiary.formulaName)
+                if beneficiary.formulaName != beneficiary.policyNumber, !beneficiary.formulaName.isEmpty {
+                    field(String(localized: "Formule", bundle: .appLanguage), beneficiary.formulaName)
+                    Spacer()
+                }
+                field(String(localized: "Couverture", bundle: .appLanguage), Percent.format(beneficiary.coverageRate))
                 Spacer()
-                field(String(localized: "Couverture"), Percent.format(beneficiary.coverageRate))
-                Spacer()
-                field(String(localized: "Valide jusqu'au"), DateText.short(beneficiary.validUntil.date))
+                field(String(localized: "Valide jusqu'au", bundle: .appLanguage), DateText.short(beneficiary.validUntil.date))
             }
             if beneficiary.status.code != "active" {
                 Text(beneficiary.status.label)

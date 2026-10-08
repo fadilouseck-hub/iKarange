@@ -14,6 +14,12 @@ function route(string $uri, string $method): void
         return;
     }
 
+    // Mobile API (Assur Plus apps): token-authenticated, self-contained router.
+    if (str_starts_with($path, '/api/mobile/v1/')) {
+        require basePath('src/api/mobile/index.php');
+        mobileRoute($path, $method);
+    }
+
     $routes = [
         // ── Pages ──
         'GET /'                              => 'pages/dashboard.php',

@@ -89,7 +89,7 @@ private struct VaultContent: View {
             Section {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: DS.Spacing.s) {
-                        chip(nil, label: String(localized: "Tous"), symbol: "tray.full")
+                        chip(nil, label: String(localized: "Tous", bundle: .appLanguage), symbol: "tray.full")
                         ForEach(VaultCategory.allCases) { chip($0, label: $0.label, symbol: $0.symbol) }
                     }
                     .padding(.vertical, DS.Spacing.xs)
@@ -111,7 +111,7 @@ private struct VaultContent: View {
                 if model.resource.value == nil && model.resource.isLoading {
                     ForEach(0..<3, id: \.self) { _ in SkeletonBlock(height: 44) }
                 } else if model.documents.isEmpty {
-                    EmptyStateView(title: String(localized: "Aucun document"), message: String(localized: "Ajoutez vos ordonnances, analyses, radios et carnets de vaccination."), symbol: "lock.doc")
+                    EmptyStateView(title: String(localized: "Aucun document", bundle: .appLanguage), message: String(localized: "Ajoutez vos ordonnances, analyses, radios et carnets de vaccination.", bundle: .appLanguage), symbol: "lock.doc")
                         .listRowBackground(Color.clear)
                 }
                 ForEach(model.documents) { document in
@@ -139,7 +139,7 @@ private struct VaultContent: View {
                 }
             }
         }
-        .documentPicker(isPresented: $showPicker, title: String(localized: "Ajouter un document"), baseName: "document") { pending = $0 }
+        .documentPicker(isPresented: $showPicker, title: String(localized: "Ajouter un document", bundle: .appLanguage), baseName: "document") { pending = $0 }
         .sheet(isPresented: Binding(get: { pending != nil }, set: { if !$0 { pending = nil } })) {
             if let pending {
                 VaultDocumentForm(document: pending, initialCategory: model.category ?? .prescription) { title, category in

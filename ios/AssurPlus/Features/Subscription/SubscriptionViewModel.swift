@@ -13,14 +13,14 @@ final class SubscriptionViewModel {
 
         var title: String {
             switch self {
-            case .identification: String(localized: "Identification")
-            case .personal: String(localized: "Informations personnelles")
-            case .health: String(localized: "Questionnaire de santé")
-            case .guarantees: String(localized: "Garanties")
-            case .premium: String(localized: "Votre prime")
-            case .validation: String(localized: "Validation")
-            case .payment: String(localized: "Paiement")
-            case .confirmation: String(localized: "Confirmation")
+            case .identification: String(localized: "Identification", bundle: .appLanguage)
+            case .personal: String(localized: "Informations personnelles", bundle: .appLanguage)
+            case .health: String(localized: "Questionnaire de santé", bundle: .appLanguage)
+            case .guarantees: String(localized: "Garanties", bundle: .appLanguage)
+            case .premium: String(localized: "Votre prime", bundle: .appLanguage)
+            case .validation: String(localized: "Validation", bundle: .appLanguage)
+            case .payment: String(localized: "Paiement", bundle: .appLanguage)
+            case .confirmation: String(localized: "Confirmation", bundle: .appLanguage)
             }
         }
     }

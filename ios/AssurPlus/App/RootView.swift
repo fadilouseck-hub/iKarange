@@ -84,12 +84,12 @@ struct BrandMark: View {
                     .foregroundStyle(DS.Palette.mint)
             }
             .frame(width: size, height: size)
-            Text("ASSUR+")
+            Text(verbatim: Tenant.current.wordmark)
                 .font(.system(size: size * 0.42, weight: .heavy, design: .rounded))
                 .foregroundStyle(DS.Palette.primary)
         }
         .accessibilityElement()
-        .accessibilityLabel(Text("ASSUR+"))
+        .accessibilityLabel(Text(verbatim: Tenant.current.displayName))
     }
 }
 
@@ -122,7 +122,7 @@ struct LockView: View {
     }
 
     private func unlock() async {
-        if await env.biometrics.authenticate(reason: String(localized: "Déverrouiller ASSUR+")) {
+        if await env.biometrics.authenticate(reason: String(localized: "Déverrouiller \(Tenant.current.displayName)", bundle: .appLanguage)) {
             env.session.unlock()
         } else {
             failed = true

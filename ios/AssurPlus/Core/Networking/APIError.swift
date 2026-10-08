@@ -18,17 +18,17 @@ enum APIError: Error, Equatable, Sendable {
         case .server(_, _, let message, _):
             message
         case .unauthorized:
-            String(localized: "Votre session a expiré. Veuillez vous reconnecter.")
+            String(localized: "Votre session a expiré. Veuillez vous reconnecter.", bundle: .appLanguage)
         case .offline:
-            String(localized: "Pas de connexion internet. Les données affichées peuvent ne pas être à jour.")
+            String(localized: "Pas de connexion internet. Les données affichées peuvent ne pas être à jour.", bundle: .appLanguage)
         case .timeout:
-            String(localized: "Le réseau est lent. Veuillez réessayer.")
+            String(localized: "Le réseau est lent. Veuillez réessayer.", bundle: .appLanguage)
         case .decoding, .invalidResponse:
-            String(localized: "Réponse inattendue du serveur. Veuillez réessayer plus tard.")
+            String(localized: "Réponse inattendue du serveur. Veuillez réessayer plus tard.", bundle: .appLanguage)
         case .transport:
-            String(localized: "Une erreur réseau est survenue. Veuillez réessayer.")
+            String(localized: "Une erreur réseau est survenue. Veuillez réessayer.", bundle: .appLanguage)
         case .cancelled:
-            String(localized: "Opération annulée.")
+            String(localized: "Opération annulée.", bundle: .appLanguage)
         }
     }
 

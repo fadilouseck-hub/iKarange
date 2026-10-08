@@ -58,7 +58,7 @@ private struct ClaimDetailContent: View {
                     header(claim)
                     if let error = model.error { MessageBanner(message: Message(level: .error, text: error.userMessage)) }
                     if let reason = claim.rejectionReason {
-                        MessageBanner(message: Message(level: .error, text: String(localized: "Motif du rejet : \(reason)")))
+                        MessageBanner(message: Message(level: .error, text: String(localized: "Motif du rejet : \(reason)", bundle: .appLanguage)))
                     }
                     if !claim.documentRequests.isEmpty { requests(claim) }
                     if let settlement = claim.settlement { SettlementCard(settlement: settlement) }
@@ -81,7 +81,7 @@ private struct ClaimDetailContent: View {
                 await model.resource.load()
             }
         }
-        .documentPicker(isPresented: $showPicker, title: String(localized: "Ajouter la pièce demandée"), baseName: "piece") { document in
+        .documentPicker(isPresented: $showPicker, title: String(localized: "Ajouter la pièce demandée", bundle: .appLanguage), baseName: "piece") { document in
             if let requestId = pickerRequestId { Task { await model.send(document, for: requestId) } }
         }
     }
@@ -97,12 +97,12 @@ private struct ClaimDetailContent: View {
                 StatusBadge(claim.status).accessibilityIdentifier("claimDetail.status")
             }
             if let number = claim.number {
-                InfoRow(label: String(localized: "N° de sinistre"), value: number, emphasized: true)
+                InfoRow(label: String(localized: "N° de sinistre", bundle: .appLanguage), value: number, emphasized: true)
                     .accessibilityIdentifier("claimDetail.number")
             }
-            InfoRow(label: String(localized: "Déclaré le"), value: DateText.dateTime(claim.submittedAt ?? claim.createdAt))
+            InfoRow(label: String(localized: "Déclaré le", bundle: .appLanguage), value: DateText.dateTime(claim.submittedAt ?? claim.createdAt))
             if let total = claim.fields.first(where: { $0.key == "total" }).flatMap({ Int($0.value) }) {
-                InfoRow(label: String(localized: "Montant déclaré"), value: Money.format(total))
+                InfoRow(label: String(localized: "Montant déclaré", bundle: .appLanguage), value: Money.format(total))
             }
         }
         .card()
@@ -110,7 +110,7 @@ private struct ClaimDetailContent: View {
 
     private func requests(_ claim: Claim) -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            SectionHeader(title: String(localized: "Pièces complémentaires demandées"))
+            SectionHeader(title: String(localized: "Pièces complémentaires demandées", bundle: .appLanguage))
             ForEach(claim.documentRequests) { request in
                 HStack {
                     Image(systemName: request.fulfilled ? "checkmark.circle.fill" : "doc.badge.plus")
@@ -138,7 +138,7 @@ private struct ClaimDetailContent: View {
 
     private func timeline(_ claim: Claim) -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            SectionHeader(title: String(localized: "Suivi"))
+            SectionHeader(title: String(localized: "Suivi", bundle: .appLanguage))
             ForEach(Array(claim.timeline.reversed().enumerated()), id: \.element.id) { index, event in
                 HStack(alignment: .top, spacing: DS.Spacing.m) {
                     VStack(spacing: 0) {
@@ -167,7 +167,7 @@ private struct ClaimDetailContent: View {
 
     private func details(_ claim: Claim) -> some View {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            SectionHeader(title: String(localized: "Informations du justificatif"))
+            SectionHeader(title: String(localized: "Informations du justificatif", bundle: .appLanguage))
             ForEach(claim.fields) { field in
                 InfoRow(label: field.label, value: field.key == "total" ? (Int(field.value).map(Money.format) ?? field.value) : field.value)
             }
@@ -192,14 +192,18 @@ struct SettlementCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            SectionHeader(title: String(localized: "Calcul de la prise en charge"))
-            InfoRow(label: String(localized: "Montant facturé"), value: Money.format(settlement.billedAmount))
-            InfoRow(label: String(localized: "Montant couvert"), value: Money.format(settlement.coveredAmount))
-            InfoRow(label: String(localized: "Taux de remboursement"), value: Percent.format(settlement.reimbursementRate))
-            InfoRow(label: String(localized: "Franchise"), value: Money.format(settlement.deductible))
+            SectionHeader(title: String(localized: "Calcul de la prise en charge", bundle: .appLanguage))
+            InfoRow(label: String(localized: "Montant facturé", bundle: .appLanguage), value: Money.format(settlement.billedAmount))
+            if let covered = settlement.coveredAmount {
+                InfoRow(label: String(localized: "Montant couvert", bundle: .appLanguage), value: Money.format(covered))
+            }
+            InfoRow(label: String(localized: "Taux de remboursement", bundle: .appLanguage), value: Percent.format(settlement.reimbursementRate))
+            if let deductible = settlement.deductible {
+                InfoRow(label: String(localized: "Franchise", bundle: .appLanguage), value: Money.format(deductible))
+            }
             Divider()
-            InfoRow(label: String(localized: "Payé par l'assureur"), value: Money.format(settlement.insurerAmount), emphasized: true)
-            InfoRow(label: String(localized: "Reste à charge"), value: Money.format(settlement.remainingAmount), emphasized: true)
+            InfoRow(label: String(localized: "Payé par l'assureur", bundle: .appLanguage), value: Money.format(settlement.insurerAmount), emphasized: true)
+            InfoRow(label: String(localized: "Reste à charge", bundle: .appLanguage), value: Money.format(settlement.remainingAmount), emphasized: true)
         }
         .card()
         .accessibilityIdentifier("claimDetail.settlement")

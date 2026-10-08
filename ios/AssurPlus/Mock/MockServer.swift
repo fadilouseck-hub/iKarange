@@ -1,3 +1,4 @@
+import CoreLocation
 import Foundation
 
 /// In-process fake backend for the MockAPI configuration and UI tests. It implements the OpenAPI contract
@@ -341,7 +342,8 @@ actor MockServer: HTTPTransport {
             return try json(OTPVerification(verificationToken: token))
         case (.post, "login"):
             let login = try body(LoginRequest.self, request)
-            let phone = PhoneNumber.e164(login.phone) ?? login.phone
+            let raw = login.phone ?? login.identifier ?? ""
+            let phone = PhoneNumber.e164(raw) ?? raw
             let match: Account?
             if let token = login.verificationToken {
                 match = verifications[token] == phone ? accounts.values.first { $0.me.phone == phone } : nil
@@ -783,7 +785,7 @@ actor MockServer: HTTPTransport {
             Provider(
                 id: provider.id, name: provider.name, type: provider.type, specialty: provider.specialty, address: provider.address,
                 city: provider.city, phone: provider.phone, latitude: provider.latitude, longitude: provider.longitude,
-                distanceMeters: Int(Self.distance(lat, lng, provider.latitude, provider.longitude)),
+                distanceMeters: provider.coordinate.map { Int(Self.distance(lat, lng, $0.latitude, $0.longitude)) },
                 tiersPayant: provider.tiersPayant, openingHours: provider.openingHours)
         }
         .filter { radius == nil || Double($0.distanceMeters ?? 0) <= radius! }

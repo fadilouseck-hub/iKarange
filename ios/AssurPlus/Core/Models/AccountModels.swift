@@ -28,8 +28,8 @@ enum Gender: String, Codable, Sendable, CaseIterable, Identifiable {
     var id: String { rawValue }
     var label: String {
         switch self {
-        case .female: String(localized: "Femme")
-        case .male: String(localized: "Homme")
+        case .female: String(localized: "Femme", bundle: .appLanguage)
+        case .male: String(localized: "Homme", bundle: .appLanguage)
         }
     }
 }
@@ -91,7 +91,10 @@ struct OTPVerification: Codable, Sendable {
 }
 
 struct LoginRequest: Codable, Sendable {
-    let phone: String
+    /// E.164 phone number (phone-login tenants).
+    var phone: String?
+    /// Username / member login (username-login tenants).
+    var identifier: String?
     var password: String?
     var verificationToken: String?
 }

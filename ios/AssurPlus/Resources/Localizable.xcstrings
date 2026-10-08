@@ -1,5 +1,4124 @@
 {
-  "sourceLanguage" : "fr",
-  "strings" : {},
-  "version" : "1.0"
+  "sourceLanguage": "fr",
+  "strings": {
+    "": {
+      "shouldTranslate": false
+    },
+    "%@ %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ %2$@"
+          }
+        }
+      },
+      "shouldTranslate": false
+    },
+    "%@ (%@)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ (%2$@)"
+          }
+        }
+      },
+      "shouldTranslate": false
+    },
+    "%@ · %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ · %2$@"
+          }
+        }
+      },
+      "shouldTranslate": false
+    },
+    "%@ · né(e) le %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · born %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ · né(e) le %2$@"
+          }
+        }
+      }
+    },
+    "%@ × %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ × %2$@"
+          }
+        }
+      },
+      "shouldTranslate": false
+    },
+    "%@%@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@%2$@"
+          }
+        }
+      },
+      "shouldTranslate": false
+    },
+    "%@, %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@, %2$@"
+          }
+        }
+      },
+      "shouldTranslate": false
+    },
+    "%@, étape %lld sur %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, step %lld of %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@, étape %2$lld sur %3$lld"
+          }
+        }
+      }
+    },
+    "%lld": {
+      "shouldTranslate": false
+    },
+    "%lld %%": {
+      "shouldTranslate": false
+    },
+    "%lld information(s) à vérifier en priorité (surlignées).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld item(s) to check first (highlighted)."
+          }
+        }
+      }
+    },
+    "77 123 45 67": {
+      "shouldTranslate": false
+    },
+    "8 caractères minimum.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At least 8 characters."
+          }
+        }
+      }
+    },
+    "Accepté": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accepted"
+          }
+        }
+      }
+    },
+    "Accueil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        }
+      }
+    },
+    "Acte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Service"
+          }
+        }
+      }
+    },
+    "Acte de naissance, certificat de mariage… La demande est validée par votre gestionnaire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birth certificate, marriage certificate… Your account manager validates the request."
+          }
+        }
+      }
+    },
+    "Acte ou médicament": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Service or medicine"
+          }
+        }
+      }
+    },
+    "Actes et médicaments": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Services and medicines"
+          }
+        }
+      }
+    },
+    "Activer le déverrouillage biométrique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on biometric unlock"
+          }
+        }
+      }
+    },
+    "Adresse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Address"
+          }
+        }
+      }
+    },
+    "Adresse e-mail invalide.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid email address."
+          }
+        }
+      }
+    },
+    "Affichage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
+          }
+        }
+      }
+    },
+    "Aide et informations": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help and information"
+          }
+        }
+      }
+    },
+    "Ajout de %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adding %@"
+          }
+        }
+      }
+    },
+    "Ajouter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        }
+      }
+    },
+    "Ajouter la pièce demandée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add the requested document"
+          }
+        }
+      }
+    },
+    "Ajouter le justificatif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add the receipt"
+          }
+        }
+      }
+    },
+    "Ajouter un ayant droit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a dependant"
+          }
+        }
+      }
+    },
+    "Ajouter un document": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a document"
+          }
+        }
+      }
+    },
+    "Ajouter un justificatif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a supporting document"
+          }
+        }
+      }
+    },
+    "Ajoutez vos ordonnances, analyses, radios et carnets de vaccination.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add your prescriptions, lab results, X-rays and vaccination records."
+          }
+        }
+      }
+    },
+    "Ajoutez votre conjoint(e) ou vos enfants pour les couvrir.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add your spouse or children to cover them."
+          }
+        }
+      }
+    },
+    "Ajoutez votre conjoint(e) ou vos enfants à votre contrat.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add your spouse or children to your policy."
+          }
+        }
+      }
+    },
+    "Aller à l'accueil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to home"
+          }
+        }
+      }
+    },
+    "Analyses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lab results"
+          }
+        }
+      }
+    },
+    "Annuler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "Aperçu du document": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Document preview"
+          }
+        }
+      }
+    },
+    "Aperçu du justificatif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Receipt preview"
+          }
+        }
+      }
+    },
+    "Apparence": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        }
+      }
+    },
+    "Appeler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Call"
+          }
+        }
+      }
+    },
+    "Appeler le support": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Call support"
+          }
+        }
+      }
+    },
+    "Application verrouillée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App locked"
+          }
+        }
+      }
+    },
+    "Assureur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insurer"
+          }
+        }
+      }
+    },
+    "Assuré principal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Main policyholder"
+          }
+        }
+      }
+    },
+    "Aucun ayant droit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No dependants"
+          }
+        }
+      }
+    },
+    "Aucun contrat actif.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No active policy."
+          }
+        }
+      }
+    },
+    "Aucun document": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No documents"
+          }
+        }
+      }
+    },
+    "Aucun lien de paiement reçu.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No payment link received."
+          }
+        }
+      }
+    },
+    "Aucun paiement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No payments"
+          }
+        }
+      }
+    },
+    "Aucun prestataire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No providers"
+          }
+        }
+      }
+    },
+    "Aucun sinistre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No claims"
+          }
+        }
+      }
+    },
+    "Aucun sinistre déclaré pour le moment.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No claims submitted yet."
+          }
+        }
+      }
+    },
+    "Aucune biométrie configurée sur cet appareil.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No biometrics set up on this device."
+          }
+        }
+      }
+    },
+    "Aucune ligne détectée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No lines detected."
+          }
+        }
+      }
+    },
+    "Aucune notification": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No notifications"
+          }
+        }
+      }
+    },
+    "Authentification échouée. Réessayez ou reconnectez-vous.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Authentication failed. Try again or sign in again."
+          }
+        }
+      }
+    },
+    "Automatique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic"
+          }
+        }
+      }
+    },
+    "Autour de moi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Near me"
+          }
+        }
+      }
+    },
+    "Autre ayant droit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other dependant"
+          }
+        }
+      }
+    },
+    "Autres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
+          }
+        }
+      }
+    },
+    "Ayant droit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dependant"
+          }
+        }
+      }
+    },
+    "Ayants droit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dependants"
+          }
+        }
+      }
+    },
+    "Bienvenue chez %@ !": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome to %@!"
+          }
+        }
+      }
+    },
+    "Bonjour %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hello %@"
+          }
+        }
+      }
+    },
+    "Brouillon": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Draft"
+          }
+        }
+      }
+    },
+    "Bénéficiaire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beneficiary"
+          }
+        }
+      }
+    },
+    "Bénéficiaires": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beneficiaries"
+          }
+        }
+      }
+    },
+    "Calcul de la prise en charge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coverage calculation"
+          }
+        }
+      }
+    },
+    "Carte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Card"
+          }
+        }
+      }
+    },
+    "Carte ajoutée à Cartes (Wallet) — démonstration.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Card added to Wallet — demo."
+          }
+        }
+      }
+    },
+    "Carte ajoutée à Cartes (Wallet).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Card added to Wallet."
+          }
+        }
+      }
+    },
+    "Carte tiers-payant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direct billing card"
+          }
+        }
+      }
+    },
+    "Carte tiers-payant, remboursements et réseau de soins dans votre poche.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direct billing card, reimbursements and care network in your pocket."
+          }
+        }
+      }
+    },
+    "Cartes (Wallet) n'est pas disponible sur cet appareil.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wallet is not available on this device."
+          }
+        }
+      }
+    },
+    "Catégorie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category"
+          }
+        }
+      }
+    },
+    "Cela prend généralement moins de 15 secondes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This usually takes less than 15 seconds."
+          }
+        }
+      }
+    },
+    "Cette carte est déjà dans Cartes (Wallet).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This card is already in Wallet."
+          }
+        }
+      }
+    },
+    "Changer la photo de profil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change profile photo"
+          }
+        }
+      }
+    },
+    "Changer le mot de passe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change password"
+          }
+        }
+      }
+    },
+    "Chargement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading"
+          }
+        }
+      }
+    },
+    "Choisir une photo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a photo"
+          }
+        }
+      }
+    },
+    "Choisir…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose…"
+          }
+        }
+      }
+    },
+    "Choisissez une formule, obtenez votre devis et payez par Wave, Orange Money ou carte. Moins de 3 minutes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a plan, get your quote and pay with Wave, Orange Money or card. Under 3 minutes."
+          }
+        }
+      }
+    },
+    "Clair": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
+        }
+      }
+    },
+    "Cliniques": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clinics"
+          }
+        }
+      }
+    },
+    "Clôturé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Closed"
+          }
+        }
+      }
+    },
+    "Code SMS": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SMS code"
+          }
+        }
+      }
+    },
+    "Code de vérification à 6 chiffres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "6-digit verification code"
+          }
+        }
+      }
+    },
+    "Coffre santé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Health vault"
+          }
+        }
+      }
+    },
+    "Conditions générales d'utilisation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terms of use"
+          }
+        }
+      }
+    },
+    "Conditions particulières": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Policy conditions"
+          }
+        }
+      }
+    },
+    "Confiance %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confidence %@"
+          }
+        }
+      }
+    },
+    "Confiance faible, à vérifier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Low confidence, please check"
+          }
+        }
+      }
+    },
+    "Confirmation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmation"
+          }
+        }
+      }
+    },
+    "Confirmation du paiement en cours…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirming payment…"
+          }
+        }
+      }
+    },
+    "Confirmez": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm"
+          }
+        }
+      }
+    },
+    "Conjoint(e)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spouse"
+          }
+        }
+      }
+    },
+    "Connexion": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in"
+          }
+        }
+      }
+    },
+    "Consommé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used"
+          }
+        }
+      }
+    },
+    "Consulter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
+          }
+        }
+      }
+    },
+    "Continuer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        }
+      }
+    },
+    "Contrat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Policy"
+          }
+        }
+      }
+    },
+    "Coordonnées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contact details"
+          }
+        }
+      }
+    },
+    "Couverture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coverage"
+          }
+        }
+      }
+    },
+    "Créer mon compte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create my account"
+          }
+        }
+      }
+    },
+    "Créer un compte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create an account"
+          }
+        }
+      }
+    },
+    "Créer un mot de passe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a password"
+          }
+        }
+      }
+    },
+    "Dakar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dakar"
+          }
+        }
+      }
+    },
+    "Date": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date"
+          }
+        }
+      }
+    },
+    "Date de naissance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date of birth"
+          }
+        }
+      }
+    },
+    "Demande d'ajout de %@ envoyée. %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request to add %@ sent. %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Demande d'ajout de %1$@ envoyée. %2$@."
+          }
+        }
+      }
+    },
+    "Demande de retrait de %@ envoyée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request to remove %@ sent."
+          }
+        }
+      }
+    },
+    "Demande de résiliation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancellation request"
+          }
+        }
+      }
+    },
+    "Demander la résiliation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request cancellation"
+          }
+        }
+      }
+    },
+    "Demander la suppression": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request deletion"
+          }
+        }
+      }
+    },
+    "Demander le retrait": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request removal"
+          }
+        }
+      }
+    },
+    "Demandes en cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pending requests"
+          }
+        }
+      }
+    },
+    "Derniers sinistres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent claims"
+          }
+        }
+      }
+    },
+    "Devis valable jusqu'au %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quote valid until %@"
+          }
+        }
+      }
+    },
+    "Distance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distance"
+          }
+        }
+      }
+    },
+    "Documents chiffrés, visibles uniquement par vous.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encrypted documents, visible only to you."
+          }
+        }
+      }
+    },
+    "Documents demandés": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Required documents"
+          }
+        }
+      }
+    },
+    "Début": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        }
+      }
+    },
+    "Début de couverture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coverage start"
+          }
+        }
+      }
+    },
+    "Déclaration envoyée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claim submitted"
+          }
+        }
+      }
+    },
+    "Déclarer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New claim"
+          }
+        }
+      }
+    },
+    "Déclarer un sinistre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submit a claim"
+          }
+        }
+      }
+    },
+    "Déclaré le": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submitted on"
+          }
+        }
+      }
+    },
+    "Détail de la prime": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Premium breakdown"
+          }
+        }
+      }
+    },
+    "Déverrouiller %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock %@"
+          }
+        }
+      }
+    },
+    "Déverrouiller avec %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock with %@"
+          }
+        }
+      }
+    },
+    "E-mail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email"
+          }
+        }
+      }
+    },
+    "E-mail (facultatif)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email (optional)"
+          }
+        }
+      }
+    },
+    "En analyse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Under review"
+          }
+        }
+      }
+    },
+    "En cours": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In progress"
+          }
+        }
+      }
+    },
+    "Enfant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Child"
+          }
+        }
+      }
+    },
+    "Enregistrer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        }
+      }
+    },
+    "Enregistrer et se connecter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save and sign in"
+          }
+        }
+      }
+    },
+    "Envoi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upload"
+          }
+        }
+      }
+    },
+    "Envoi du document…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uploading document…"
+          }
+        }
+      }
+    },
+    "Envoi du justificatif…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uploading receipt…"
+          }
+        }
+      }
+    },
+    "Envoyer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send"
+          }
+        }
+      }
+    },
+    "Envoyer la demande": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send request"
+          }
+        }
+      }
+    },
+    "Envoyer la déclaration": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submit claim"
+          }
+        }
+      }
+    },
+    "Erreur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error"
+          }
+        }
+      }
+    },
+    "Exclusions et carences": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exclusions and waiting periods"
+          }
+        }
+      }
+    },
+    "Famille": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Family"
+          }
+        }
+      }
+    },
+    "Femme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Female"
+          }
+        }
+      }
+    },
+    "Fermer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        }
+      }
+    },
+    "Filtre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter"
+          }
+        }
+      }
+    },
+    "Fin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End"
+          }
+        }
+      }
+    },
+    "Formule": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plan"
+          }
+        }
+      }
+    },
+    "Formule %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ plan"
+          }
+        }
+      }
+    },
+    "Franchise": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deductible"
+          }
+        }
+      }
+    },
+    "Garanties": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coverage"
+          }
+        }
+      }
+    },
+    "Génération du QR code…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Generating QR code…"
+          }
+        }
+      }
+    },
+    "Gérer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage"
+          }
+        }
+      }
+    },
+    "Heureux de vous revoir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome back"
+          }
+        }
+      }
+    },
+    "Homme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Male"
+          }
+        }
+      }
+    },
+    "Horaires": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opening hours"
+          }
+        }
+      }
+    },
+    "Hors ligne — données enregistrées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline — saved data"
+          }
+        }
+      }
+    },
+    "Hôpitaux": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hospitals"
+          }
+        }
+      }
+    },
+    "Identifiant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Username"
+          }
+        }
+      }
+    },
+    "Identification": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identification"
+          }
+        }
+      }
+    },
+    "Importer un fichier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import a file"
+          }
+        }
+      }
+    },
+    "Impossible d'ouvrir l'application de paiement.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to open the payment app."
+          }
+        }
+      }
+    },
+    "Impossible d'ouvrir la page de paiement.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to open the payment page."
+          }
+        }
+      }
+    },
+    "Impossible de charger": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to load"
+          }
+        }
+      }
+    },
+    "Informations du justificatif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Receipt details"
+          }
+        }
+      }
+    },
+    "Informations personnelles": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal information"
+          }
+        }
+      }
+    },
+    "Itinéraire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Directions"
+          }
+        }
+      }
+    },
+    "J'accepte les conditions générales d'utilisation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I accept the terms of use"
+          }
+        }
+      }
+    },
+    "J'ai lu et j'accepte les conditions particulières": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I have read and accept the policy conditions"
+          }
+        }
+      }
+    },
+    "Justificatif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Receipt"
+          }
+        }
+      }
+    },
+    "Justificatifs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supporting documents"
+          }
+        }
+      }
+    },
+    "L'envoi reprend automatiquement si la connexion est interrompue.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The upload resumes automatically if the connection drops."
+          }
+        }
+      }
+    },
+    "La carte reçue n'a pas pu être ajoutée à Cartes (Wallet).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The card could not be added to Wallet."
+          }
+        }
+      }
+    },
+    "Laboratoires": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laboratories"
+          }
+        }
+      }
+    },
+    "Langue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        }
+      }
+    },
+    "Le retrait sera effectif après validation par votre gestionnaire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The removal takes effect once your account manager validates it."
+          }
+        }
+      }
+    },
+    "Le réseau est lent. Veuillez réessayer.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The network is slow. Please try again."
+          }
+        }
+      }
+    },
+    "Le service est momentanément indisponible. Veuillez réessayer.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The service is temporarily unavailable. Please try again."
+          }
+        }
+      }
+    },
+    "Lecture automatique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic reading"
+          }
+        }
+      }
+    },
+    "Lecture automatique de votre justificatif…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading your receipt…"
+          }
+        }
+      }
+    },
+    "Lecture réussie. Corrigez si besoin avant d'envoyer.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading complete. Correct anything needed before submitting."
+          }
+        }
+      }
+    },
+    "Les 4 coins doivent être visibles": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All 4 corners must be visible"
+          }
+        }
+      }
+    },
+    "Les données enregistrées sur cet appareil seront effacées.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data saved on this device will be erased."
+          }
+        }
+      }
+    },
+    "Les montants pris en charge et le reste à charge seront calculés par votre assureur après analyse.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your insurer calculates the covered amount and your share after review."
+          }
+        }
+      }
+    },
+    "Les mots de passe ne correspondent pas.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords don't match."
+          }
+        }
+      }
+    },
+    "Lien": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relationship"
+          }
+        }
+      }
+    },
+    "Lire les CGU (version %@)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read the terms (version %@)"
+          }
+        }
+      }
+    },
+    "Liste": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "List"
+          }
+        }
+      }
+    },
+    "Localisation refusée. Activez-la dans Réglages pour trier par distance.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location denied. Turn it on in Settings to sort by distance."
+          }
+        }
+      }
+    },
+    "Ma carte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My card"
+          }
+        }
+      }
+    },
+    "Ma famille": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My family"
+          }
+        }
+      }
+    },
+    "Mise à jour impossible": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to update"
+          }
+        }
+      }
+    },
+    "Modifiez les filtres ou élargissez la distance.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change the filters or widen the distance."
+          }
+        }
+      }
+    },
+    "Mon compte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My account"
+          }
+        }
+      }
+    },
+    "Mon contrat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My policy"
+          }
+        }
+      }
+    },
+    "Montant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amount"
+          }
+        }
+      }
+    },
+    "Montant couvert": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Covered amount"
+          }
+        }
+      }
+    },
+    "Montant déclaré": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claimed amount"
+          }
+        }
+      }
+    },
+    "Montant facturé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Billed amount"
+          }
+        }
+      }
+    },
+    "Montant total": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total amount"
+          }
+        }
+      }
+    },
+    "Montant à payer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amount due"
+          }
+        }
+      }
+    },
+    "Mot de passe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password"
+          }
+        }
+      }
+    },
+    "Mot de passe (8 caractères min.)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password (min. 8 characters)"
+          }
+        }
+      }
+    },
+    "Mot de passe actuel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current password"
+          }
+        }
+      }
+    },
+    "Mot de passe modifié.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password changed."
+          }
+        }
+      }
+    },
+    "Mot de passe oublié": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forgot password"
+          }
+        }
+      }
+    },
+    "Mot de passe oublié ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forgot password?"
+          }
+        }
+      }
+    },
+    "Mot de passe oublié ? Contactez votre gestionnaire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forgot your password? Contact your account manager."
+          }
+        }
+      }
+    },
+    "Motif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reason"
+          }
+        }
+      }
+    },
+    "Motif (facultatif)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reason (optional)"
+          }
+        }
+      }
+    },
+    "Motif du rejet : %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reason for rejection: %@"
+          }
+        }
+      }
+    },
+    "Motif du retrait": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reason for removal"
+          }
+        }
+      }
+    },
+    "Moyen": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Method"
+          }
+        }
+      }
+    },
+    "Moyen de paiement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Payment method"
+          }
+        }
+      }
+    },
+    "Médecins": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doctors"
+          }
+        }
+      }
+    },
+    "Méthode": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Method"
+          }
+        }
+      }
+    },
+    "Nom": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last name"
+          }
+        }
+      }
+    },
+    "Nom, ville, spécialité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name, city, specialty"
+          }
+        }
+      }
+    },
+    "Non": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No"
+          }
+        }
+      }
+    },
+    "Non lue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unread"
+          }
+        }
+      }
+    },
+    "Non éligible": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not eligible"
+          }
+        }
+      }
+    },
+    "Notification push": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push notification"
+          }
+        }
+      }
+    },
+    "Notifications": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        }
+      }
+    },
+    "Notifications, %lld non lues": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications, %lld unread"
+          }
+        }
+      }
+    },
+    "Nous vous enverrons un code à 6 chiffres par SMS.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We'll send you a 6-digit code by SMS."
+          }
+        }
+      }
+    },
+    "Nouveau document": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New document"
+          }
+        }
+      }
+    },
+    "Nouveau mot de passe (8 caractères min.)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New password (min. 8 characters)"
+          }
+        }
+      }
+    },
+    "Numéro de sinistre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claim number"
+          }
+        }
+      }
+    },
+    "Numéro de téléphone": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phone number"
+          }
+        }
+      }
+    },
+    "Numéro de téléphone invalide.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid phone number."
+          }
+        }
+      }
+    },
+    "Numéro de téléphone, indicatif plus 221": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phone number, country code plus 221"
+          }
+        }
+      }
+    },
+    "Numéro sénégalais à 9 chiffres attendu.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A 9-digit Senegalese number is expected."
+          }
+        }
+      }
+    },
+    "N° %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No. %@"
+          }
+        }
+      }
+    },
+    "N° assuré": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Member no."
+          }
+        }
+      }
+    },
+    "N° d'assuré": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Member no."
+          }
+        }
+      }
+    },
+    "N° de contrat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Policy no."
+          }
+        }
+      }
+    },
+    "N° de facture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invoice no."
+          }
+        }
+      }
+    },
+    "N° de sinistre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claim no."
+          }
+        }
+      }
+    },
+    "Né(e) le %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Born %@"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "Opération annulée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operation cancelled."
+          }
+        }
+      }
+    },
+    "Ordonnances": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prescriptions"
+          }
+        }
+      }
+    },
+    "Oui": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yes"
+          }
+        }
+      }
+    },
+    "Ouverture de %@…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opening %@…"
+          }
+        }
+      }
+    },
+    "Ouvre le détail du contrat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the policy details"
+          }
+        }
+      }
+    },
+    "Paiement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Payment"
+          }
+        }
+      }
+    },
+    "Paiement sécurisé. Le statut est confirmé par l'opérateur avant activation.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secure payment. The provider confirms the status before activation."
+          }
+        }
+      }
+    },
+    "Paiement toujours en attente de confirmation. Vous serez notifié dès sa validation.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Payment still awaiting confirmation. You'll be notified once it's confirmed."
+          }
+        }
+      }
+    },
+    "Paiements": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Payments"
+          }
+        }
+      }
+    },
+    "Partager": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
+          }
+        }
+      }
+    },
+    "Pas de connexion internet. Les données affichées peuvent ne pas être à jour.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No internet connection. The data shown may be out of date."
+          }
+        }
+      }
+    },
+    "Pas encore de carte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No card yet"
+          }
+        }
+      }
+    },
+    "Patient": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Patient"
+          }
+        }
+      }
+    },
+    "Payer %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pay %@"
+          }
+        }
+      }
+    },
+    "Payé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paid"
+          }
+        }
+      }
+    },
+    "Payé par l'assureur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paid by the insurer"
+          }
+        }
+      }
+    },
+    "Pharmacies": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pharmacies"
+          }
+        }
+      }
+    },
+    "Photo mise à jour. Elle apparaîtra sur votre carte après validation.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photo updated. It will appear on your card once validated."
+          }
+        }
+      }
+    },
+    "Photographiez la facture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photograph the invoice"
+          }
+        }
+      }
+    },
+    "Photographiez une facture pour déclarer vos frais de santé.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photograph an invoice to claim your healthcare costs."
+          }
+        }
+      }
+    },
+    "Pièces complémentaires demandées": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Additional documents requested"
+          }
+        }
+      }
+    },
+    "Plafond consommé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit used"
+          }
+        }
+      }
+    },
+    "Plafond disponible": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remaining limit"
+          }
+        }
+      }
+    },
+    "Plusieurs pages ? Scannez-les à la suite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Several pages? Scan them one after another"
+          }
+        }
+      }
+    },
+    "Politique de confidentialité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy policy"
+          }
+        }
+      }
+    },
+    "Posez le document à plat, bien éclairé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lay the document flat in good light"
+          }
+        }
+      }
+    },
+    "Position approximative sur la carte : l'itinéraire utilise l'adresse.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Approximate position on the map: directions use the address."
+          }
+        }
+      }
+    },
+    "Position mise à jour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location updated"
+          }
+        }
+      }
+    },
+    "Pour changer de numéro, contactez le support.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To change your number, contact support."
+          }
+        }
+      }
+    },
+    "Pour qui sont ces soins ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Who received the care?"
+          }
+        }
+      }
+    },
+    "Prestataire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provider"
+          }
+        }
+      }
+    },
+    "Prime": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Premium"
+          }
+        }
+      }
+    },
+    "Prime %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Premium %@"
+          }
+        }
+      }
+    },
+    "Prime estimée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estimated premium"
+          }
+        }
+      }
+    },
+    "Prix unitaire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unit price"
+          }
+        }
+      }
+    },
+    "Produit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Product"
+          }
+        }
+      }
+    },
+    "Profil": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profile"
+          }
+        }
+      }
+    },
+    "Protégez-vous et votre famille": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protect yourself and your family"
+          }
+        }
+      }
+    },
+    "Pré-validé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pre-approved"
+          }
+        }
+      }
+    },
+    "Préférences": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences"
+          }
+        }
+      }
+    },
+    "Prénom": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First name"
+          }
+        }
+      }
+    },
+    "Présentez ce QR code au prestataire de santé. Il se renouvelle automatiquement et ne contient aucune donnée personnelle lisible.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show this QR code to the healthcare provider. It renews automatically and contains no readable personal data."
+          }
+        }
+      }
+    },
+    "Période": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Period"
+          }
+        }
+      }
+    },
+    "QR code de la carte tiers-payant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direct billing card QR code"
+          }
+        }
+      }
+    },
+    "QR code indisponible hors ligne. Reconnectez-vous pour le renouveler.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "QR code unavailable offline. Reconnect to renew it."
+          }
+        }
+      }
+    },
+    "Qté": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qty"
+          }
+        }
+      }
+    },
+    "Quel type de prestation ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What type of care?"
+          }
+        }
+      }
+    },
+    "Questionnaire de santé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Health questionnaire"
+          }
+        }
+      }
+    },
+    "Radios": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "X-rays"
+          }
+        }
+      }
+    },
+    "Recevoir le code": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get the code"
+          }
+        }
+      }
+    },
+    "Recommandée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recommended"
+          }
+        }
+      }
+    },
+    "Recommencer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start over"
+          }
+        }
+      }
+    },
+    "Rejeté": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rejected"
+          }
+        }
+      }
+    },
+    "Remboursé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reimbursed"
+          }
+        }
+      }
+    },
+    "Renouvellement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renewal"
+          }
+        }
+      }
+    },
+    "Renouvellement dans %lld s": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renews in %lld s"
+          }
+        }
+      }
+    },
+    "Renouvellement et résiliation du contrat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Policy renewal and cancellation"
+          }
+        }
+      }
+    },
+    "Renvoyer le code": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resend code"
+          }
+        }
+      }
+    },
+    "Renvoyer le code (%lld s)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resend code (%lld s)"
+          }
+        }
+      }
+    },
+    "Reprendre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        }
+      }
+    },
+    "Reprendre la déclaration ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume your claim?"
+          }
+        }
+      }
+    },
+    "Reste à charge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your share"
+          }
+        }
+      }
+    },
+    "Retirer %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove %@"
+          }
+        }
+      }
+    },
+    "Retour": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      }
+    },
+    "Retrait de %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Removing %@"
+          }
+        }
+      }
+    },
+    "Reçue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Received"
+          }
+        }
+      }
+    },
+    "Récapitulatif": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summary"
+          }
+        }
+      }
+    },
+    "Réessayer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        }
+      }
+    },
+    "Réessayer avec un autre moyen": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try another method"
+          }
+        }
+      }
+    },
+    "Réessayer l'envoi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry upload"
+          }
+        }
+      }
+    },
+    "Référence": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reference"
+          }
+        }
+      }
+    },
+    "Référence %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reference %@"
+          }
+        }
+      }
+    },
+    "Réponse inattendue du serveur. Veuillez réessayer plus tard.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unexpected server response. Please try again later."
+          }
+        }
+      }
+    },
+    "Réseau": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Network"
+          }
+        }
+      }
+    },
+    "Réseau de soins": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Care network"
+          }
+        }
+      }
+    },
+    "Résiliation possible jusqu'au": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancellation possible until"
+          }
+        }
+      }
+    },
+    "SMS": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SMS"
+          }
+        }
+      }
+    },
+    "Saisir manuellement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter manually"
+          }
+        }
+      }
+    },
+    "Saisissez le code envoyé au %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the code sent to %@."
+          }
+        }
+      }
+    },
+    "Saisissez votre numéro : vous recevrez un code pour choisir un nouveau mot de passe.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your number: you'll receive a code to choose a new password."
+          }
+        }
+      }
+    },
+    "Scanner le document": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan the document"
+          }
+        }
+      }
+    },
+    "Se connecter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in"
+          }
+        }
+      }
+    },
+    "Se déconnecter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign out"
+          }
+        }
+      }
+    },
+    "Se déconnecter ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign out?"
+          }
+        }
+      }
+    },
+    "Sexe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sex"
+          }
+        }
+      }
+    },
+    "Sinistre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claim"
+          }
+        }
+      }
+    },
+    "Sinistres": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claims"
+          }
+        }
+      }
+    },
+    "Sombre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark"
+          }
+        }
+      }
+    },
+    "Soumis": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submitted"
+          }
+        }
+      }
+    },
+    "Souscripteur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Policyholder"
+          }
+        }
+      }
+    },
+    "Souscription": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subscription"
+          }
+        }
+      }
+    },
+    "Souscrire maintenant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subscribe now"
+          }
+        }
+      }
+    },
+    "Souscrivez en moins de 3 minutes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subscribe in under 3 minutes"
+          }
+        }
+      }
+    },
+    "Spécialistes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Specialists"
+          }
+        }
+      }
+    },
+    "Statut : %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status: %@"
+          }
+        }
+      }
+    },
+    "Suivi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tracking"
+          }
+        }
+      }
+    },
+    "Suivre mon sinistre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Track my claim"
+          }
+        }
+      }
+    },
+    "Supprimer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        }
+      }
+    },
+    "Supprimer définitivement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete permanently"
+          }
+        }
+      }
+    },
+    "Supprimer la ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete line"
+          }
+        }
+      }
+    },
+    "Supprimer mon compte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete my account"
+          }
+        }
+      }
+    },
+    "Supprimer « %@ » ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete “%@”?"
+          }
+        }
+      }
+    },
+    "Sécurité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security"
+          }
+        }
+      }
+    },
+    "Tacite reconduction": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic renewal"
+          }
+        }
+      }
+    },
+    "Taux de couverture": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coverage rate"
+          }
+        }
+      }
+    },
+    "Taux de remboursement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reimbursement rate"
+          }
+        }
+      }
+    },
+    "Terminer plus tard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish later"
+          }
+        }
+      }
+    },
+    "Terminés": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completed"
+          }
+        }
+      }
+    },
+    "Territorialité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Territorial coverage"
+          }
+        }
+      }
+    },
+    "Tiers-payant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direct billing"
+          }
+        }
+      }
+    },
+    "Titre (ex. Ordonnance Dr Ndiaye)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Title (e.g. Prescription Dr Ndiaye)"
+          }
+        }
+      }
+    },
+    "Total %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total %@"
+          }
+        }
+      }
+    },
+    "Tous": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        }
+      }
+    },
+    "Tout lire": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark all read"
+          }
+        }
+      }
+    },
+    "Tout voir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See all"
+          }
+        }
+      }
+    },
+    "Toute distance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Any distance"
+          }
+        }
+      }
+    },
+    "Type de prestation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type of care"
+          }
+        }
+      }
+    },
+    "Télécharger en PDF": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download as PDF"
+          }
+        }
+      }
+    },
+    "Téléphone": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phone"
+          }
+        }
+      }
+    },
+    "Téléphone vérifié": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verified phone"
+          }
+        }
+      }
+    },
+    "Une déclaration commencée le %@ n'a pas été envoyée.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A claim started on %@ hasn't been submitted."
+          }
+        }
+      }
+    },
+    "Une déclaration est en brouillon. Touchez pour la reprendre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A claim is saved as a draft. Tap to resume it."
+          }
+        }
+      }
+    },
+    "Une erreur réseau est survenue. Veuillez réessayer.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A network error occurred. Please try again."
+          }
+        }
+      }
+    },
+    "Utiliser le code": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use passcode"
+          }
+        }
+      }
+    },
+    "Utiliser une facture d'exemple": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use a sample invoice"
+          }
+        }
+      }
+    },
+    "Vaccins": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaccines"
+          }
+        }
+      }
+    },
+    "Validation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Validation"
+          }
+        }
+      }
+    },
+    "Valide jusqu'au": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valid until"
+          }
+        }
+      }
+    },
+    "Valider": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm"
+          }
+        }
+      }
+    },
+    "Valider et payer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm and pay"
+          }
+        }
+      }
+    },
+    "Validez le paiement dans l'application de l'opérateur, puis revenez ici. Ne fermez pas %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm the payment in the provider's app, then come back here. Don't close %@."
+          }
+        }
+      }
+    },
+    "Validé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Approved"
+          }
+        }
+      }
+    },
+    "Verrouillage biométrique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Biometric lock"
+          }
+        }
+      }
+    },
+    "Verrouiller avec %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock with %@"
+          }
+        }
+      }
+    },
+    "Version %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        }
+      }
+    },
+    "Ville": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City"
+          }
+        }
+      }
+    },
+    "Voir ma carte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View my card"
+          }
+        }
+      }
+    },
+    "Vos informations": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your details"
+          }
+        }
+      }
+    },
+    "Vos paiements de cotisation apparaîtront ici.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your premium payments will appear here."
+          }
+        }
+      }
+    },
+    "Vos réponses sont confidentielles et transmises uniquement à l'assureur.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your answers are confidential and shared only with the insurer."
+          }
+        }
+      }
+    },
+    "Votre carte tiers-payant sera disponible dès l'activation de votre contrat.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your direct billing card will be available as soon as your policy is active."
+          }
+        }
+      }
+    },
+    "Votre contrat est émis et votre carte tiers-payant est disponible. Les conditions particulières sont consultables dans « Mon contrat ».": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your policy is issued and your direct billing card is available. The policy conditions are in “My policy”."
+          }
+        }
+      }
+    },
+    "Votre demande sera traitée par votre gestionnaire. Le contrat reste actif jusqu'à son échéance.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your account manager will process the request. The policy stays active until its renewal date."
+          }
+        }
+      }
+    },
+    "Votre demande sera traitée selon la réglementation. Les données liées à un contrat en cours peuvent être conservées pendant la durée légale.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your request will be handled as the regulations require. Data linked to an active policy may be kept for the legal retention period."
+          }
+        }
+      }
+    },
+    "Votre identifiant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your username"
+          }
+        }
+      }
+    },
+    "Votre mot de passe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your password"
+          }
+        }
+      }
+    },
+    "Votre numéro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your number"
+          }
+        }
+      }
+    },
+    "Votre numéro de téléphone servira d'identifiant. Nous allons le vérifier par SMS.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your phone number will be your login. We'll verify it by SMS."
+          }
+        }
+      }
+    },
+    "Votre prime": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your premium"
+          }
+        }
+      }
+    },
+    "Votre santé, simplement assurée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your health, simply insured"
+          }
+        }
+      }
+    },
+    "Votre session a expiré. Veuillez vous reconnecter.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your session has expired. Please sign in again."
+          }
+        }
+      }
+    },
+    "Vous allez renseigner vos informations, répondre au questionnaire de santé, choisir vos garanties puis payer en ligne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You'll enter your details, answer the health questionnaire, choose your coverage and pay online."
+          }
+        }
+      }
+    },
+    "Vous serez informé ici de l'avancement de vos sinistres, paiements et contrat.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates on your claims, payments and policy will appear here."
+          }
+        }
+      }
+    },
+    "Vous serez notifié à chaque étape du traitement.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You'll be notified at each step."
+          }
+        }
+      }
+    },
+    "Vous vous connecterez avec un code reçu par SMS.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You'll sign in with a code sent by SMS."
+          }
+        }
+      }
+    },
+    "Vous êtes hors ligne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You're offline"
+          }
+        }
+      }
+    },
+    "Vérification": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verification"
+          }
+        }
+      }
+    },
+    "Vérifier à nouveau": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check again"
+          }
+        }
+      }
+    },
+    "Vérifiez les informations": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check the details"
+          }
+        }
+      }
+    },
+    "nom@exemple.com": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "name@example.com"
+          }
+        }
+      }
+    },
+    "sur un plafond annuel de %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "of an annual limit of %@"
+          }
+        }
+      }
+    },
+    "À partir de %@ / an": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From %@ / year"
+          }
+        }
+      }
+    },
+    "Échéance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renewal date"
+          }
+        }
+      }
+    },
+    "Écrire au support": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email support"
+          }
+        }
+      }
+    },
+    "Étape %lld sur %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step %lld of %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Étape %1$lld sur %2$lld"
+          }
+        }
+      }
+    },
+    "• %@": {
+      "shouldTranslate": false
+    },
+    "🇸🇳 +221": {
+      "shouldTranslate": false
+    }
+  },
+  "version": "1.0"
 }

@@ -47,7 +47,11 @@ final class AppEnvironment {
     /// (fresh in-memory session, used by UI tests), `-MockLatency <seconds>`, `-MockQRLifetime <seconds>`,
     /// `-MockSignIn principal|dependent` (skip the login screen, MockAPI only).
     static func make(arguments: [String] = ProcessInfo.processInfo.arguments) -> AppEnvironment {
+        #if DEBUG
         let useMock = isMockBuild || arguments.contains("-UseMockAPI")
+        #else
+        let useMock = isMockBuild // Release (customer) builds never run on demo data
+        #endif
         let reset = arguments.contains("-ResetState")
 
         let tokens: TokenStore = reset ? InMemoryTokenStore() : KeychainTokenStore(service: useMock ? "sn.assurplus.app.mock" : "sn.assurplus.app.tokens")

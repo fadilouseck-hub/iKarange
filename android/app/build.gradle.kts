@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -42,8 +44,27 @@ android {
         }
     }
 
+    /*
+     * Release signing (Play upload key). The key and its passwords live outside git — the repository is public —
+     * in `android/keystore.properties` (git-ignored): storeFile, storePassword, keyAlias, keyPassword.
+     * Without that file, release builds are produced unsigned.
+     */
+    val keystoreFile = rootProject.file("keystore.properties")
+    if (keystoreFile.exists()) {
+        val keystore = Properties().apply { keystoreFile.inputStream().use { load(it) } }
+        signingConfigs {
+            create("upload") {
+                storeFile = rootProject.file(keystore.getProperty("storeFile"))
+                storePassword = keystore.getProperty("storePassword")
+                keyAlias = keystore.getProperty("keyAlias")
+                keyPassword = keystore.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (keystoreFile.exists()) signingConfig = signingConfigs.getByName("upload")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")

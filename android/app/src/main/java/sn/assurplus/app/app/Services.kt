@@ -101,8 +101,14 @@ interface WalletAdding {
 }
 
 class LiveWallet(private val context: Context) : WalletAdding {
+    /**
+     * Hidden until the backend issues Google Wallet passes (`GET /me/card/google-wallet`, TODO(backend)): set
+     * [backendReady] to true when it is deployed. Then shown only when the Google Wallet app is installed.
+     */
     override val isAvailable: Boolean
-        get() = runCatching { context.packageManager.getPackageInfo("com.google.android.apps.walletnfcrel", 0) }.isSuccess
+        get() = backendReady && runCatching { context.packageManager.getPackageInfo("com.google.android.apps.walletnfcrel", 0) }.isSuccess
+
+    private val backendReady = false
 
     override suspend fun add(saveUrl: String): WalletResult {
         val activity = CurrentActivity.activity ?: return WalletResult.cancelled

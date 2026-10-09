@@ -49,8 +49,9 @@ struct MainTabView: View {
             .floatingTabContent()
             .tag(AppTab.profile)
         }
-        // Floating capsule menu (replaces the system tab bar); content scrolls underneath it.
-        .safeAreaInset(edge: .bottom, spacing: 0) {
+        // Floating capsule menu (replaces the system tab bar). Each tab reserves room for it (see
+        // `floatingTabContent`), so content scrolls underneath and the last item can still clear it.
+        .overlay(alignment: .bottom) {
             FloatingTabBar(tabs: tabs, selection: $router.selectedTab, userName: env.session.user?.fullName ?? "")
         }
         .sheet(item: $router.presentedSheet) { sheet in
@@ -85,15 +86,21 @@ extension AppTab {
 }
 
 private extension View {
-    /// Hides the system tab bar; the floating menu is drawn by `MainTabView`.
+    /// Hides the system tab bar and reserves the floating menu's height at the bottom of every screen in the tab
+    /// (bottom content margin inherited by every scroll view of the tab).
     func floatingTabContent() -> some View {
         toolbar(.hidden, for: .tabBar)
+            // Applies to every ScrollView / List below, including pushed screens.
+            .contentMargins(.bottom, FloatingTabBar.reservedHeight, for: .scrollContent)
     }
 }
 
 /// Icon-only capsule floating above the content: deep brand colour, glowing accent on the selected tab,
 /// initials avatar for Profile.
 struct FloatingTabBar: View {
+    /// Bar (56) + vertical padding (2 × 4) + bottom margin (8) + breathing room (16).
+    static let reservedHeight: CGFloat = 88
+
     let tabs: [AppTab]
     @Binding var selection: AppTab
     let userName: String

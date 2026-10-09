@@ -1,5 +1,9 @@
 RewriteEngine On
 
+# Pass the Authorization header (mobile API bearer tokens) through to PHP on CGI/FPM hosting.
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
 # Redirect everything to public/
 RewriteCond %{REQUEST_URI} !^/public/
 RewriteRule ^(.*)$ public/$1 [L]

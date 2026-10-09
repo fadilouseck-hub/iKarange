@@ -62,6 +62,8 @@ final class APIClient: Sendable {
         for (name, value) in endpoint.headers { request.setValue(value, forHTTPHeaderField: name) }
         if endpoint.requiresAuth, let access = tokens.load()?.accessToken {
             request.setValue("Bearer \(access)", forHTTPHeaderField: "Authorization")
+            // Shared hosting (Apache + CGI/FPM) can strip Authorization before PHP sees it.
+            request.setValue(access, forHTTPHeaderField: "X-Auth-Token")
         }
         return request
     }

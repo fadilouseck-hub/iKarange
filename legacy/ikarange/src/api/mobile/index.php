@@ -117,10 +117,28 @@ function mIssueTokens(int $adherentId): array
     return ['accessToken' => $access, 'refreshToken' => $refresh, 'expiresIn' => MOBILE_ACCESS_TTL];
 }
 
+/**
+ * The bearer credential. Shared hosting (Apache + CGI/FPM) often drops `Authorization`, or exposes it only as
+ * REDIRECT_…HTTP_AUTHORIZATION after rewrites; the apps also send `X-Auth-Token`, which is always passed through.
+ */
+function mBearerHeader(): string
+{
+    foreach ($_SERVER as $key => $value) {
+        if (is_string($value) && $value !== '' && preg_match('/^(REDIRECT_)*HTTP_AUTHORIZATION$/', $key)) return $value;
+    }
+    if (function_exists('getallheaders')) {
+        foreach (getallheaders() as $name => $value) {
+            if (strcasecmp($name, 'Authorization') === 0 && $value !== '') return $value;
+        }
+    }
+    $token = $_SERVER['HTTP_X_AUTH_TOKEN'] ?? '';
+    return $token !== '' ? 'Bearer ' . $token : '';
+}
+
 /** The authenticated adherent (active member), or a 401. */
 function mAuth(): array
 {
-    $header = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
+    $header = mBearerHeader();
     if (!preg_match('/^Bearer\s+([a-f0-9]{64})$/i', $header, $m)) {
         mError(401, 'unauthorized', t('Authentification requise.', 'Authentication required.'));
     }

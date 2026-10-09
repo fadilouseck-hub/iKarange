@@ -7,6 +7,7 @@ struct APIClientTests {
     @Test func decodesResponseAndSendsBearerToken() async throws {
         let transport = StubTransport { request, _ in
             #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer access-1")
+            #expect(request.value(forHTTPHeaderField: "X-Auth-Token") == "access-1")
             #expect(request.value(forHTTPHeaderField: "Accept-Language") == "fr")
             return (200, Fixture.json(["token": "abc", "expiresAt": "2026-10-06T10:00:00.000Z"]))
         }

@@ -24,6 +24,8 @@ final class LiveBackendTests: XCTestCase {
         app.secureTextFields["auth.password"].tap()
         app.secureTextFields["auth.password"].typeText(password)
         app.buttons["auth.submit"].tap()
+        sleep(4)
+        screenshot(app, "live-after-submit") // shows the server's error message if sign-in fails
 
         app.descendants(matching: .any)["home.policyCard"].firstMatch.waitToExist(15)
         screenshot(app, "live-home")

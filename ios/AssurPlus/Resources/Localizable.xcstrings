@@ -931,12 +931,12 @@
         }
       }
     },
-    "Coffre santé": {
+    "Dossier médical": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Health vault"
+            "value": "Medical record"
           }
         }
       }

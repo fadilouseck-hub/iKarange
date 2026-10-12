@@ -73,7 +73,7 @@ struct VaultView: View {
         WithModel(VaultViewModel.init) { model in
             VaultContent(model: model)
         }
-        .navigationTitle("Coffre santé")
+        .navigationTitle("Dossier médical")
     }
 }
 

@@ -92,7 +92,7 @@ private struct ProfileContent: View {
                     NavigationLink(value: Route.payments) { Label("Paiements", systemImage: "creditcard") }
                 }
                 if env.session.can(.vaultView) {
-                    NavigationLink(value: Route.vault) { Label("Coffre santé", systemImage: "lock.doc") }
+                    NavigationLink(value: Route.vault) { Label("Dossier médical", systemImage: "lock.doc") }
                 }
             }
 

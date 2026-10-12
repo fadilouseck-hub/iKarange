@@ -459,7 +459,7 @@ function mVaultKey(): string
 {
     $secret = mSecret();
     if (!$secret) {
-        mError(503, 'vault_unavailable', t('Le coffre santé est momentanément indisponible.', 'The health vault is temporarily unavailable.'));
+        mError(503, 'vault_unavailable', t('Le dossier médical est momentanément indisponible.', 'The medical record is temporarily unavailable.'));
     }
     return hash_hmac('sha256', 'vault-v1', $secret, true);
 }

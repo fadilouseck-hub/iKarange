@@ -130,7 +130,7 @@ fun VaultScreen(onBack: () -> Unit) {
     LaunchedEffect(Unit) { model.resource.load() }
 
     Screen(
-        title = t("Coffre santé"),
+        title = t("Dossier médical"),
         onBack = onBack,
         onRefresh = { model.resource.refresh() },
         spacing = DS.Spacing.xl,

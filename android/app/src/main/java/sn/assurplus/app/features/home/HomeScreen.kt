@@ -227,7 +227,7 @@ private fun QuickActions(hasPolicy: Boolean) {
         if (hasPolicy && session.can(Permission.familyView)) add(QuickAction("family", t("Famille"), "person.3") { router.homePath.add(Route.Family) })
         if (hasPolicy && session.can(Permission.policyView)) add(QuickAction("policy", t("Contrat"), "doc.text") { router.homePath.add(Route.Policy) })
         if (session.can(Permission.paymentsView)) add(QuickAction("payments", t("Paiements"), "creditcard") { router.homePath.add(Route.Payments) })
-        if (session.can(Permission.vaultView)) add(QuickAction("vault", t("Coffre santé"), "lock.doc") { router.homePath.add(Route.Vault) })
+        if (session.can(Permission.vaultView)) add(QuickAction("vault", t("Dossier médical"), "lock.doc") { router.homePath.add(Route.Vault) })
     }
     AdaptiveGrid(minCellWidth = 100.dp, spacing = DS.Spacing.m) {
         actions.forEach { action ->

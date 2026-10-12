@@ -264,7 +264,7 @@ private struct QuickActions: View {
             list.append(Action(id: "payments", title: String(localized: "Paiements", bundle: .appLanguage), symbol: "creditcard") { router.homePath.append(Route.payments) })
         }
         if env.session.can(.vaultView) {
-            list.append(Action(id: "vault", title: String(localized: "Coffre santé", bundle: .appLanguage), symbol: "lock.doc") { router.homePath.append(Route.vault) })
+            list.append(Action(id: "vault", title: String(localized: "Dossier médical", bundle: .appLanguage), symbol: "lock.doc") { router.homePath.append(Route.vault) })
         }
         return list
     }

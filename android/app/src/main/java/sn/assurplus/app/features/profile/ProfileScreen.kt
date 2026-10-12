@@ -160,7 +160,7 @@ fun ProfileScreen() {
                 FormRow(t("Paiements"), symbol = "creditcard", chevron = true, onClick = { env.router.push(Route.Payments) })
             }
             if (env.session.can(Permission.vaultView)) {
-                FormRow(t("Coffre santé"), symbol = "lock.doc", chevron = true, onClick = { env.router.push(Route.Vault) })
+                FormRow(t("Dossier médical"), symbol = "lock.doc", chevron = true, onClick = { env.router.push(Route.Vault) })
             }
         }
 

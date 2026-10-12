@@ -7,7 +7,7 @@ re-run this mapping and list the visual deltas per screen.
 ## Navigation shell
 
 Tab bar: **Accueil · Carte · Sinistres · Réseau · Profil**. Secondary features are pushed from Accueil
-(Famille, Contrat, Paiements, Coffre santé, Notifications) and Profil (settings). A future
+(Famille, Contrat, Paiements, Dossier médical, Notifications) and Profil (settings). A future
 "Services" entry (téléconsultation, RDV — out of scope V1) can be added as a 6th tab or an Accueil tile.
 
 ## Screens → features
@@ -28,7 +28,7 @@ Tab bar: **Accueil · Carte · Sinistres · Réseau · Profil**. Secondary featu
 | 12 | Historique des paiements | 3 Payment | 7 |
 | 13 | Famille (list + beneficiary detail) | 6 Family | 9 |
 | 14 | Ajout / retrait d'un bénéficiaire (request form) | 6 Family | 9 |
-| 15 | Coffre santé (categories, list, viewer, upload) | 7 Vault | 9 |
+| 15 | Dossier médical (categories, list, viewer, upload) | 7 Vault | 9 |
 | 16 | Sinistres (list) | 8 Claims | 10 |
 | 17 | Déclaration de sinistre (wizard: beneficiary → type → scan → upload → OCR → review → submit) | 8 Claims | 10, 11 |
 | 18 | Détail sinistre (timeline, requested documents, settlement) | 8 Claims | 10, 12 |

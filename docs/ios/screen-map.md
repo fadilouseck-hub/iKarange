@@ -35,6 +35,7 @@ Tab bar: **Accueil · Carte · Sinistres · Réseau · Profil**. Secondary featu
 | 19 | Réseau de soins (map / list, filters, provider detail, PDF) | 9 Network | 13 |
 | 20 | Notifications | 10 Notifications | 23 |
 | 21 | Profil & réglages (info, photo, password, Face ID, notifications, language, legal, support, logout, deletion) | 11 Profile | — |
+| 22 | Assistant (AI answers to basic questions, server-side model) and feedback form (information / suggestion / bug / other) | 12 Support (sheets from Profil) | — |
 
 ## Contradictions / ambiguities found
 

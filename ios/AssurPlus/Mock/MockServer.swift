@@ -262,6 +262,25 @@ actor MockServer: HTTPTransport {
             return empty
         case (.post, "devices"): return empty
 
+        case (.post, "feedback"):
+            let feedback = try body(FeedbackRequest.self, request)
+            guard feedback.message.trimmingCharacters(in: .whitespacesAndNewlines).count >= 5 else {
+                let message = "Décrivez votre message en quelques mots."
+                throw Failure(status: 422, code: "invalid_feedback", message: message, fields: ["message": message])
+            }
+            return try json(FeedbackReceipt(id: nextId("fbk"), status: ServerStatus(code: "received", label: "Reçu"), createdAt: .now), status: 201)
+        case (.get, "assistant"):
+            return try json(AssistantInfo(
+                available: true,
+                suggestions: ["Comment déclarer un sinistre ?", "Comment utiliser ma carte chez un prestataire ?", "Quels sont mes taux de couverture ?"],
+                disclaimer: "Réponses générées par une IA : elles peuvent contenir des erreurs et ne remplacent ni votre gestionnaire ni un avis médical."))
+        case (.post, "assistant/messages"):
+            let conversation = try body(AssistantRequest.self, request)
+            guard let question = conversation.messages.last, question.role == .user else {
+                throw Failure(status: 422, code: "invalid_message", message: "Écrivez votre question.")
+            }
+            return try json(AssistantReply(message: AssistantMessage(role: .assistant, content: Self.cannedAnswer(to: question.content))))
+
         case (.post, "uploads"):
             let create = try body(UploadCreateRequest.self, request)
             guard create.size <= 15_000_000 else { throw Failure(status: 413, code: "too_large", message: "Le fichier dépasse 15 Mo.") }
@@ -293,8 +312,23 @@ actor MockServer: HTTPTransport {
         "deletion-request", "products", "health-questionnaire", "quotes", "policies", "conditions.pdf",
         "termination-requests", "dependents", "requests", "payment-methods", "payments", "claim-types", "claims",
         "documents", "ocr", "submit", "vault", "file", "providers", "network.pdf", "notifications", "read-all",
-        "read", "devices", "uploads",
+        "read", "devices", "uploads", "feedback", "assistant", "messages",
     ]
+
+    /// Scripted answers standing in for the server-side model (MockAPI has no network).
+    static func cannedAnswer(to question: String) -> String {
+        let text = question.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil)
+        if text.contains("sinistre") || text.contains("claim") || text.contains("rembours") {
+            return "Ouvrez l'onglet Sinistres puis « Nouveau sinistre » : choisissez le type de soin, photographiez la facture, vérifiez les montants et envoyez. Vous suivez ensuite le traitement dans le détail du sinistre."
+        }
+        if text.contains("carte") || text.contains("card") || text.contains("qr") {
+            return "Présentez le QR code de l'onglet Carte chez un prestataire du réseau. Il se renouvelle automatiquement toutes les minutes."
+        }
+        if text.contains("taux") || text.contains("couverture") || text.contains("coverage") || text.contains("plafond") {
+            return "Vos taux et plafonds sont détaillés dans Accueil > Mon contrat. Votre gestionnaire peut préciser un cas particulier."
+        }
+        return "Je peux vous aider à utiliser l'application et à comprendre votre couverture. Pour une question sur un dossier précis, contactez votre gestionnaire."
+    }
 
     /// `["claims", "clm_1", "ocr"]` → (`"claims/:id/ocr"`, `["clm_1"]`).
     static func template(for parts: [String]) -> (String, [String]) {

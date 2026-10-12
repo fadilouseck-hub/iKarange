@@ -71,7 +71,7 @@ private struct ProfileContent: View {
     @State private var deletionReason = ""
 
     enum Sheet: String, Identifiable {
-        case contact, password, notifications
+        case contact, password, notifications, assistant, feedback
         var id: String { rawValue }
     }
 
@@ -128,6 +128,10 @@ private struct ProfileContent: View {
             }
 
             Section("Aide et informations") {
+                Button { sheet = .assistant } label: { Label("Assistant", systemImage: "sparkles") }
+                    .accessibilityIdentifier("profile.assistant")
+                Button { sheet = .feedback } label: { Label("Donner mon avis", systemImage: "bubble.left.and.text.bubble.right") }
+                    .accessibilityIdentifier("profile.feedback")
                 ForEach(model.legal) { document in
                     Button { openURL(document.url) } label: {
                         Label("\(document.title) (\(document.version))", systemImage: "doc.plaintext")
@@ -177,6 +181,8 @@ private struct ProfileContent: View {
             case .contact: ContactForm()
             case .password: PasswordChangeForm()
             case .notifications: NotificationPreferencesForm()
+            case .assistant: AssistantView { self.sheet = .feedback }
+            case .feedback: FeedbackView()
             }
         }
         .confirmationDialog("Se déconnecter ?", isPresented: $confirmLogout, titleVisibility: .visible) {

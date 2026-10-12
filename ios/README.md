@@ -76,6 +76,14 @@ Members sign in with their portal username; SMS OTP, self-registration, online s
 available on this platform yet (the app hides or degrades those features through the tenant flags). Provider
 positions are approximate (city level) until real coordinates exist.
 
+**Feedback and assistant** (Profile > Assistant / Give feedback): feedback is stored in `mobile_feedback`
+([`database/009_feedback_assistant.sql`](../legacy/ikarange/database/009_feedback_assistant.sql)). The assistant is
+answered by the server ([`src/api/mobile/assistant.php`](../legacy/ikarange/src/api/mobile/assistant.php)), which
+calls the Claude API with `ANTHROPIC_API_KEY` from the server `.env` (optional `ASSISTANT_MODEL`, default
+`claude-opus-5-5`). The key never ships in the app; without it the app shows "assistant unavailable" and offers the
+feedback form. The model receives the member's questions and a contract summary (plan, status, rates, limits), no
+identity, claim or medical data; conversations are not stored. MockAPI answers from a few scripted replies.
+
 Local run: `dev/serve.sh` (PHP built-in server on the local MySQL copy), then run the `AssurPlus` scheme with
 `-APIBaseURL http://localhost:8080/api/mobile/v1`. `LiveBackendTests` drives the real app against it when
 `TEST_RUNNER_LIVE_API_URL`, `TEST_RUNNER_LIVE_USER` and `TEST_RUNNER_LIVE_PASSWORD` are set (synthetic test member only).
@@ -133,11 +141,12 @@ AssurPlus/
 
 - Unit tests (`AssurPlusTests`, Swift Testing): API client (refresh / rotation / concurrency / offline), formatting,
   auth, dashboard/card/QR, claims (OCR, drafts, resumable upload with failures), subscription (debounce, eligibility,
-  full flow), family, vault, network, routing.
+  full flow), family, vault, network, routing, feedback and assistant.
 - UI tests (`AssurPlusUITests`, XCUITest on MockAPI): `LanguageTests` (English device, in-app switch, French
   fallback), the 3 acceptance scenarios —
   `SubscriptionAcceptanceTests`, `CardAcceptanceTests`, `ClaimAcceptanceTests` — plus `ScreensTourTests`, which
   walks every secondary screen, checks the dependant restrictions and attaches screenshots to the result bundle.
+  `SupportTests` asks the assistant and sends a feedback message.
 
 ## Known gaps / to do
 

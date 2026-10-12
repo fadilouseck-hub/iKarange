@@ -108,6 +108,16 @@
     "%lld %%": {
       "shouldTranslate": false
     },
+    "%lld / %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld / %lld"
+          }
+        }
+      }
+    },
     "%lld information(s) à vérifier en priorité (surlignées).": {
       "localizations": {
         "en": {
@@ -431,6 +441,26 @@
         }
       }
     },
+    "Assistant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assistant"
+          }
+        }
+      }
+    },
+    "Assistant indisponible": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assistant unavailable"
+          }
+        }
+      }
+    },
     "Assureur": {
       "localizations": {
         "en": {
@@ -587,6 +617,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Near me"
+          }
+        }
+      }
+    },
+    "Autre": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
           }
         }
       }
@@ -1237,6 +1277,16 @@
         }
       }
     },
+    "Donner mon avis": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Give feedback"
+          }
+        }
+      }
+    },
     "Début": {
       "localizations": {
         "en": {
@@ -1293,6 +1343,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Submitted on"
+          }
+        }
+      }
+    },
+    "Décrivez votre remarque, votre idée ou le problème rencontré…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Describe your comment, your idea or the problem you ran into…"
           }
         }
       }
@@ -1453,6 +1513,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Submit claim"
+          }
+        }
+      }
+    },
+    "Envoyer un message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send a message"
+          }
+        }
+      }
+    },
+    "Envoyé avec la version de l'application, le modèle de l'appareil et la langue, pour nous aider à comprendre. N'indiquez pas d'informations médicales.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sent with the app version, device model and language, to help us understand. Do not include medical information."
           }
         }
       }
@@ -1697,6 +1777,16 @@
         }
       }
     },
+    "Information": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Information"
+          }
+        }
+      }
+    },
     "Informations du justificatif": {
       "localizations": {
         "en": {
@@ -1763,6 +1853,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Supporting documents"
+          }
+        }
+      }
+    },
+    "L'assistant n'est pas encore activé. Vous pouvez nous écrire, nous vous lirons avec attention.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The assistant is not enabled yet. You can write to us and we will read your message carefully."
+          }
+        }
+      }
+    },
+    "L'assistant rédige sa réponse…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The assistant is writing its answer…"
           }
         }
       }
@@ -1963,6 +2073,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "My family"
+          }
+        }
+      }
+    },
+    "Merci, message envoyé": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thank you, message sent"
           }
         }
       }
@@ -2293,6 +2413,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Notifications, %lld unread"
+          }
+        }
+      }
+    },
+    "Notre équipe le lira avec attention. Pour une demande urgente sur votre dossier, contactez votre gestionnaire.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Our team will read it carefully. For an urgent request about your file, contact your account manager."
           }
         }
       }
@@ -2717,6 +2847,16 @@
         }
       }
     },
+    "Posez une question sur l'application ou votre couverture.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask a question about the app or your cover."
+          }
+        }
+      }
+    },
     "Position approximative sur la carte : l'itinéraire utilise l'adresse.": {
       "localizations": {
         "en": {
@@ -2803,6 +2943,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unit price"
+          }
+        }
+      }
+    },
+    "Problème technique": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Technical problem"
           }
         }
       }
@@ -3407,6 +3557,16 @@
         }
       }
     },
+    "Suggestion": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggestion"
+          }
+        }
+      }
+    },
     "Suivi": {
       "localizations": {
         "en": {
@@ -3613,6 +3773,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Any distance"
+          }
+        }
+      }
+    },
+    "Type de message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Message type"
           }
         }
       }
@@ -3857,6 +4027,16 @@
         }
       }
     },
+    "Votre avis": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your feedback"
+          }
+        }
+      }
+    },
     "Votre carte tiers-payant sera disponible dès l'activation de votre contrat.": {
       "localizations": {
         "en": {
@@ -3907,6 +4087,16 @@
         }
       }
     },
+    "Votre message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your message"
+          }
+        }
+      }
+    },
     "Votre mot de passe": {
       "localizations": {
         "en": {
@@ -3943,6 +4133,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Your premium"
+          }
+        }
+      }
+    },
+    "Votre question": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your question"
           }
         }
       }

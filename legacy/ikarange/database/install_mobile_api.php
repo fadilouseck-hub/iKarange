@@ -1,10 +1,13 @@
 <?php
 /**
  * Installs the mobile API on an existing I'KARANGE site. Additive and idempotent:
- *  1. creates the mobile_* tables (database/008_mobile_api.sql — CREATE TABLE IF NOT EXISTS only);
+ *  1. creates the mobile_* tables (database/008_mobile_api.sql, 009_feedback_assistant.sql — CREATE TABLE IF NOT EXISTS only);
  *  2. adds the /api/mobile/v1 hook to src/router.php if missing (backup kept next to it);
  *  3. adds MOBILE_SECRET to .env if missing (random, generated here, never printed).
  * Existing tables, data and routes are not modified.
+ *
+ * The in-app assistant additionally needs ANTHROPIC_API_KEY in .env (added by the owner, never by this script);
+ * without it the assistant answers "unavailable" and everything else works.
  *
  * Usage (on the server, from the site root):  php database/install_mobile_api.php
  */
@@ -34,14 +37,16 @@ $pdo = new PDO(
     getenv('DB_PASS') ?: '',
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
 );
-$sql = file_get_contents(__DIR__ . '/008_mobile_api.sql');
-$sql = preg_replace('/^--.*$/m', '', $sql);
-foreach (array_filter(array_map('trim', explode(';', $sql))) as $statement) {
-    if (!preg_match('/^CREATE TABLE IF NOT EXISTS/i', $statement)) {
-        fwrite(STDERR, "Refusing non-additive statement\n");
-        exit(1);
+foreach (['008_mobile_api.sql', '009_feedback_assistant.sql'] as $migration) {
+    $sql = file_get_contents(__DIR__ . '/' . $migration);
+    $sql = preg_replace('/^--.*$/m', '', $sql);
+    foreach (array_filter(array_map('trim', explode(';', $sql))) as $statement) {
+        if (!preg_match('/^CREATE TABLE IF NOT EXISTS/i', $statement)) {
+            fwrite(STDERR, "Refusing non-additive statement\n");
+            exit(1);
+        }
+        $pdo->exec($statement);
     }
-    $pdo->exec($statement);
 }
 $tables = $pdo->query("SHOW TABLES LIKE 'mobile\\_%'")->fetchAll(PDO::FETCH_COLUMN);
 echo "Tables: " . implode(', ', $tables) . "\n";

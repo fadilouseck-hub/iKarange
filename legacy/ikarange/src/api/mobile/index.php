@@ -17,6 +17,7 @@ const MOBILE_REFRESH_TTL = 30 * 86400;
 const MOBILE_QR_TTL = 60;
 const MOBILE_UPLOAD_MAX = 10 * 1024 * 1024;
 const MOBILE_CHUNK_SIZE = 256 * 1024;
+const MOBILE_FEEDBACK_CATEGORIES = ['information', 'suggestion', 'bug', 'other'];
 const MOBILE_ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
 
 // ── Responses ───────────────────────────────────────────
@@ -532,7 +533,7 @@ function mobileRoute(string $path, string $method): never
         'me', 'dashboard', 'card', 'qr-token', 'wallet-pass', 'photo', 'notification-preferences', 'deletion-request', 'products',
         'health-questionnaire', 'quotes', 'policies', 'conditions.pdf', 'termination-requests', 'dependents', 'requests',
         'payment-methods', 'payments', 'claim-types', 'claims', 'ocr', 'submit', 'vault', 'file', 'providers', 'network.pdf',
-        'notifications', 'read-all', 'read', 'devices', 'uploads'];
+        'notifications', 'read-all', 'read', 'devices', 'uploads', 'feedback', 'assistant', 'messages'];
     $template = implode('/', array_map(function ($part) use ($static, &$ids) {
         if (in_array($part, $static, true)) return $part;
         $ids[] = $part;
@@ -934,6 +935,38 @@ function mobileDispatch(string $route, array $ids): void
                 ON DUPLICATE KEY UPDATE adherent_id = VALUES(adherent_id), locale = VALUES(locale), app_version = VALUES(app_version)')
                 ->execute([$a['id'], $token, substr((string)($in['platform'] ?? 'ios'), 0, 20), substr((string)($in['locale'] ?? ''), 0, 20), substr((string)($in['appVersion'] ?? ''), 0, 20)]);
             mEmpty();
+
+        // ── Feedback and assistant ──
+        case 'POST feedback':
+            $a = mAuth();
+            $in = mBody();
+            $category = (string)($in['category'] ?? '');
+            $message = trim((string)($in['message'] ?? ''));
+            $errors = [];
+            if (!in_array($category, MOBILE_FEEDBACK_CATEGORIES, true)) $errors['category'] = t('Choisissez un type de message.', 'Choose a message type.');
+            if (mb_strlen($message) < 5) $errors['message'] = t('Décrivez votre message en quelques mots.', 'Describe your message in a few words.');
+            if (mb_strlen($message) > 4000) $errors['message'] = t('Message trop long (4 000 caractères maximum).', 'Message too long (4,000 characters maximum).');
+            if ($errors) mError(422, 'invalid_feedback', reset($errors), $errors);
+            $stmt = db()->prepare('SELECT COUNT(*) FROM mobile_feedback WHERE adherent_id = ? AND created_at > (NOW() - INTERVAL 1 DAY)');
+            $stmt->execute([$a['id']]);
+            if ((int)$stmt->fetchColumn() >= 20) {
+                mError(429, 'too_many_requests', t('Vous avez envoyé beaucoup de messages. Réessayez demain.', 'You have sent a lot of messages. Try again tomorrow.'));
+            }
+            $text = fn(string $key, int $max) => mb_substr(trim((string)($in[$key] ?? '')), 0, $max) ?: null;
+            db()->prepare('INSERT INTO mobile_feedback (org_id, adherent_id, category, message, platform, app_version, os_version, device_model, locale)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+                ->execute([$a['org_id'], $a['id'], $category, $message, $text('platform', 20), $text('appVersion', 40), $text('osVersion', 40), $text('deviceModel', 60), $text('locale', 20)]);
+            mJson(['id' => 'fbk_' . (int)db()->lastInsertId(), 'status' => mStatus('received', 'Reçu', 'Received'), 'createdAt' => gmdate('Y-m-d\TH:i:s\Z')], 201);
+
+        case 'GET assistant':
+            mAuth();
+            require_once __DIR__ . '/assistant.php';
+            mJson(assistantInfo());
+
+        case 'POST assistant/messages':
+            $a = mAuth();
+            require_once __DIR__ . '/assistant.php';
+            assistantReply($a, mBody());
 
         // ── Resumable uploads ──
         case 'POST uploads':

@@ -39,6 +39,7 @@ tags:
   - name: vault
   - name: providers
   - name: notifications
+  - name: support
   - name: uploads
   - name: legal
 
@@ -820,6 +821,91 @@ paths:
       responses:
         '204': { description: Registered }
 
+  /feedback:
+    post:
+      tags: [support]
+      summary: Send information, a suggestion or a bug report to the team (max 20 per member per day).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [category, message]
+              properties:
+                category: { type: string, enum: [information, suggestion, bug, other] }
+                message: { type: string, minLength: 5, maxLength: 4000 }
+                platform: { type: string, enum: [ios, android] }
+                appVersion: { type: string }
+                osVersion: { type: string }
+                deviceModel: { type: string, description: Hardware identifier, e.g. "iPhone16,2". }
+                locale: { type: string }
+      responses:
+        '201':
+          description: Stored
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, status, createdAt]
+                properties:
+                  id: { type: string }
+                  status: { $ref: '#/components/schemas/ServerStatus' }
+                  createdAt: { type: string, format: date-time }
+        '422': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+
+  /assistant:
+    get:
+      tags: [support]
+      summary: Whether the assistant is configured on this backend, with starter questions and the AI disclaimer.
+      responses:
+        '200':
+          description: Assistant information
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [available, suggestions, disclaimer]
+                properties:
+                  available: { type: boolean }
+                  suggestions: { type: array, items: { type: string } }
+                  disclaimer: { type: string }
+
+  /assistant/messages:
+    post:
+      tags: [support]
+      summary: Ask the assistant a basic question about the app or the member's cover.
+      description: >
+        Stateless: the app sends the conversation so far (text turns only, at most 12, 1 000 characters each), ending
+        with the member's question. The server calls the model with its own key and a short contract summary (plan,
+        status, coverage rates, limits); it sends no identity, claim or medical data and stores no conversation.
+        Max 30 questions per member per hour.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [messages]
+              properties:
+                messages:
+                  type: array
+                  items: { $ref: '#/components/schemas/AssistantMessage' }
+      responses:
+        '200':
+          description: The answer (plain text)
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message]
+                properties:
+                  message: { $ref: '#/components/schemas/AssistantMessage' }
+        '422': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+        '503': { $ref: '#/components/responses/Error' }
+
   /uploads:
     post:
       tags: [uploads]
@@ -890,6 +976,12 @@ components:
       content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
 
   schemas:
+    AssistantMessage:
+      type: object
+      required: [role, content]
+      properties:
+        role: { type: string, enum: [user, assistant] }
+        content: { type: string }
     Error:
       type: object
       required: [error]

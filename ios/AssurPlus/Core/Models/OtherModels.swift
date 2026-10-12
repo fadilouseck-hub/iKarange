@@ -187,3 +187,52 @@ struct UploadCreateRequest: Codable, Sendable {
     /// "claim_document", "vault_document", "dependent_document", "profile_photo".
     let purpose: String
 }
+
+// MARK: - Feedback
+
+/// What the member is sending. Raw values are the API codes.
+enum FeedbackCategory: String, Codable, CaseIterable, Sendable, Identifiable {
+    case information, suggestion, bug, other
+    var id: String { rawValue }
+}
+
+struct FeedbackRequest: Codable, Equatable, Sendable {
+    let category: FeedbackCategory
+    let message: String
+    /// Diagnostic context shown to the member before sending.
+    let platform: String
+    let appVersion: String
+    let osVersion: String
+    let deviceModel: String
+    let locale: String
+}
+
+struct FeedbackReceipt: Codable, Equatable, Sendable {
+    let id: String
+    let status: ServerStatus
+    let createdAt: Date
+}
+
+// MARK: - Assistant
+
+struct AssistantInfo: Codable, Equatable, Sendable {
+    /// False when the backend has no assistant configured: the screen explains it instead of the chat.
+    let available: Bool
+    let suggestions: [String]
+    let disclaimer: String
+}
+
+struct AssistantMessage: Codable, Equatable, Sendable {
+    enum Role: String, Codable, Sendable { case user, assistant }
+    let role: Role
+    let content: String
+}
+
+/// The conversation so far, ending with the member's question. The server keeps no history.
+struct AssistantRequest: Codable, Equatable, Sendable {
+    let messages: [AssistantMessage]
+}
+
+struct AssistantReply: Codable, Equatable, Sendable {
+    let message: AssistantMessage
+}

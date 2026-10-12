@@ -207,6 +207,18 @@ struct AssurAPI: Sendable {
         _ = try await client.send(Endpoint<EmptyResponse>(.post, "devices", body: registration))
     }
 
+    // MARK: Feedback and assistant
+
+    func sendFeedback(_ request: FeedbackRequest) async throws -> FeedbackReceipt {
+        try await client.send(Endpoint(.post, "feedback", body: request))
+    }
+
+    func assistantInfo() async throws -> AssistantInfo { try await client.send(Endpoint(.get, "assistant")) }
+
+    func askAssistant(_ messages: [AssistantMessage]) async throws -> AssistantReply {
+        try await client.send(Endpoint(.post, "assistant/messages", body: AssistantRequest(messages: messages)))
+    }
+
     // MARK: Uploads (resumable)
 
     func createUpload(_ request: UploadCreateRequest) async throws -> UploadSession {

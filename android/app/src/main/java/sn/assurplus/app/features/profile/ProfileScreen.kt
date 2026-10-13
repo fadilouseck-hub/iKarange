@@ -44,6 +44,7 @@ import sn.assurplus.app.app.Appearance
 import sn.assurplus.app.app.Documents
 import sn.assurplus.app.app.LocalEnv
 import sn.assurplus.app.app.Route
+import sn.assurplus.app.app.Sheet
 import sn.assurplus.app.core.format.PhoneNumber
 import sn.assurplus.app.core.l10n.LanguageSettings
 import sn.assurplus.app.core.l10n.t
@@ -204,6 +205,8 @@ fun ProfileScreen() {
         FormSection(header = t("Aide et informations")) {
             var first = true
             fun divider(): Boolean = !first.also { first = false }
+            FormRow(t("Assistant"), symbol = "sparkles", divider = divider(), onClick = { env.router.presentedSheet = Sheet.assistant }, tag = "profile.assistant")
+            FormRow(t("Donner mon avis"), symbol = "bubble.left.and.text.bubble.right", divider = divider(), onClick = { env.router.presentedSheet = Sheet.feedback }, tag = "profile.feedback")
             model.legal.forEach { document ->
                 FormRow(t("%@ (%@)", document.title, document.version), symbol = "doc.plaintext", divider = divider(), onClick = { openUrl(document.url) })
             }

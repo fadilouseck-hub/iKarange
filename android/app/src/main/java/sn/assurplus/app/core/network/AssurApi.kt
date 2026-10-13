@@ -177,6 +177,15 @@ class AssurApi(val client: APIClient) {
         client.send<EmptyResponse>(Endpoint.json(POST, "devices", registration))
     }
 
+    // Feedback and assistant
+
+    suspend fun sendFeedback(request: FeedbackRequest): FeedbackReceipt = client.send(Endpoint.json(POST, "feedback", request))
+
+    suspend fun assistantInfo(): AssistantInfo = client.send(Endpoint(GET, "assistant"))
+
+    suspend fun askAssistant(messages: List<AssistantMessage>): AssistantReply =
+        client.send(Endpoint.json(POST, "assistant/messages", AssistantRequest(messages)))
+
     // Uploads (resumable)
 
     suspend fun createUpload(request: UploadCreateRequest): UploadSession = client.send(Endpoint.json(POST, "uploads", request))

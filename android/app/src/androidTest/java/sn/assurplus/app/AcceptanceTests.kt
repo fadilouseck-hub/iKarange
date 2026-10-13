@@ -178,6 +178,26 @@ class AcceptanceTests {
         compose.tag("card.qr", 10_000)
         assertTrue("only their own card", compose.onAllNodesWithTag("card.beneficiary.ben_awa").fetchSemanticsNodes().isEmpty())
     }
+
+    // Assistant (floating ring button above the menu) and feedback form — port of the iOS `SupportTests`.
+    @Test fun askAssistantThenSendFeedback() {
+        launch("principal")
+        compose.tag("assistant.orb", 10_000).performClick()
+        compose.tag("assistant.suggestion.0").performClick()
+        compose.tag("assistant.message.assistant", 10_000)
+        compose.tag("assistant.input").performTextInput("Et ma carte ?")
+        compose.tag("assistant.send").performClick()
+        compose.waitUntil(10_000) { compose.onAllNodesWithTag("assistant.message.assistant", useUnmergedTree = true).fetchSemanticsNodes().size == 2 }
+        assertTrue(compose.onAllNodesWithTag("assistant.message.assistant", useUnmergedTree = true)[1].text().contains("QR"))
+        compose.onNodeWithText("Fermer").performClick()
+
+        compose.tag("tab.profile", 10_000).performClick()
+        compose.tag("profile.feedback").performScrollTo().performClick()
+        compose.tag("feedback.category.bug").performClick()
+        compose.tag("feedback.message").performTextInput("La carte ne s'affiche pas hors connexion.")
+        compose.tag("feedback.send").performClick()
+        compose.tag("feedback.sent", 10_000)
+    }
 }
 
 // MARK: - Helpers (XCUITest-style waits)

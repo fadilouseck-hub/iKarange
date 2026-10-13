@@ -172,7 +172,7 @@ sealed class Route {
     data class Payment(val id: String) : Route()
 }
 
-enum class Sheet { subscription, newClaim }
+enum class Sheet { subscription, newClaim, assistant, feedback }
 
 /** Owns tab selection and navigation stacks so push notifications and URLs can open any screen. */
 class Router {

@@ -176,8 +176,22 @@ class MockServer(
         "deletion-request", "products", "health-questionnaire", "quotes", "policies", "conditions.pdf",
         "termination-requests", "dependents", "requests", "payment-methods", "payments", "claim-types", "claims",
         "documents", "ocr", "submit", "vault", "file", "providers", "network.pdf", "notifications", "read-all",
-        "read", "devices", "uploads",
+        "read", "devices", "uploads", "feedback", "assistant", "messages",
     )
+
+    /** Scripted answers standing in for the server-side model (the mock flavor has no network). */
+    internal fun cannedAnswer(question: String): String {
+        val text = java.text.Normalizer.normalize(question.lowercase(), java.text.Normalizer.Form.NFD).replace(Regex("\\p{M}+"), "")
+        return when {
+            listOf("sinistre", "claim", "rembours").any { it in text } ->
+                "Ouvrez l'onglet Sinistres puis « Nouveau sinistre » : choisissez le type de soin, photographiez la facture, vérifiez les montants et envoyez. Vous suivez ensuite le traitement dans le détail du sinistre."
+            listOf("carte", "card", "qr").any { it in text } ->
+                "Présentez le QR code de l'onglet Carte chez un prestataire du réseau. Il se renouvelle automatiquement toutes les minutes."
+            listOf("taux", "couverture", "coverage", "plafond").any { it in text } ->
+                "Vos taux et plafonds sont détaillés dans Accueil > Mon contrat. Votre gestionnaire peut préciser un cas particulier."
+            else -> "Je peux vous aider à utiliser l'application et à comprendre votre couverture. Pour une question sur un dossier précis, contactez votre gestionnaire."
+        }
+    }
 
     /** `["claims", "clm_1", "ocr"]` → (`"claims/:id/ocr"`, `["clm_1"]`). */
     private fun template(parts: List<String>): Pair<String, List<String>> {
@@ -326,6 +340,27 @@ class MockServer(
                 empty
             }
             "POST devices" -> empty
+
+            "POST feedback" -> {
+                val feedback = body<FeedbackRequest>(request)
+                if (feedback.message.trim().length < 5) {
+                    val message = "Décrivez votre message en quelques mots."
+                    throw Failure(422, "invalid_feedback", message, mapOf("message" to message))
+                }
+                json(FeedbackReceipt(nextId("fbk"), ServerStatus("received", "Reçu"), Instant.now()), 201)
+            }
+            "GET assistant" -> json(
+                AssistantInfo(
+                    available = true,
+                    suggestions = listOf("Comment déclarer un sinistre ?", "Comment utiliser ma carte chez un prestataire ?", "Quels sont mes taux de couverture ?"),
+                    disclaimer = "Réponses générées par une IA : elles peuvent contenir des erreurs et ne remplacent ni votre gestionnaire ni un avis médical.",
+                )
+            )
+            "POST assistant/messages" -> {
+                val question = body<AssistantRequest>(request).messages.lastOrNull()?.takeIf { it.role == AssistantMessage.Role.user }
+                    ?: throw Failure(422, "invalid_message", "Écrivez votre question.")
+                json(AssistantReply(AssistantMessage(AssistantMessage.Role.assistant, cannedAnswer(question.content))))
+            }
 
             "POST uploads" -> {
                 val create = body<UploadCreateRequest>(request)

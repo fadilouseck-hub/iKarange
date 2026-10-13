@@ -31,7 +31,13 @@ final class AssistantViewModel {
             info = try await env.api.assistantInfo()
             loadError = nil
         } catch {
-            loadError = .wrap(error)
+            let wrapped = APIError.wrap(error)
+            // A backend that does not have the assistant yet answers 404 / 501: say so instead of "cannot load".
+            if case .server(let status, _, _, _) = wrapped, status == 404 || status == 501 {
+                info = AssistantInfo(available: false, suggestions: [], disclaimer: "")
+            } else {
+                loadError = wrapped
+            }
         }
     }
 

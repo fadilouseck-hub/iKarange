@@ -204,3 +204,47 @@ data class UploadCreateRequest(
     /** "claim_document", "vault_document", "dependent_document", "profile_photo". */
     val purpose: String,
 )
+
+// MARK: - Feedback
+
+/** What the member is sending. Names are the API codes. */
+@Serializable
+enum class FeedbackCategory { information, suggestion, bug, other }
+
+@Serializable
+data class FeedbackRequest(
+    val category: FeedbackCategory,
+    val message: String,
+    /** Diagnostic context shown to the member before sending. */
+    val platform: String,
+    val appVersion: String,
+    val osVersion: String,
+    val deviceModel: String,
+    val locale: String,
+)
+
+@Serializable
+data class FeedbackReceipt(val id: String, val status: ServerStatus, val createdAt: Timestamp)
+
+// MARK: - Assistant
+
+@Serializable
+data class AssistantInfo(
+    /** False when the backend has no assistant configured: the screen explains it instead of the chat. */
+    val available: Boolean,
+    val suggestions: List<String> = emptyList(),
+    val disclaimer: String = "",
+)
+
+@Serializable
+data class AssistantMessage(val role: Role, val content: String) {
+    @Serializable
+    enum class Role { user, assistant }
+}
+
+/** The conversation so far, ending with the member's question. The server keeps no history. */
+@Serializable
+data class AssistantRequest(val messages: List<AssistantMessage>)
+
+@Serializable
+data class AssistantReply(val message: AssistantMessage)

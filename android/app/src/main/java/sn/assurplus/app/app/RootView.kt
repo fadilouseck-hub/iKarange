@@ -45,6 +45,9 @@ import kotlinx.coroutines.launch
 import sn.assurplus.app.core.l10n.t
 import sn.assurplus.app.core.model.Permission
 import sn.assurplus.app.designsystem.*
+import sn.assurplus.app.features.support.AssistantOrb
+import sn.assurplus.app.features.support.AssistantScreen
+import sn.assurplus.app.features.support.FeedbackScreen
 import sn.assurplus.app.features.auth.AuthFlow
 import sn.assurplus.app.features.card.CardScreen
 import sn.assurplus.app.features.claims.ClaimDetailScreen
@@ -197,6 +200,11 @@ fun MainTabView() {
             userName = session.user?.fullName.orEmpty(),
             modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = navBarInset),
         )
+        // Assistant button: floats at the right edge, just above the menu, on every tab.
+        AssistantOrb(
+            onClick = { router.presentedSheet = Sheet.assistant },
+            modifier = Modifier.align(Alignment.BottomEnd).padding(end = DS.Spacing.xl, bottom = navBarInset + 72.dp + DS.Spacing.l),
+        )
         AnimatedVisibility(
             router.presentedSheet != null,
             enter = slideInVertically(spring(stiffness = Spring.StiffnessMediumLow)) { it } + fadeIn(),
@@ -209,6 +217,8 @@ fun MainTabView() {
                 when (sheet.value) {
                     Sheet.subscription -> SubscriptionFlow(onDismiss = dismiss)
                     Sheet.newClaim -> NewClaimFlow(onDismiss = dismiss)
+                    Sheet.assistant -> AssistantScreen(onDismiss = dismiss, openFeedback = { router.presentedSheet = Sheet.feedback })
+                    Sheet.feedback -> FeedbackScreen(onDismiss = dismiss)
                     null -> Unit
                 }
             }

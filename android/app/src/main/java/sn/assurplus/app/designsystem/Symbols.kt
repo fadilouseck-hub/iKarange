@@ -17,6 +17,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
  */
 fun sym(name: String): ImageVector = when (name) {
     "arrow.down.doc" -> Icons.Outlined.FileDownload
+    "info.circle" -> Icons.Outlined.Info
+    "lightbulb" -> Icons.Outlined.Lightbulb
+    "ladybug" -> Icons.Outlined.BugReport
+    "ellipsis.bubble" -> Icons.Outlined.Sms
+    "bubble.left.and.text.bubble.right" -> Icons.Outlined.Forum
+    "bubble.left.and.exclamationmark.bubble.right" -> Icons.Outlined.Feedback
     "arrow.triangle.2.circlepath" -> Icons.Rounded.Sync
     "arrow.triangle.turn.up.right.diamond.fill" -> Icons.Rounded.Directions
     "arrow.up" -> Icons.Rounded.ArrowUpward

@@ -105,6 +105,14 @@ struct SupportTests {
         #expect(sent.messages == [AssistantMessage(role: .user, content: "Deuxième question")])
     }
 
+    @Test func assistantMissingOnTheServerIsShownAsUnavailable() async {
+        let transport = StubTransport { _, _ in (404, Fixture.error("not_found", "Élément introuvable.")) }
+        let model = AssistantViewModel(env: environment(on: transport))
+        await model.load()
+        #expect(model.info?.available == false)
+        #expect(model.loadError == nil)
+    }
+
     @Test func mockAnswersByTopic() {
         #expect(MockServer.cannedAnswer(to: "How do I submit a CLAIM?").contains("Sinistres"))
         #expect(MockServer.cannedAnswer(to: "Quel est mon taux ?").contains("Mon contrat"))

@@ -1,7 +1,7 @@
 <?php
 /**
  * Installs the mobile API on an existing I'KARANGE site. Additive and idempotent:
- *  1. creates the mobile_* tables (database/008_mobile_api.sql, 009_feedback_assistant.sql — CREATE TABLE IF NOT EXISTS only);
+ *  1. creates the mobile_* tables (database/008_mobile_api.sql, 009_…, 010_… — CREATE TABLE IF NOT EXISTS only);
  *  2. adds the /api/mobile/v1 hook to src/router.php if missing (backup kept next to it);
  *  3. adds MOBILE_SECRET to .env if missing (random, generated here, never printed).
  * Existing tables, data and routes are not modified.
@@ -37,7 +37,7 @@ $pdo = new PDO(
     getenv('DB_PASS') ?: '',
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
 );
-foreach (['008_mobile_api.sql', '009_feedback_assistant.sql'] as $migration) {
+foreach (['008_mobile_api.sql', '009_feedback_assistant.sql', '010_online_subscription.sql'] as $migration) {
     $sql = file_get_contents(__DIR__ . '/' . $migration);
     $sql = preg_replace('/^--.*$/m', '', $sql);
     foreach (array_filter(array_map('trim', explode(';', $sql))) as $statement) {

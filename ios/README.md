@@ -72,11 +72,11 @@ The production backend is the I'KARANGE PHP site. Its mobile API lives in
 [`legacy/ikarange/src/api/mobile/index.php`](../legacy/ikarange/src/api/mobile/index.php) (hooked in `src/router.php`)
 with new tables in [`database/008_mobile_api.sql`](../legacy/ikarange/database/008_mobile_api.sql); existing tables
 are not altered. It needs a `MOBILE_SECRET` (≥ 32 random characters) in the server `.env` for vault encryption.
-Members sign in with their portal username; SMS OTP, self-registration, online subscription/payments and OCR are not
+Members sign in with their portal username; SMS OTP, self-registration, real payments and OCR are not
 available on this platform yet (the app hides or degrades those features through the tenant flags). Provider
 positions are approximate (city level) until real coordinates exist.
 
-**Feedback and assistant** (Profile > Assistant / Give feedback): feedback is stored in `mobile_feedback`
+**Feedback and assistant** (assistant: floating ring button above the menu, also in Profile; feedback: Profile > Give feedback): feedback is stored in `mobile_feedback`
 ([`database/009_feedback_assistant.sql`](../legacy/ikarange/database/009_feedback_assistant.sql)). The assistant is
 answered by the server ([`src/api/mobile/assistant.php`](../legacy/ikarange/src/api/mobile/assistant.php)), which
 calls the Claude API with `ANTHROPIC_API_KEY` from the server `.env` (optional `ASSISTANT_MODEL`, default
@@ -84,9 +84,19 @@ calls the Claude API with `ANTHROPIC_API_KEY` from the server `.env` (optional `
 feedback form. The model receives the member's questions and a contract summary (plan, status, rates, limits), no
 identity, claim or medical data; conversations are not stored. MockAPI answers from a few scripted replies.
 
+**Online subscription — test mode**: the purchase journey (formulas, questionnaire, quote, contract, payment) is
+served by [`src/api/mobile/subscription.php`](../legacy/ikarange/src/api/mobile/subscription.php) with
+**placeholder** formulas, prices and eligibility rules, and a **simulated** payment page hosted by the server
+("MODE TEST — aucun débit réel"; no provider is called). It is offered only to members listed in
+`mobile_online_subscribers`, created with `php database/create_subscription_tester.php --login=<name>`
+(`--restart` puts a tester back to "no contract"); company-plan members are unaffected. Replace the catalogue and
+pricing with the insurer's real rules, and the test page with Wave / Orange Money / card checkouts and their
+webhooks, before opening it to real members. Sign-up by SMS code is still not available (no SMS provider).
+
 Local run: `dev/serve.sh` (PHP built-in server on the local MySQL copy), then run the `AssurPlus` scheme with
 `-APIBaseURL http://localhost:8080/api/mobile/v1`. `LiveBackendTests` drives the real app against it when
-`TEST_RUNNER_LIVE_API_URL`, `TEST_RUNNER_LIVE_USER` and `TEST_RUNNER_LIVE_PASSWORD` are set (synthetic test member only).
+`TEST_RUNNER_LIVE_API_URL`, `TEST_RUNNER_LIVE_USER` and `TEST_RUNNER_LIVE_PASSWORD` are set (synthetic test member only);
+`TEST_RUNNER_LIVE_SUB_USER` / `TEST_RUNNER_LIVE_SUB_PASSWORD` add the subscription journey with the test payment page.
 
 ## Architecture
 

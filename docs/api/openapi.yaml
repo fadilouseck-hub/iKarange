@@ -821,6 +821,42 @@ paths:
       responses:
         '204': { description: Registered }
 
+  /payments/{id}/checkout:
+    get:
+      tags: [payments]
+      summary: Hosted TEST payment page (HTML) opened in a browser sheet. Simulates the provider; nothing is charged.
+      description: >
+        Returned as `checkoutURL` by `POST /payments` while online subscription runs in test mode. Authenticated by
+        the one-time `token` of the link, not by the bearer token. The form posts the simulated outcome to the same
+        URL, which confirms or fails the payment server-side (activating the contract on success) and redirects to
+        the app's `returnURL` (`assurplus://payments/return`). A real provider replaces this page and calls a webhook.
+      security: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+        - { name: token, in: query, required: true, schema: { type: string } }
+        - { name: lang, in: query, schema: { type: string, enum: [fr, en] } }
+      responses:
+        '200': { description: HTML page, content: { text/html: { schema: { type: string } } } }
+        '404': { description: Invalid link }
+    post:
+      tags: [payments]
+      summary: Simulated outcome of the TEST payment page (form post), then redirect to the app.
+      security: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [token, outcome]
+              properties:
+                token: { type: string }
+                outcome: { type: string, enum: [succeeded, failed] }
+      responses:
+        '303': { description: Redirect to the app return URL }
+
   /feedback:
     post:
       tags: [support]

@@ -29,6 +29,8 @@ final class Router {
     enum Sheet: Identifiable, Hashable {
         case subscription
         case newClaim
+        case assistant
+        case feedback
         var id: Self { self }
     }
 

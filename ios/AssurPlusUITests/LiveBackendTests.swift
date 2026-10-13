@@ -49,4 +49,66 @@ final class LiveBackendTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH 'network.provider.'")).firstMatch.waitForExistence(timeout: 10))
         screenshot(app, "live-network")
     }
+
+    /// Online subscription in test mode: a tester without a contract subscribes and pays on the server's test page.
+    ///   TEST_RUNNER_LIVE_SUB_USER=… TEST_RUNNER_LIVE_SUB_PASSWORD=… (database/create_subscription_tester.php; --restart between runs)
+    func testOnlineSubscriptionWithTestPayment() throws {
+        let env = ProcessInfo.processInfo.environment
+        guard let url = env["LIVE_API_URL"], let user = env["LIVE_SUB_USER"], let password = env["LIVE_SUB_PASSWORD"] else {
+            throw XCTSkip("Live subscription tester not configured")
+        }
+        let app = XCUIApplication()
+        app.launchArguments = ["-APIBaseURL", url, "-ResetState", "-AppleLanguages", "(fr)"]
+        app.launch()
+        app.buttons["welcome.login"].waitToExist().tap()
+        let username = app.textFields["auth.username"].waitToExist()
+        username.tap()
+        username.typeText(user)
+        app.secureTextFields["auth.password"].tap()
+        app.secureTextFields["auth.password"].typeText(password)
+        app.buttons["auth.submit"].tap()
+
+        // No contract: no card or claims tab, and the home screen offers to subscribe.
+        app.buttons["home.subscribe"].waitToExist(15)
+        XCTAssertFalse(app.buttons["tab.card"].exists)
+        screenshot(app, "live-sub-home")
+        app.buttons["home.subscribe"].tap()
+        let next = app.buttons["subscription.next"].waitToExist()
+        next.tap() // identification
+        next.tap() // personal information
+        for id in ["q_chronic", "q_hospital", "q_incurable"] {
+            app.segmentedControls["question.\(id)"].waitToExist().buttons["Non"].tap()
+        }
+        next.tap()
+        app.buttons["subscription.product.prd_essentiel"].waitToExist(10).tap()
+        app.staticTexts["subscription.total"].waitToExist(10)
+        Thread.sleep(forTimeInterval: 1.5)
+        screenshot(app, "live-sub-guarantees")
+        next.tap()
+        XCTAssertTrue(app.staticTexts["Vous êtes éligible à cette formule."].waitForExistence(timeout: 10))
+        next.tap()
+        let accept = app.switches["subscription.acceptConditions"].waitToExist()
+        accept.coordinate(withNormalizedOffset: CGVector(dx: 0.93, dy: 0.5)).tap()
+        if (accept.value as? String) != "1" { accept.switches.firstMatch.tap() }
+        next.tap()
+
+        // Card needs no phone number. The system asks before opening the hosted page.
+        app.buttons["payment.method.card"].waitToExist(10).tap()
+        app.buttons["payment.pay"].tap()
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let allow = springboard.buttons["Continuer"].exists ? springboard.buttons["Continuer"] : springboard.buttons["Continue"]
+        if allow.waitForExistence(timeout: 10) { allow.tap() }
+        let pay = app.webViews.buttons["Simuler un paiement réussi"]
+        pay.waitToExist(20)
+        screenshot(app, "live-sub-test-payment")
+        pay.tap()
+
+        app.buttons["payment.continue"].waitToExist(20).tap()
+        let policyNumber = app.descendants(matching: .any)["subscription.policyNumber"].firstMatch.waitToExist()
+        XCTAssertTrue(policyNumber.label.contains("ASP-TEST-"), policyNumber.label)
+        screenshot(app, "live-sub-confirmation")
+        app.buttons["subscription.showCard"].tap()
+        app.images["card.qr"].waitToExist(15)
+        screenshot(app, "live-sub-card")
+    }
 }

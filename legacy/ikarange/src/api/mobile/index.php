@@ -17,6 +17,8 @@ const MOBILE_REFRESH_TTL = 30 * 86400;
 const MOBILE_QR_TTL = 60;
 const MOBILE_UPLOAD_MAX = 10 * 1024 * 1024;
 const MOBILE_CHUNK_SIZE = 256 * 1024;
+require_once __DIR__ . '/subscription.php';
+
 const MOBILE_FEEDBACK_CATEGORIES = ['information', 'suggestion', 'bug', 'other'];
 const MOBILE_ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
 
@@ -162,8 +164,9 @@ function mAuth(): array
 
 // ── Mapping ─────────────────────────────────────────────
 
-function mPermissions(): array
+function mPermissions(array $a): array
 {
+    if (subIsOnline($a)) return subPermissions($a);
     // Family, payments and online subscription are managed by the employer on this platform.
     return ['policy.view', 'card.view', 'claims.view', 'claims.create', 'vault.view', 'vault.manage'];
 }
@@ -197,9 +200,9 @@ function mMe(array $a): array
         'city' => null,
         'photoURL' => null,
         'role' => 'principal',
-        'permissions' => mPermissions(),
+        'permissions' => mPermissions($a),
         'memberNumber' => $a['matricule'],
-        'hasActivePolicy' => $a['statut'] === 'actif',
+        'hasActivePolicy' => subIsOnline($a) ? subActivePolicy($a) !== null : $a['statut'] === 'actif',
         'preferredLanguage' => mLanguage((int)$a['id']),
     ];
 }
@@ -226,6 +229,19 @@ function mPolicySummary(array $a): array
         'coverageRate' => (int)round((float)($a['taux_prise_en_charge'] ?? 0)),
         'territoriality' => null,
     ];
+}
+
+/** Members who subscribe online have cover only once their contract is paid. */
+function mCover(array $a): ?array
+{
+    return subIsOnline($a) ? subActivePolicy($a) : null;
+}
+
+function mRequireCover(array $a): void
+{
+    if (subIsOnline($a) && !subActivePolicy($a)) {
+        mError(403, 'no_contract', t("Souscrivez un contrat pour accéder à cette fonctionnalité.", 'Subscribe to a contract to use this feature.'));
+    }
 }
 
 /** Annual limit and consumption (direct-billing approvals + validated reimbursements) for the current year. */
@@ -533,7 +549,7 @@ function mobileRoute(string $path, string $method): never
         'me', 'dashboard', 'card', 'qr-token', 'wallet-pass', 'photo', 'notification-preferences', 'deletion-request', 'products',
         'health-questionnaire', 'quotes', 'policies', 'conditions.pdf', 'termination-requests', 'dependents', 'requests',
         'payment-methods', 'payments', 'claim-types', 'claims', 'ocr', 'submit', 'vault', 'file', 'providers', 'network.pdf',
-        'notifications', 'read-all', 'read', 'devices', 'uploads', 'feedback', 'assistant', 'messages'];
+        'notifications', 'read-all', 'read', 'devices', 'uploads', 'feedback', 'assistant', 'messages', 'checkout'];
     $template = implode('/', array_map(function ($part) use ($static, &$ids) {
         if (in_array($part, $static, true)) return $part;
         $ids[] = $part;
@@ -663,6 +679,7 @@ function mobileDispatch(string $route, array $ids): void
         // ── Dashboard & card ──
         case 'GET me/dashboard':
             $a = mAuth();
+            $cover = mCover($a);
             $stmt = db()->prepare('SELECT * FROM remboursements WHERE adherent_id = ? ORDER BY created_at DESC LIMIT 3');
             $stmt->execute([$a['id']]);
             $alerts = [];
@@ -672,8 +689,8 @@ function mobileDispatch(string $route, array $ids): void
             mJson([
                 'fullName' => trim($a['prenom'] . ' ' . $a['nom']),
                 'memberNumber' => null,
-                'policy' => mPolicySummary($a),
-                'limits' => mLimits($a),
+                'policy' => subIsOnline($a) ? ($cover ? subPolicySummary($cover) : null) : mPolicySummary($a),
+                'limits' => subIsOnline($a) ? ($cover ? mLimits(['plafond_annuel' => subProduct($cover['product_id'])['annualLimit'] ?? 0] + $a) : null) : mLimits($a),
                 'dependents' => [],
                 'recentClaims' => array_map(fn($r) => mClaimSummary($r, $a), $stmt->fetchAll()),
                 'unreadNotifications' => 0,
@@ -682,16 +699,18 @@ function mobileDispatch(string $route, array $ids): void
 
         case 'GET me/card':
             $a = mAuth();
+            mRequireCover($a);
+            $cover = mCover($a);
             mJson(['beneficiaries' => [[
                 'id' => 'adh_' . $a['id'],
                 'fullName' => trim($a['prenom'] . ' ' . $a['nom']),
                 'relationLabel' => t('Assuré(e) principal(e)', 'Main policyholder'),
                 'memberNumber' => $a['matricule'],
-                'policyNumber' => $a['entreprise_nom'] ?: '',
+                'policyNumber' => $cover ? $cover['number'] : ($a['entreprise_nom'] ?: ''),
                 'insurerName' => $a['org_name'] ?: "I'KARANGE",
-                'formulaName' => $a['entreprise_nom'] ?: '',
-                'coverageRate' => (int)round((float)($a['taux_prise_en_charge'] ?? 0)),
-                'validUntil' => date('Y-12-31'),
+                'formulaName' => $cover ? subPolicySummary($cover)['formulaName'] : ($a['entreprise_nom'] ?: ''),
+                'coverageRate' => $cover ? (int)$cover['coverage_rate'] : (int)round((float)($a['taux_prise_en_charge'] ?? 0)),
+                'validUntil' => $cover ? $cover['end_date'] : date('Y-12-31'),
                 'photoURL' => null,
                 'status' => mMemberStatus($a['statut']),
                 'birthDate' => mDay($a['date_naissance']),
@@ -699,6 +718,7 @@ function mobileDispatch(string $route, array $ids): void
 
         case 'GET me/card/qr-token':
             $a = mAuth();
+            mRequireCover($a);
             $token = 'IK1.' . rtrim(strtr(base64_encode(random_bytes(24)), '+/', '-_'), '=');
             $expires = time() + MOBILE_QR_TTL;
             db()->prepare('DELETE FROM mobile_qr_tokens WHERE expires_at < NOW() - INTERVAL 1 DAY')->execute();
@@ -723,6 +743,7 @@ function mobileDispatch(string $route, array $ids): void
         // ── Contract ──
         case 'GET policies/:id':
             $a = mAuth();
+            if (subIsOnline($a)) mJson(subPolicyDetail($a, subPolicyFor($a, $ids[0])));
             if ($ids[0] !== 'ent_' . (int)$a['entreprise_id']) mError(404, 'not_found', t('Élément introuvable.', 'Not found.'));
             $stmt = db()->prepare('SELECT * FROM baremes WHERE entreprise_id = ? AND org_id = ? AND is_active = 1 ORDER BY libelle');
             $stmt->execute([$a['entreprise_id'], $a['org_id']]);
@@ -750,25 +771,70 @@ function mobileDispatch(string $route, array $ids): void
             ]);
 
         case 'GET policies/:id/conditions.pdf':
-            mAuth();
+            $a = mAuth();
+            if (subIsOnline($a)) {
+                $policy = subPolicyFor($a, $ids[0]);
+                header('Content-Type: application/pdf');
+                header('Cache-Control: no-store');
+                echo mPdf(t('Conditions particulières', 'Policy conditions'), subConditionsLines($a, $policy));
+                exit;
+            }
             mError(404, 'not_available', t('Les conditions particulières ne sont pas encore disponibles en ligne.', 'The policy conditions are not available online yet.'));
 
         case 'POST policies/:id/termination-requests':
+            mAuth();
+            mNotAvailable();
+
+        // ── Online subscription (test mode, see subscription.php) ──
+        case 'GET products':
+            $a = mAuth();
+            mJson(subIsOnline($a) ? subPublicProducts() : []);
+
         case 'GET health-questionnaire':
+            $a = mAuth();
+            subRequireOnline($a);
+            mJson(subQuestionnaire());
+
         case 'POST quotes':
+            $a = mAuth();
+            subRequireOnline($a);
+            mJson(subQuote($a, mBody()), 201);
+
         case 'POST policies':
+            $a = mAuth();
+            subRequireOnline($a);
+            mJson(subCreatePolicy($a, mBody()), 201);
+
+        case 'GET payment-methods':
+            $a = mAuth();
+            mJson(subIsOnline($a) ? subPaymentMethods() : []);
+
         case 'POST payments':
+            $a = mAuth();
+            subRequireOnline($a);
+            mJson(subCreatePayment($a, mBody()), 201);
+
+        case 'GET payments':
+            $a = mAuth();
+            mJson(subIsOnline($a) ? subPayments($a) : []);
+
         case 'GET payments/:id':
+            $a = mAuth();
+            $payment = str_starts_with($ids[0], 'pay_') ? subPayment((int)substr($ids[0], 4), (int)$a['id']) : null;
+            if (!$payment) mError(404, 'not_found', t('Élément introuvable.', 'Not found.'));
+            mJson(subPaymentJson($payment));
+
+        // Hosted test payment page: opened in a browser sheet, authenticated by the one-time token of the link.
+        case 'GET payments/:id/checkout':
+            subCheckoutPage($ids[0]);
+
+        case 'POST payments/:id/checkout':
+            subCheckoutSubmit($ids[0]);
+
         case 'POST dependents/requests':
         case 'DELETE dependents/:id':
             mAuth();
             mNotAvailable();
-
-        case 'GET products':
-        case 'GET payment-methods':
-        case 'GET payments':
-            mAuth();
-            mJson([]);
 
         case 'GET dependents':
             mAuth();
@@ -788,6 +854,7 @@ function mobileDispatch(string $route, array $ids): void
 
         case 'POST claims':
             $a = mAuth();
+            mRequireCover($a);
             $in = mBody();
             $type = (string)($in['typeCode'] ?? '');
             if (!in_array($type, array_column(mClaimTypes(), 'code'), true)) mError(422, 'invalid_type', t("Type d'acte invalide.", 'Invalid type of care.'));

@@ -1,17 +1,13 @@
 import XCTest
 
-/// Profile > Assistant and Profile > feedback, on the MockAPI.
+/// Assistant button and Profile > feedback, on the MockAPI.
 final class SupportTests: XCTestCase {
     override func setUp() { continueAfterFailure = false }
 
     func testAssistantThenFeedback() {
         let app = XCUIApplication.mock(signedInAs: "principal")
-        app.tab("Profil").waitToExist().tap()
-        app.switches["profile.biometrics"].waitToExist()
-        app.swipeUp()
-
-        // Ask through a suggestion, then by typing.
-        app.buttons["profile.assistant"].waitToExist().tap()
+        // The assistant button floats above the menu on every tab. Ask through a suggestion, then by typing.
+        app.buttons["assistant.orb"].waitToExist().tap()
         app.buttons["assistant.suggestion.0"].waitToExist().tap()
         app.staticTexts["assistant.message.assistant"].firstMatch.waitToExist()
         let input = app.textFields["assistant.input"].exists ? app.textFields["assistant.input"] : app.textViews["assistant.input"]
@@ -23,6 +19,9 @@ final class SupportTests: XCTestCase {
         app.navigationBars.buttons[L("Fermer", "Close")].tap()
 
         // Send a bug report.
+        app.tab("Profil").waitToExist().tap()
+        app.switches["profile.biometrics"].waitToExist()
+        app.swipeUp()
         app.buttons["profile.feedback"].waitToExist().tap()
         let message = app.textFields["feedback.message"].exists ? app.textFields["feedback.message"] : app.textViews["feedback.message"]
         message.waitToExist()

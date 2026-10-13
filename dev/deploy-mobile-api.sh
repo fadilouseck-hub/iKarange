@@ -27,11 +27,11 @@ echo "→ Backing up files that will change"
 
 echo "→ Uploading"
 "${SSH[@]}" "$TARGET" "mkdir -p '$REMOTE_DIR/src/api/mobile'"
-scp -o ControlPath="$CONTROL" -q "$LOCAL/src/api/mobile/index.php" "$LOCAL/src/api/mobile/assistant.php" "$TARGET:$REMOTE_DIR/src/api/mobile/"
-scp -o ControlPath="$CONTROL" -q "$LOCAL/database/008_mobile_api.sql" "$LOCAL/database/009_feedback_assistant.sql" "$LOCAL/database/install_mobile_api.php" "$TARGET:$REMOTE_DIR/database/"
+scp -o ControlPath="$CONTROL" -q "$LOCAL/src/api/mobile/index.php" "$LOCAL/src/api/mobile/assistant.php" "$LOCAL/src/api/mobile/subscription.php" "$TARGET:$REMOTE_DIR/src/api/mobile/"
+scp -o ControlPath="$CONTROL" -q "$LOCAL/database/008_mobile_api.sql" "$LOCAL/database/009_feedback_assistant.sql" "$LOCAL/database/010_online_subscription.sql" "$LOCAL/database/install_mobile_api.php" "$LOCAL/database/create_subscription_tester.php" "$TARGET:$REMOTE_DIR/database/"
 
 echo "→ Installing (tables, router hook, secret)"
-"${SSH[@]}" "$TARGET" "cd '$REMOTE_DIR' && php -l src/api/mobile/index.php && php -l src/api/mobile/assistant.php && php database/install_mobile_api.php && php -l src/router.php"
+"${SSH[@]}" "$TARGET" "cd '$REMOTE_DIR' && php -l src/api/mobile/index.php && php -l src/api/mobile/assistant.php && php -l src/api/mobile/subscription.php && php database/install_mobile_api.php && php -l src/router.php"
 
 echo "→ Smoke test"
 code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_URL/api/mobile/v1/me")

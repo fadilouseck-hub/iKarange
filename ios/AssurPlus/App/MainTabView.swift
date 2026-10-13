@@ -54,10 +54,19 @@ struct MainTabView: View {
         .overlay(alignment: .bottom) {
             FloatingTabBar(tabs: tabs, selection: $router.selectedTab, userName: env.session.user?.fullName ?? "")
         }
+        // Assistant button: floats at the right edge, just above the menu, on every tab.
+        .overlay(alignment: .bottomTrailing) {
+            AssistantOrb { router.presentedSheet = .assistant }
+                .padding(.trailing, DS.Spacing.xl)
+                .padding(.bottom, FloatingTabBar.reservedHeight - DS.Spacing.s)
+                .ignoresSafeArea(.keyboard)
+        }
         .sheet(item: $router.presentedSheet) { sheet in
             switch sheet {
             case .subscription: SubscriptionFlowView()
             case .newClaim: NewClaimFlowView()
+            case .assistant: AssistantView { router.presentedSheet = .feedback }
+            case .feedback: FeedbackView()
             }
         }
     }
@@ -168,6 +177,42 @@ struct FloatingTabBar: View {
 
     private var initials: String {
         userName.split(separator: " ").prefix(2).compactMap(\.first).map(String.init).joined().uppercased()
+    }
+}
+
+/// Donut-shaped assistant button: a brand-coloured ring that keeps circling around a dark centre.
+struct AssistantOrb: View {
+    static let size: CGFloat = 54
+    let action: () -> Void
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var isCircling = false
+
+    var body: some View {
+        Button(action: action) {
+            ZStack {
+                Circle().fill(DS.Palette.teal.opacity(0.96))
+                Circle()
+                    .strokeBorder(
+                        AngularGradient(
+                            colors: [DS.Palette.mint, DS.Palette.mint.opacity(0.15), DS.Palette.tealMid, DS.Palette.mint],
+                            center: .center),
+                        lineWidth: 9)
+                    .rotationEffect(.degrees(isCircling ? 360 : 0))
+                Image(systemName: "sparkles")
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundStyle(DS.Palette.mint)
+            }
+            .frame(width: Self.size, height: Self.size)
+            .shadow(color: .black.opacity(0.28), radius: 12, y: 6)
+            .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("Assistant"))
+        .accessibilityIdentifier("assistant.orb")
+        .onAppear {
+            guard !reduceMotion else { return }
+            withAnimation(.linear(duration: 4).repeatForever(autoreverses: false)) { isCircling = true }
+        }
     }
 }
 

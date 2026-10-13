@@ -74,6 +74,13 @@ function assistantConversation(array $in): array
 /** Contract facts the assistant may quote. Nothing identifying, nothing medical. */
 function assistantContext(array $a): string
 {
+    if (subIsOnline($a)) {
+        $policy = subActivePolicy($a);
+        if (!$policy) return 'No contract yet. The member can subscribe from the Home screen ("Souscrire maintenant" / "Subscribe now"): choose a plan, answer the health questionnaire, get a quote and pay. Online subscription is currently in test mode: plans and prices are placeholders and the payment is simulated.';
+        $summary = subPolicySummary($policy);
+        return 'Individual contract ' . $summary['number'] . ' (test mode: placeholder plan and price), plan ' . $summary['formulaName']
+            . ', coverage rate ' . $summary['coverageRate'] . ' %, valid until ' . $summary['endDate'] . '. Guarantees and limits are listed in Home > contract.';
+    }
     $lines = [
         'Plan: ' . ($a['entreprise_nom'] ?: 'company plan') . ' (managed by ' . ($a['org_name'] ?: 'the insurer') . ')',
         'Member status: ' . $a['statut'],

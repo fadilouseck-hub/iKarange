@@ -72,24 +72,46 @@ struct PrivacyShield: View {
     }
 }
 
+/// Tenant logo: the vector mark (`BrandLogo` asset) next to the wordmark, with the tagline under it when set.
 struct BrandMark: View {
     var size: CGFloat = 56
+    var showsTagline = true
 
     var body: some View {
-        HStack(spacing: size * 0.08) {
-            ZStack {
-                RoundedRectangle(cornerRadius: size * 0.28).fill(DS.Palette.teal)
-                Image(systemName: "plus")
-                    .font(.system(size: size * 0.5, weight: .black))
-                    .foregroundStyle(DS.Palette.mint)
+        HStack(spacing: size * 0.2) {
+            Image("BrandLogo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: size, height: size)
+            VStack(alignment: .leading, spacing: size * 0.04) {
+                Wordmark(size: size * 0.5)
+                if showsTagline, !Tenant.current.tagline.isEmpty {
+                    Text(verbatim: Tenant.current.tagline.uppercased())
+                        .font(.system(size: size * 0.14, weight: .medium))
+                        .tracking(size * 0.03)
+                        .foregroundStyle(DS.Palette.textSecondary)
+                }
             }
-            .frame(width: size, height: size)
-            Text(verbatim: Tenant.current.wordmark)
-                .font(.system(size: size * 0.42, weight: .heavy, design: .rounded))
-                .foregroundStyle(DS.Palette.primary)
         }
         .accessibilityElement()
         .accessibilityLabel(Text(verbatim: Tenant.current.displayName))
+    }
+}
+
+/// The tenant wordmark; a trailing "+" is drawn in the bright brand colour, as in the logo.
+struct Wordmark: View {
+    var size: CGFloat
+    var color: Color = DS.Palette.textPrimary
+
+    var body: some View {
+        let mark = Tenant.current.wordmark
+        let base = mark.hasSuffix("+") ? String(mark.dropLast()) : mark
+        (Text(verbatim: base).foregroundStyle(color)
+            + Text(verbatim: mark.hasSuffix("+") ? "+" : "").foregroundStyle(DS.Palette.mint))
+            .font(.system(size: size, weight: .heavy))
+            .tracking(-size * 0.035)
+            .lineLimit(1)
+            .fixedSize()
     }
 }
 

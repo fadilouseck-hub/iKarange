@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" width="320" height="96" fill="none">
+  <!-- Mark: rounded square with a + and heartbeat curve -->
+  <rect x="4" y="8" width="80" height="80" rx="22" fill="#00C896"/>
+  <!-- White plus -->
+  <rect x="36" y="22" width="16" height="52" rx="4" fill="#FFFFFF"/>
+  <rect x="18" y="40" width="52" height="16" rx="4" fill="#FFFFFF"/>
+  <!-- Heartbeat pulse over the + -->
+  <path d="M14 58 L26 58 L30 46 L36 68 L42 40 L48 58 L74 58"
+        stroke="#003D2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.9"/>
+  <!-- Wordmark -->
+  <text x="100" y="60" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="42" font-weight="800" fill="#0B1F1A" letter-spacing="-1.5">
+    assur<tspan fill="#00C896">+</tspan>
+  </text>
+  <!-- Tagline -->
+  <text x="102" y="80" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#4A5A54" letter-spacing="2">SANTÉ POUR TOUS</text>
+</svg>

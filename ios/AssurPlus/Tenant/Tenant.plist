@@ -1,59 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!--
-  Tenant (white-label customer) configuration. Everything customer-specific lives here; shared insurance
-  behaviour must not hard-code any of it. Empty strings mean "not provided yet" and hide the related UI.
--->
 <plist version="1.0">
 <dict>
-	<key>id</key>
-	<string>assurplus</string>
-	<key>displayName</key>
-	<string>Assur Plus</string>
-	<key>wordmark</key>
-	<string>ASSUR+</string>
-	<key>copyrightHolder</key>
-	<string>MCE Group</string>
 	<key>apiBaseURL</key>
 	<string>https://ikarange.mcedge.sn/api/mobile/v1</string>
-	<!-- How members sign in on this tenant's backend: "username" (member login) or "phone". -->
-	<key>loginIdentifier</key>
-	<string>username</string>
-	<!-- Backend capabilities. MockAPI builds enable everything for demos. -->
+	<key>colors</key>
+	<dict>
+		<key>accentOnLight</key>
+		<string>007A5E</string>
+		<key>brandAccent</key>
+		<string>00C896</string>
+		<key>brandDark</key>
+		<string>003D2E</string>
+		<key>brandDarkSecondary</key>
+		<string>0B5A45</string>
+	</dict>
+	<key>copyrightHolder</key>
+	<string>MCE Group</string>
+	<key>defaultLanguage</key>
+	<string>fr</string>
+	<key>displayName</key>
+	<string>Assur Plus</string>
 	<key>features</key>
 	<dict>
-		<key>selfRegistration</key>
-		<false/>
 		<key>otpLogin</key>
 		<false/>
 		<key>passwordReset</key>
 		<false/>
+		<key>selfRegistration</key>
+		<false/>
 	</dict>
-	<key>supportPhone</key>
+	<key>id</key>
+	<string>assurplus</string>
+	<key>loginIdentifier</key>
+	<string>username</string>
+	<key>privacyPolicyURL</key>
 	<string></string>
 	<key>supportEmail</key>
 	<string></string>
-	<key>privacyPolicyURL</key>
+	<key>supportPhone</key>
 	<string></string>
-	<key>termsURL</key>
-	<string></string>
-	<key>defaultLanguage</key>
-	<string>fr</string>
 	<key>supportedLanguages</key>
 	<array>
 		<string>fr</string>
 		<string>en</string>
 	</array>
-	<key>colors</key>
-	<dict>
-		<key>brandDark</key>
-		<string>1A3A3A</string>
-		<key>brandDarkSecondary</key>
-		<string>2D5454</string>
-		<key>brandAccent</key>
-		<string>2DD4A8</string>
-		<key>accentOnLight</key>
-		<string>1C8F72</string>
-	</dict>
+	<key>tagline</key>
+	<string>Santé pour tous</string>
+	<key>termsURL</key>
+	<string></string>
+	<key>wordmark</key>
+	<string>assur+</string>
 </dict>
 </plist>

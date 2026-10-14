@@ -26,6 +26,8 @@ struct Tenant: Decodable, Sendable {
     let id: String
     let displayName: String
     let wordmark: String
+    /// Short line shown under the wordmark in the logo; empty to hide it.
+    let tagline: String
     let copyrightHolder: String
     let apiBaseURL: String
     let loginIdentifier: LoginIdentifier

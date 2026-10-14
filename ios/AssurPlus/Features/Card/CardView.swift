@@ -99,7 +99,12 @@ struct MemberCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             HStack {
-                Text(verbatim: Tenant.current.wordmark).font(.system(.headline, design: .rounded).weight(.heavy))
+                HStack(spacing: DS.Spacing.s) {
+                    Image("BrandLogo").resizable().scaledToFit().frame(width: 26, height: 26)
+                    Wordmark(size: 20, color: .white)
+                }
+                .accessibilityElement()
+                .accessibilityLabel(Text(verbatim: Tenant.current.displayName))
                 Spacer()
                 Text(beneficiary.insurerName).font(.caption.weight(.semibold)).opacity(0.85)
             }

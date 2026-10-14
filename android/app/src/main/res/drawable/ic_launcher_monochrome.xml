@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Themed-icon layer: the "+" and heartbeat in a single colour (tinted by the system). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <group android:scaleX="0.81818" android:scaleY="0.81818" android:translateX="14.7273" android:translateY="14.7273">
+        <path android:fillColor="#FFFFFF" android:pathData="M44,18 h8 a4,4 0 0 1 4,4 v52 a4,4 0 0 1 -4,4 h-8 a4,4 0 0 1 -4,-4 v-52 a4,4 0 0 1 4,-4 z M22,40 h52 a4,4 0 0 1 4,4 v8 a4,4 0 0 1 -4,4 h-52 a4,4 0 0 1 -4,-4 v-8 a4,4 0 0 1 4,-4 z" />
+        <path android:strokeColor="#FFFFFF" android:strokeWidth="3.5"
+            android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M14,62 L28,62 L32,48 L40,74 L48,40 L54,62 L82,62" />
+    </group>
+</vector>

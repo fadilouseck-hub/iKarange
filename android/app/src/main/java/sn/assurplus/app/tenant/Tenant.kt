@@ -15,6 +15,8 @@ data class Tenant(
     val displayName: String,
     val wordmark: String,
     val copyrightHolder: String,
+    /** Shown under the wordmark in the logo ("Santé pour tous"); empty hides it. */
+    val tagline: String = "",
     val apiBaseURL: String,
     val loginIdentifier: LoginIdentifier,
     val features: Features,

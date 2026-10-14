@@ -26,6 +26,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Alignment
+import sn.assurplus.app.core.l10n.L10n
+import sn.assurplus.app.R
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.Image
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.shadow
@@ -101,26 +110,44 @@ fun LaunchView() {
     }
 }
 
-/** Logo: "+" in a rounded teal square, followed by the tenant wordmark. */
+/** Tenant logo: the vector mark (`brand_logo`) next to the wordmark, with the tagline under it when set (iOS `BrandMark`). */
 @Composable
-fun BrandMark(modifier: Modifier = Modifier, size: Dp = 56.dp) {
+fun BrandMark(modifier: Modifier = Modifier, size: Dp = 56.dp, showsTagline: Boolean = true) {
     Row(
         modifier.semantics(mergeDescendants = true) { contentDescription = Tenant.current.displayName },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(size * 0.08f),
+        horizontalArrangement = Arrangement.spacedBy(size * 0.2f),
     ) {
-        Box(Modifier.size(size).background(DS.Palette.teal, RoundedCornerShape(size * 0.28f)), contentAlignment = Alignment.Center) {
-            // Heavy "+" (SF Symbol "plus", weight black).
-            val mint = DS.Palette.mint
-            androidx.compose.foundation.Canvas(Modifier.size(size * 0.5f)) {
-                val bar = this.size.width * 0.26f
-                val r = androidx.compose.ui.geometry.CornerRadius(bar * 0.3f)
-                drawRoundRect(mint, androidx.compose.ui.geometry.Offset((this.size.width - bar) / 2, 0f), androidx.compose.ui.geometry.Size(bar, this.size.height), r)
-                drawRoundRect(mint, androidx.compose.ui.geometry.Offset(0f, (this.size.height - bar) / 2), androidx.compose.ui.geometry.Size(this.size.width, bar), r)
+        Image(painterResource(R.drawable.brand_logo), null, Modifier.size(size))
+        Column(verticalArrangement = Arrangement.spacedBy(size * 0.04f)) {
+            Wordmark(size = (size.value * 0.5f).sp)
+            val tagline = Tenant.current.tagline
+            if (showsTagline && tagline.isNotEmpty()) {
+                Text(
+                    tagline.uppercase(L10n.locale),
+                    fontSize = (size.value * 0.14f).sp, fontWeight = FontWeight.Medium,
+                    letterSpacing = (size.value * 0.03f).sp, color = DS.Palette.textSecondary, maxLines = 1,
+                )
             }
         }
-        Text(Tenant.current.wordmark, color = DS.Palette.primary, fontWeight = FontWeight.Black, fontSize = (size.value * 0.42f).sp)
     }
+}
+
+/** The tenant wordmark; a trailing "+" is drawn in the bright brand colour, as in the logo. */
+@Composable
+fun Wordmark(size: TextUnit, modifier: Modifier = Modifier, color: Color = DS.Palette.textPrimary) {
+    val mark = Tenant.current.wordmark
+    val base = if (mark.endsWith("+")) mark.dropLast(1) else mark
+    val mint = DS.Palette.mint
+    Text(
+        buildAnnotatedString {
+            withStyle(SpanStyle(color = color)) { append(base) }
+            if (mark.endsWith("+")) withStyle(SpanStyle(color = mint)) { append("+") }
+        },
+        modifier = modifier,
+        fontFamily = DS.Typography.family, fontWeight = FontWeight.ExtraBold, fontSize = size,
+        letterSpacing = (-0.035).em, maxLines = 1, softWrap = false,
+    )
 }
 
 @Composable

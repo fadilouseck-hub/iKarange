@@ -15,6 +15,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import sn.assurplus.app.app.Wordmark
+import sn.assurplus.app.R
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -220,7 +223,14 @@ fun MemberCardView(beneficiary: CardBeneficiary, modifier: Modifier = Modifier) 
         verticalArrangement = Arrangement.spacedBy(DS.Spacing.m),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(Tenant.current.wordmark, style = DS.Typography.headline.copy(fontWeight = FontWeight.Black), color = Color.White, modifier = Modifier.weight(1f))
+            Row(
+                Modifier.weight(1f).semantics(mergeDescendants = true) { contentDescription = Tenant.current.displayName },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(DS.Spacing.s),
+            ) {
+                Image(painterResource(R.drawable.brand_logo), null, Modifier.size(26.dp))
+                Wordmark(size = 20.sp, color = Color.White)
+            }
             Text(beneficiary.insurerName, style = DS.Typography.caption.copy(fontWeight = FontWeight.SemiBold), color = Color.White.copy(alpha = 0.85f))
         }
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(DS.Spacing.m)) {

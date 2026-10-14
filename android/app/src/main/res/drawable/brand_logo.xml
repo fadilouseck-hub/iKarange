@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- assur+ logo mark, converted from Logos/logo-assur-plus-icon.svg (source of truth). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp" android:height="96dp" android:viewportWidth="96" android:viewportHeight="96">
+    <path android:fillColor="#00C896" android:pathData="M28,4 h40 a24,24 0 0 1 24,24 v40 a24,24 0 0 1 -24,24 h-40 a24,24 0 0 1 -24,-24 v-40 a24,24 0 0 1 24,-24 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M44,18 h8 a4,4 0 0 1 4,4 v52 a4,4 0 0 1 -4,4 h-8 a4,4 0 0 1 -4,-4 v-52 a4,4 0 0 1 4,-4 z M22,40 h52 a4,4 0 0 1 4,4 v8 a4,4 0 0 1 -4,4 h-52 a4,4 0 0 1 -4,-4 v-8 a4,4 0 0 1 4,-4 z" />
+    <path android:strokeColor="#003D2E" android:strokeAlpha="0.9" android:strokeWidth="3.5"
+        android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M14,62 L28,62 L32,48 L40,74 L48,40 L54,62 L82,62" />
+</vector>

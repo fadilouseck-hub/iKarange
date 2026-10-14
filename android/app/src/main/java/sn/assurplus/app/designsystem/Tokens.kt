@@ -93,7 +93,7 @@ object DS {
             Font(R.font.inter_semibold, FontWeight.SemiBold),
             Font(R.font.inter_bold, FontWeight.Bold),
             Font(R.font.inter_black, FontWeight.Black),
-            Font(R.font.inter_black, FontWeight.ExtraBold),
+            Font(R.font.inter_extrabold, FontWeight.ExtraBold),
         )
         private val trim = LineHeightStyle(LineHeightStyle.Alignment.Center, LineHeightStyle.Trim.None)
         private fun style(size: Int, line: Int, weight: FontWeight = FontWeight.Normal, tracking: Double = 0.0) = TextStyle(

@@ -26,7 +26,7 @@ The Assur Plus brand has new logos in `Logos/` at the repo root. The iOS app was
 6. **Launcher icon (adaptive)**: background = `#00C896`; foreground = white "+" and `#003D2E` heartbeat, taken from the icon SVG, scaled to sit inside the 66 dp safe zone of the 108 dp canvas. **Monochrome** layer = the "+" and heartbeat only, as a single-colour shape (themed icons on Android 13+). Keep `ic_launcher.xml` and add `ic_launcher_round` if the manifest references it.
 7. **Splash screen** (`values-v31/themes.xml`, `drawable/splash_icon.xml`): icon background `#00C896`, icon = the same foreground as the launcher.
 8. **Play Store icon**: export a 512×512 opaque PNG of the full-bleed icon to `android/store/icon-512.png`, and mention it in the hand-off to ChatGPT (it uploads the store listing assets; do not upload anything yourself).
-9. **QR code centre** (`StyledQRCode.kt`): colours already come from the tenant; just check it still looks right with the new colours.
+9. **QR code centre** (`StyledQRCode.kt`): draw the **logo mark** (`R.drawable.brand_logo`) in the centre square instead of the hand-drawn "+", like iOS (`ios/AssurPlus/Features/Card/StyledQRCode.swift`: `Style.logo`, drawn into the cleared centre area; the old "+" stays as a fallback). Keep error correction "H", the logo at ≤ 22 % of the symbol, and the 1-module white margin around it. Then **prove it still scans**: decode the rendered bitmap in a unit or instrumented test (ZXing or ML Kit) and check the payload equals the token.
 
 ## Check
 

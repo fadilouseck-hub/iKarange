@@ -74,6 +74,8 @@ enum QRCode {
         var background = UIColor.white
         var logoBackground = UIColor(hex: Tenant.hex(Tenant.current.colors.brandDark))
         var logoMark = UIColor(hex: Tenant.hex(Tenant.current.colors.brandAccent))
+        /// Tenant logo drawn in the centre; the drawn "+" above is the fallback when the asset is missing.
+        var logo: UIImage? = UIImage(named: "BrandLogo")
         /// Dot diameter relative to the module size.
         var dotScale: CGFloat = 0.82
         /// Logo side relative to the symbol (≤ 0.24 keeps it well within "H" correction).
@@ -125,9 +127,13 @@ enum QRCode {
                 UIBezierPath(roundedRect: outer.insetBy(dx: 2 * cell, dy: 2 * cell), cornerRadius: cell * 1.1).fill()
             }
 
-            // Centre logo: teal rounded square with the mint "+".
+            // Centre logo: the tenant logo asset, or a rounded square with a "+" when it is missing.
             let logoSide = CGFloat(logoModules) * cell
             let logoRect = CGRect(x: origin + CGFloat(logoStart) * cell, y: origin + CGFloat(logoStart) * cell, width: logoSide, height: logoSide)
+            if let logo = style.logo {
+                logo.draw(in: logoRect)
+                return
+            }
             style.logoBackground.setFill()
             UIBezierPath(roundedRect: logoRect, cornerRadius: logoSide * 0.28).fill()
             style.logoMark.setFill()

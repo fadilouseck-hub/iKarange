@@ -301,7 +301,8 @@ private fun QRPanel(model: CardViewModel) {
             Modifier.background(Color.White, RoundedCornerShape(DS.Radius.l)).padding(DS.Spacing.m).size(240.dp),
             contentAlignment = Alignment.Center,
         ) {
-            val image = token?.let { StyledQRCache.image(it.token) }
+            val context = LocalContext.current
+            val image = token?.let { StyledQRCache.image(it.token, context) }
             if (token != null && image != null) {
                 Image(
                     image.asImageBitmap(), null, filterQuality = FilterQuality.High, contentScale = ContentScale.Fit,

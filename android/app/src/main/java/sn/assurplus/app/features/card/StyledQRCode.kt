@@ -1,6 +1,10 @@
 package sn.assurplus.app.features.card
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
+import sn.assurplus.app.R
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
@@ -40,6 +44,8 @@ object QRCode {
         val background: Int = 0xFFFFFFFF.toInt(),
         val logoBackground: Int = brandDark(),
         val logoMark: Int = (0xFF000000 or Tenant.hex(Tenant.current.colors.brandAccent)).toInt(),
+        /** Tenant logo drawn in the centre (`brand_logo`); the drawn "+" is the fallback when it is missing. */
+        val logo: Drawable? = null,
         /** Dot diameter relative to the module size. */
         val dotScale: Float = 0.82f,
         /** Logo side relative to the symbol (≤ 0.24 keeps it well within "H" correction). */
@@ -93,10 +99,15 @@ object QRCode {
             canvas.drawCircle(cx, cy, 1.5f * cell, fill)
         }
 
-        // Centre logo: teal rounded square with the mint "+".
+        // Centre logo: the tenant logo (same as iOS `BrandLogo`), or a rounded square with a "+" when it is missing.
         val logoSide = logoModules * cell
         val left = origin + logoStart * cell
         val top = origin + logoStart * cell
+        style.logo?.let { logo ->
+            logo.setBounds(left.toInt(), top.toInt(), (left + logoSide).toInt(), (top + logoSide).toInt())
+            logo.draw(canvas)
+            return bitmap
+        }
         fill.color = style.logoBackground
         canvas.drawRoundRect(RectF(left, top, left + logoSide, top + logoSide), logoSide * 0.28f, logoSide * 0.28f, fill)
         fill.color = style.logoMark
@@ -114,9 +125,10 @@ object QRCode {
 object StyledQRCache {
     private var last: Pair<String, Bitmap>? = null
 
-    fun image(token: String): Bitmap? {
+    fun image(token: String, context: Context): Bitmap? {
         last?.let { if (it.first == token) return it.second }
-        return QRCode.styledImage(token)?.also { last = token to it }
+        val logo = ContextCompat.getDrawable(context, R.drawable.brand_logo)
+        return QRCode.styledImage(token, style = QRCode.Style(logo = logo))?.also { last = token to it }
     }
 }
 

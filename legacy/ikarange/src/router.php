@@ -42,6 +42,11 @@ function route(string $uri, string $method): void
         'GET /compagnies-assurance'          => 'pages/compagnies-assurance.php',
         'GET /gestion-acces'                 => 'pages/gestion-acces.php',
 
+        // ── Public legal pages of the mobile apps (no login; Google Play / App Store URLs) ──
+        'GET /assurplus/confidentialite'     => 'pages/public/privacy.php',
+        'GET /assurplus/suppression-compte'  => 'pages/public/account-deletion.php',
+        'POST /assurplus/suppression-compte' => 'pages/public/account-deletion.php',
+
         // ── API – Auth ──
         'POST /api/login'                    => 'api/auth/login.php',
         'POST /api/logout'                   => 'api/auth/logout.php',

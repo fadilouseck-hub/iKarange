@@ -3,6 +3,7 @@
  * Installs the mobile API on an existing I'KARANGE site. Additive and idempotent:
  *  1. creates the mobile_* tables (database/008_mobile_api.sql, 009_…, 010_… — CREATE TABLE IF NOT EXISTS only);
  *  2. adds the /api/mobile/v1 hook to src/router.php if missing (backup kept next to it);
+ *  2b. adds the public legal pages (/assurplus/confidentialite, /assurplus/suppression-compte) to src/router.php;
  *  3. adds MOBILE_SECRET to .env if missing (random, generated here, never printed).
  * Existing tables, data and routes are not modified.
  *
@@ -73,6 +74,26 @@ if (str_contains($router, "/api/mobile/v1/")) {
     copy($routerFile, $routerFile . '.bak-' . date('Ymd-His'));
     file_put_contents($routerFile, substr($router, 0, $end) . $hook . substr($router, $end));
     echo "Router: hook added (backup kept)\n";
+}
+
+// 2b. Public legal pages of the apps (privacy policy, account deletion: App Store / Google Play URLs)
+$router = file_get_contents($routerFile);
+if (str_contains($router, "'GET /assurplus/confidentialite'")) {
+    echo "Router: legal pages already present\n";
+} else {
+    $anchor = "        // ── API – Auth ──\n";
+    $pos = strpos($router, $anchor);
+    if ($pos === false) {
+        fwrite(STDERR, "Router: legal-pages anchor not found, add the /assurplus/* routes manually (see src/router.php in the repository)\n");
+        exit(1);
+    }
+    $routes = "        // ── Public legal pages of the mobile apps (no login; Google Play / App Store URLs) ──\n"
+        . "        'GET /assurplus/confidentialite'     => 'pages/public/privacy.php',\n"
+        . "        'GET /assurplus/suppression-compte'  => 'pages/public/account-deletion.php',\n"
+        . "        'POST /assurplus/suppression-compte' => 'pages/public/account-deletion.php',\n\n";
+    copy($routerFile, $routerFile . '.bak-' . date('Ymd-His'));
+    file_put_contents($routerFile, substr($router, 0, $pos) . $routes . substr($router, $pos));
+    echo "Router: legal pages added (backup kept)\n";
 }
 
 // 3. Secret

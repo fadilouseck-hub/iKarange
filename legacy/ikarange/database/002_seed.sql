@@ -1,143 +1,144 @@
+-- SYNTHETIC TEST FIXTURES ONLY: fictional people and records; non-deliverable email/phone contacts.
 -- ============================================================================
--- I'KARANGE - Seed Data (Mauritanie)
--- Realistic dummy data using real Mauritanian companies, cities, names
+-- I'KARANGE - Seed Data (Sénégal)
+-- Fictional Senegalese people and companies; geographic place names only are real.
 -- ============================================================================
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ============================================================================
--- ENTREPRISES (12 companies - real Mauritanian businesses)
+-- ENTREPRISES (12 fictional Senegalese businesses)
 -- ============================================================================
 INSERT INTO `entreprises` (`id`, `org_id`, `raison_sociale`, `ninea`, `telephone`, `email`, `secteur_activite`, `adresse`, `nombre_employes`, `taux_cotisation`, `taux_prise_en_charge`, `date_adhesion`, `statut`) VALUES
-(1,  1, 'SNIM - Société Nationale Industrielle et Minière',  'MR-2024-00145', '+222 45 25 00 00', 'contact@snim.mr',          'Mines & Industrie',       'Zone Industrielle, Nouadhibou',         4200, 5.50, 80, '2024-06-01', 'actif'),
-(2,  1, 'Mauritel SA',                                                       'MR-2024-00278', '+222 45 29 29 29', 'rh@mauritel.mr',            'Télécommunications', 'Avenue Gamal Abdel Nasser, Nouakchott', 850,  4.00, 80, '2024-07-15', 'actif'),
-(3,  1, 'Banque Centrale de Mauritanie',                                     'MR-2024-00312', '+222 45 25 22 06', 'drh@bcm.mr',                'Banque & Finance',        'Avenue de l\'Indépendance, Nouakchott', 620, 6.00, 85, '2024-05-10', 'actif'),
-(4,  1, 'SOMELEC - Société Mauritanienne d\'Électricité','MR-2024-00089', '+222 45 25 18 09', 'contact@somelec.mr',        'Énergie',            'Rue Ahmed Ould Mohamed, Nouakchott',    1500, 5.00, 80, '2024-08-01', 'actif'),
-(5,  1, 'Chinguitel SA',                                                     'MR-2024-00456', '+222 22 00 00 00', 'info@chinguitel.mr',        'Télécommunications', 'Ilot K, Nouakchott',                   720,  4.50, 80, '2024-09-01', 'actif'),
-(6,  1, 'Kinross Tasiast',                                                   'MR-2024-00567', '+222 45 25 88 00', 'hr@kinross-tasiast.mr',     'Mines & Or',              'Camp Tasiast, Inchiri',                 2800, 7.00, 90, '2024-04-15', 'actif'),
-(7,  1, 'Générale de Banque de Mauritanie (GBM)',                  'MR-2024-00623', '+222 45 25 86 02', 'drh@gbm.mr',                'Banque & Finance',        'Avenue du Roi Faysal, Nouakchott',      380,  5.00, 80, '2024-10-01', 'actif'),
-(8,  1, 'Port Autonome de Nouakchott (PANPA)',                               'MR-2024-00701', '+222 45 25 09 72', 'rh@panpa.mr',               'Transport & Logistique',  'Zone Portuaire, Nouakchott',            950,  4.50, 80, '2024-06-15', 'actif'),
-(9,  1, 'Société Mauritanienne des Hydrocarbures (SMH)',          'MR-2024-00834', '+222 45 29 12 00', 'contact@smh.mr',            'Pétrole & Gaz',     'Tevragh Zeina, Nouakchott',             540,  5.50, 85, '2024-07-01', 'actif'),
-(10, 1, 'ATTM - Agence pour la Transformation Technologique',               'MR-2024-00912', '+222 45 25 34 56', 'info@attm.mr',              'Technologie',             'Ksar, Nouakchott',                      180,  4.00, 75, '2024-11-01', 'actif'),
-(11, 1, 'IMROP - Institut Mauritanien de Recherche Océanographique',   'MR-2024-00998', '+222 45 74 51 24', 'direction@imrop.mr',        'Recherche & Pêche', 'Port de Pêche, Nouadhibou',        290,  4.00, 80, '2025-01-10', 'actif'),
-(12, 1, 'Ciments de Mauritanie (CIMAF)',                                     'MR-2024-01045', '+222 45 25 67 89', 'rh@cimaf.mr',               'Matériaux & BTP',   'Zone Industrielle, Nouakchott',          420,  5.00, 80, '2025-02-01', 'actif');
+(1,  1, 'Teranga Industries',  'MR-2024-00145', '+221 00 000 0001', 'contact@snim-mr.example.invalid',          'Mines & Industrie',       'Plateau, Dakar',         4200, 5.50, 80, '2024-06-01', 'actif'),
+(2,  1, 'Baobab Télécom',                                                       'MR-2024-00278', '+221 00 000 0002', 'rh@mauritel-mr.example.invalid',            'Télécommunications', 'Plateau, Dakar', 850,  4.00, 80, '2024-07-15', 'actif'),
+(3,  1, 'Banque du Cayor',                                     'MR-2024-00312', '+221 00 000 0003', 'drh@bcm-mr.example.invalid',                'Banque & Finance',        'Sor, Saint-Louis', 620, 6.00, 85, '2024-05-10', 'actif'),
+(4,  1, 'Jamm Énergie','MR-2024-00089', '+221 00 000 0004', 'contact@somelec-mr.example.invalid',        'Énergie',            'Médina, Dakar',    1500, 5.00, 80, '2024-08-01', 'actif'),
+(5,  1, 'Ndam Télécom',                                                     'MR-2024-00456', '+221 00 000 0005', 'info@chinguitel-mr.example.invalid',        'Télécommunications', 'Centre-ville, Thiès',                   720,  4.50, 80, '2024-09-01', 'actif'),
+(6,  1, 'Kédougou Mines',                                                   'MR-2024-00567', '+221 00 000 0006', 'hr@kinross-tasiast-mr.example.invalid',     'Mines & Or',              'Zone industrielle, Kédougou',                 2800, 7.00, 90, '2024-04-15', 'actif'),
+(7,  1, 'Banque du Saloum',                  'MR-2024-00623', '+221 00 000 0007', 'drh@gbm-mr.example.invalid',                'Banque & Finance',        'Centre-ville, Kaolack',      380,  5.00, 80, '2024-10-01', 'actif'),
+(8,  1, 'Teranga Logistique',                               'MR-2024-00701', '+221 00 000 0008', 'rh@panpa-mr.example.invalid',               'Transport & Logistique',  'Zone portuaire, Dakar',            950,  4.50, 80, '2024-06-15', 'actif'),
+(9,  1, 'Sunu Énergie',          'MR-2024-00834', '+221 00 000 0009', 'contact@smh-mr.example.invalid',            'Pétrole & Gaz',     'Point E, Dakar',             540,  5.50, 85, '2024-07-01', 'actif'),
+(10, 1, 'Jokko Technologies',               'MR-2024-00912', '+221 00 000 0010', 'info@attm-mr.example.invalid',              'Technologie',             'Sor, Saint-Louis',                      180,  4.00, 75, '2024-11-01', 'actif'),
+(11, 1, 'Institut du Fleuve',   'MR-2024-00998', '+221 00 000 0011', 'direction@imrop-mr.example.invalid',        'Recherche & Pêche', 'Quai de pêche, Saint-Louis',        290,  4.00, 80, '2025-01-10', 'actif'),
+(12, 1, 'Ciments du Ndiambour',                                     'MR-2024-01045', '+221 00 000 0012', 'rh@cimaf-mr.example.invalid',               'Matériaux & BTP',   'Zone industrielle, Rufisque',          420,  5.00, 80, '2025-02-01', 'actif');
 
 
 -- ============================================================================
--- ADHERENTS (60 members with Mauritanian names)
+-- ADHERENTS (60 members with Senegalese names)
 -- ============================================================================
 INSERT INTO `adherents` (`id`, `org_id`, `entreprise_id`, `nom`, `prenom`, `matricule`, `sexe`, `date_naissance`, `telephone`, `categorie`, `plafond_annuel`, `date_adhesion`, `statut`) VALUES
 -- SNIM employees
-(1,  1, 1, 'Ould Dah',        'Mohamed',      'SNIM-001', 'masculin', '1985-03-12', '+222 36 12 34 56', 'titulaire', 2000000, '2024-06-01', 'actif'),
-(2,  1, 1, 'Mint Sidi',       'Fatimetou',     'SNIM-002', 'feminin',  '1990-07-22', '+222 46 23 45 67', 'titulaire', 2000000, '2024-06-01', 'actif'),
-(3,  1, 1, 'Ould Cheikh',     'Ahmed',         'SNIM-003', 'masculin', '1982-11-05', '+222 36 34 56 78', 'titulaire', 2000000, '2024-06-01', 'actif'),
-(4,  1, 1, 'Ould Abdallahi',  'Sidi Mohamed',  'SNIM-004', 'masculin', '1988-01-30', '+222 46 45 67 89', 'titulaire', 2000000, '2024-06-15', 'actif'),
-(5,  1, 1, 'Mint Bowba',      'Mariem',        'SNIM-005', 'feminin',  '1993-09-18', '+222 36 56 78 90', 'titulaire', 1500000, '2024-06-15', 'actif'),
-(6,  1, 1, 'Ould Sidi',       'Abdoulaye',     'SNIM-006', 'masculin', '1979-04-25', '+222 46 67 89 01', 'titulaire', 2000000, '2024-07-01', 'actif'),
+(1,  1, 1, 'Mbaye',        'Modou',      'SNIM-001', 'masculin', '1985-03-12', '+221 00 000 0013', 'titulaire', 2000000, '2024-06-01', 'actif'),
+(2,  1, 1, 'Sow',       'Fatou',     'SNIM-002', 'feminin',  '1990-07-22', '+221 00 000 0014', 'titulaire', 2000000, '2024-06-01', 'actif'),
+(3,  1, 1, 'Fall',     'Cheikh',         'SNIM-003', 'masculin', '1982-11-05', '+221 00 000 0015', 'titulaire', 2000000, '2024-06-01', 'actif'),
+(4,  1, 1, 'Sarr',  'Modou',  'SNIM-004', 'masculin', '1988-01-30', '+221 00 000 0016', 'titulaire', 2000000, '2024-06-15', 'actif'),
+(5,  1, 1, 'Seck',      'Khady',        'SNIM-005', 'feminin',  '1993-09-18', '+221 00 000 0017', 'titulaire', 1500000, '2024-06-15', 'actif'),
+(6,  1, 1, 'Mbaye',       'Modou',     'SNIM-006', 'masculin', '1979-04-25', '+221 00 000 0018', 'titulaire', 2000000, '2024-07-01', 'actif'),
 
 -- Mauritel employees
-(7,  1, 2, 'Ba',              'Mamadou',       'MAU-001',  'masculin', '1987-05-14', '+222 22 12 34 56', 'titulaire', 1800000, '2024-07-15', 'actif'),
-(8,  1, 2, 'Diallo',          'Aissata',       'MAU-002',  'feminin',  '1991-12-03', '+222 22 23 45 67', 'titulaire', 1800000, '2024-07-15', 'actif'),
-(9,  1, 2, 'Sy',              'Ousmane',       'MAU-003',  'masculin', '1986-08-19', '+222 22 34 56 78', 'titulaire', 1800000, '2024-08-01', 'actif'),
-(10, 1, 2, 'Ndiaye',          'Aminata',       'MAU-004',  'feminin',  '1994-02-28', '+222 22 45 67 89', 'titulaire', 1500000, '2024-08-01', 'actif'),
-(11, 1, 2, 'Ould Mohamed',    'Moctar',        'MAU-005',  'masculin', '1983-10-07', '+222 22 56 78 90', 'titulaire', 1800000, '2024-08-15', 'actif'),
+(7,  1, 2, 'Mbaye',              'Modou',       'MAU-001',  'masculin', '1987-05-14', '+221 00 000 0019', 'titulaire', 1800000, '2024-07-15', 'actif'),
+(8,  1, 2, 'Gueye',          'Ndeye',       'MAU-002',  'feminin',  '1991-12-03', '+221 00 000 0020', 'titulaire', 1800000, '2024-07-15', 'actif'),
+(9,  1, 2, 'Diallo',              'Modou',       'MAU-003',  'masculin', '1986-08-19', '+221 00 000 0021', 'titulaire', 1800000, '2024-08-01', 'actif'),
+(10, 1, 2, 'Sow',          'Astou',       'MAU-004',  'feminin',  '1994-02-28', '+221 00 000 0022', 'titulaire', 1500000, '2024-08-01', 'actif'),
+(11, 1, 2, 'Cisse',    'Mamadou',        'MAU-005',  'masculin', '1983-10-07', '+221 00 000 0023', 'titulaire', 1800000, '2024-08-15', 'actif'),
 
 -- BCM employees
-(12, 1, 3, 'Ould Ghazouani',  'Ibrahim',       'BCM-001',  'masculin', '1980-06-15', '+222 45 11 22 33', 'titulaire', 2500000, '2024-05-10', 'actif'),
-(13, 1, 3, 'Mint Bilal',      'Khadijetou',    'BCM-002',  'feminin',  '1989-03-21', '+222 45 22 33 44', 'titulaire', 2500000, '2024-05-10', 'actif'),
-(14, 1, 3, 'Ould Maouloud',   'Cheikh',        'BCM-003',  'masculin', '1984-12-10', '+222 45 33 44 55', 'titulaire', 2500000, '2024-05-15', 'actif'),
-(15, 1, 3, 'Ould Brahim',     'Yahya',         'BCM-004',  'masculin', '1978-09-02', '+222 45 44 55 66', 'titulaire', 2500000, '2024-06-01', 'actif'),
-(16, 1, 3, 'Mint Cheikh',     'Malouma',       'BCM-005',  'feminin',  '1992-07-30', '+222 45 55 66 77', 'titulaire', 2000000, '2024-06-01', 'actif'),
+(12, 1, 3, 'Diallo',  'Ibrahima',       'BCM-001',  'masculin', '1980-06-15', '+221 00 000 0024', 'titulaire', 2500000, '2024-05-10', 'actif'),
+(13, 1, 3, 'Mbaye',      'Mariama',    'BCM-002',  'feminin',  '1989-03-21', '+221 00 000 0025', 'titulaire', 2500000, '2024-05-10', 'actif'),
+(14, 1, 3, 'Diouf',   'Ousmane',        'BCM-003',  'masculin', '1984-12-10', '+221 00 000 0026', 'titulaire', 2500000, '2024-05-15', 'actif'),
+(15, 1, 3, 'Thiam',     'Abdoulaye',         'BCM-004',  'masculin', '1978-09-02', '+221 00 000 0027', 'titulaire', 2500000, '2024-06-01', 'actif'),
+(16, 1, 3, 'Mbaye',     'Adama',       'BCM-005',  'feminin',  '1992-07-30', '+221 00 000 0028', 'titulaire', 2000000, '2024-06-01', 'actif'),
 
 -- SOMELEC employees
-(17, 1, 4, 'Ould Boubacar',   'Moussa',        'SOM-001',  'masculin', '1986-01-17', '+222 36 11 22 33', 'titulaire', 1800000, '2024-08-01', 'actif'),
-(18, 1, 4, 'Kane',            'Oumar',         'SOM-002',  'masculin', '1990-04-05', '+222 36 22 33 44', 'titulaire', 1800000, '2024-08-01', 'actif'),
-(19, 1, 4, 'Mint Naha',       'Vatma',         'SOM-003',  'feminin',  '1988-11-23', '+222 36 33 44 55', 'titulaire', 1800000, '2024-08-15', 'actif'),
-(20, 1, 4, 'Ould Horma',      'Mohamed Lemine','SOM-004',  'masculin', '1981-06-08', '+222 36 44 55 66', 'titulaire', 2000000, '2024-08-15', 'actif'),
-(21, 1, 4, 'Diop',            'Ibrahima',      'SOM-005',  'masculin', '1995-02-14', '+222 36 55 66 77', 'titulaire', 1500000, '2024-09-01', 'actif'),
+(17, 1, 4, 'Sow',   'Modou',        'SOM-001',  'masculin', '1986-01-17', '+221 00 000 0029', 'titulaire', 1800000, '2024-08-01', 'actif'),
+(18, 1, 4, 'Fall',            'Babacar',         'SOM-002',  'masculin', '1990-04-05', '+221 00 000 0030', 'titulaire', 1800000, '2024-08-01', 'actif'),
+(19, 1, 4, 'Sarr',       'Coumba',         'SOM-003',  'feminin',  '1988-11-23', '+221 00 000 0031', 'titulaire', 1800000, '2024-08-15', 'actif'),
+(20, 1, 4, 'Seck',      'Amadou','SOM-004',  'masculin', '1981-06-08', '+221 00 000 0032', 'titulaire', 2000000, '2024-08-15', 'actif'),
+(21, 1, 4, 'Mbaye',            'Modou',      'SOM-005',  'masculin', '1995-02-14', '+221 00 000 0033', 'titulaire', 1500000, '2024-09-01', 'actif'),
 
 -- Chinguitel employees
-(22, 1, 5, 'Ould Jiddou',     'Isselmou',      'CHI-001',  'masculin', '1987-09-12', '+222 33 11 22 33', 'titulaire', 1800000, '2024-09-01', 'actif'),
-(23, 1, 5, 'Mint Mohamed',    'Lalla',         'CHI-002',  'feminin',  '1993-05-28', '+222 33 22 33 44', 'titulaire', 1500000, '2024-09-01', 'actif'),
-(24, 1, 5, 'Ould Sid Ahmed',  'Boubacar',      'CHI-003',  'masculin', '1985-03-03', '+222 33 33 44 55', 'titulaire', 1800000, '2024-09-15', 'actif'),
-(25, 1, 5, 'Sow',             'Hawa',          'CHI-004',  'feminin',  '1991-08-17', '+222 33 44 55 66', 'titulaire', 1500000, '2024-10-01', 'actif'),
+(22, 1, 5, 'Faye',     'Babacar',      'CHI-001',  'masculin', '1987-09-12', '+221 00 000 0034', 'titulaire', 1800000, '2024-09-01', 'actif'),
+(23, 1, 5, 'Gueye',    'Mariama',         'CHI-002',  'feminin',  '1993-05-28', '+221 00 000 0035', 'titulaire', 1500000, '2024-09-01', 'actif'),
+(24, 1, 5, 'Gueye',  'Modou',      'CHI-003',  'masculin', '1985-03-03', '+221 00 000 0036', 'titulaire', 1800000, '2024-09-15', 'actif'),
+(25, 1, 5, 'Sow',             'Khady',          'CHI-004',  'feminin',  '1991-08-17', '+221 00 000 0037', 'titulaire', 1500000, '2024-10-01', 'actif'),
 
 -- Kinross Tasiast employees
-(26, 1, 6, 'Ould Vall',       'Mohamed Mahmoud','KIN-001', 'masculin', '1983-12-20', '+222 46 11 22 33', 'titulaire', 3000000, '2024-04-15', 'actif'),
-(27, 1, 6, 'Ould Moulaye',    'Hamady',        'KIN-002',  'masculin', '1980-07-09', '+222 46 22 33 44', 'titulaire', 3000000, '2024-04-15', 'actif'),
-(28, 1, 6, 'Mint Abdel Aziz', 'Tekber',        'KIN-003',  'feminin',  '1989-01-14', '+222 46 33 44 55', 'titulaire', 2500000, '2024-05-01', 'actif'),
-(29, 1, 6, 'Ould Bah',        'Mohamedou',     'KIN-004',  'masculin', '1977-05-30', '+222 46 44 55 66', 'titulaire', 3000000, '2024-05-01', 'actif'),
-(30, 1, 6, 'Camara',          'Djiby',         'KIN-005',  'masculin', '1992-10-11', '+222 46 55 66 77', 'titulaire', 2500000, '2024-05-15', 'actif'),
-(31, 1, 6, 'Ould Zein',       'Sidi',          'KIN-006',  'masculin', '1985-06-22', '+222 46 66 77 88', 'titulaire', 3000000, '2024-06-01', 'actif'),
+(26, 1, 6, 'Cisse',       'Modou','KIN-001', 'masculin', '1983-12-20', '+221 00 000 0038', 'titulaire', 3000000, '2024-04-15', 'actif'),
+(27, 1, 6, 'Diallo',    'Modou',        'KIN-002',  'masculin', '1980-07-09', '+221 00 000 0039', 'titulaire', 3000000, '2024-04-15', 'actif'),
+(28, 1, 6, 'Mbaye', 'Ndeye',        'KIN-003',  'feminin',  '1989-01-14', '+221 00 000 0040', 'titulaire', 2500000, '2024-05-01', 'actif'),
+(29, 1, 6, 'Diouf',        'Pape',     'KIN-004',  'masculin', '1977-05-30', '+221 00 000 0041', 'titulaire', 3000000, '2024-05-01', 'actif'),
+(30, 1, 6, 'Seck',          'Amadou',         'KIN-005',  'masculin', '1992-10-11', '+221 00 000 0042', 'titulaire', 2500000, '2024-05-15', 'actif'),
+(31, 1, 6, 'Mbaye',       'Mamadou',          'KIN-006',  'masculin', '1985-06-22', '+221 00 000 0043', 'titulaire', 3000000, '2024-06-01', 'actif'),
 
 -- GBM employees
-(32, 1, 7, 'Ould Sidiya',     'Taki',          'GBM-001',  'masculin', '1984-04-18', '+222 45 71 22 33', 'titulaire', 2200000, '2024-10-01', 'actif'),
-(33, 1, 7, 'Mint Soueid Ahmed','Salka',        'GBM-002',  'feminin',  '1990-11-07', '+222 45 72 33 44', 'titulaire', 2000000, '2024-10-01', 'actif'),
-(34, 1, 7, 'Ould Mohamed Vall','Ahmedou',      'GBM-003',  'masculin', '1986-08-25', '+222 45 73 44 55', 'titulaire', 2200000, '2024-10-15', 'actif'),
+(32, 1, 7, 'Sow',     'Ibrahima',          'GBM-001',  'masculin', '1984-04-18', '+221 00 000 0044', 'titulaire', 2200000, '2024-10-01', 'actif'),
+(33, 1, 7, 'Fall','Mariama',        'GBM-002',  'feminin',  '1990-11-07', '+221 00 000 0045', 'titulaire', 2000000, '2024-10-01', 'actif'),
+(34, 1, 7, 'Sarr','Ousmane',      'GBM-003',  'masculin', '1986-08-25', '+221 00 000 0046', 'titulaire', 2200000, '2024-10-15', 'actif'),
 
 -- PANPA employees
-(35, 1, 8, 'Ould Dedew',      'Mohamed El Moctar','PAN-001','masculin','1981-02-12', '+222 45 09 11 22', 'titulaire', 1800000, '2024-06-15', 'actif'),
-(36, 1, 8, 'Tall',            'Ousmane',       'PAN-002',  'masculin', '1988-07-06', '+222 45 09 22 33', 'titulaire', 1800000, '2024-06-15', 'actif'),
-(37, 1, 8, 'Mint El Hacen',   'Nana',          'PAN-003',  'feminin',  '1994-01-28', '+222 45 09 33 44', 'titulaire', 1500000, '2024-07-01', 'actif'),
-(38, 1, 8, 'Ould Boudida',    'Isselmou',      'PAN-004',  'masculin', '1979-09-15', '+222 45 09 44 55', 'titulaire', 2000000, '2024-07-01', 'actif'),
-(39, 1, 8, 'Dieng',           'Abdoul',        'PAN-005',  'masculin', '1991-05-20', '+222 45 09 55 66', 'titulaire', 1500000, '2024-07-15', 'actif'),
+(35, 1, 8, 'Seck',      'Modou','PAN-001','masculin','1981-02-12', '+221 00 000 0047', 'titulaire', 1800000, '2024-06-15', 'actif'),
+(36, 1, 8, 'Mbaye',            'Modou',       'PAN-002',  'masculin', '1988-07-06', '+221 00 000 0048', 'titulaire', 1800000, '2024-06-15', 'actif'),
+(37, 1, 8, 'Faye',   'Sokhna',          'PAN-003',  'feminin',  '1994-01-28', '+221 00 000 0049', 'titulaire', 1500000, '2024-07-01', 'actif'),
+(38, 1, 8, 'Gueye',    'Babacar',      'PAN-004',  'masculin', '1979-09-15', '+221 00 000 0050', 'titulaire', 2000000, '2024-07-01', 'actif'),
+(39, 1, 8, 'Diallo',           'Pape',        'PAN-005',  'masculin', '1991-05-20', '+221 00 000 0051', 'titulaire', 1500000, '2024-07-15', 'actif'),
 
 -- SMH employees
-(40, 1, 9, 'Ould Boye',       'Cheikh Sid Ahmed','SMH-001','masculin','1983-10-30', '+222 45 29 11 22', 'titulaire', 2200000, '2024-07-01', 'actif'),
-(41, 1, 9, 'Mint Moulaye',    'Aicha',         'SMH-002',  'feminin',  '1990-06-14', '+222 45 29 22 33', 'titulaire', 2000000, '2024-07-01', 'actif'),
-(42, 1, 9, 'Ould Samba',      'Abdallahi',     'SMH-003',  'masculin', '1987-03-08', '+222 45 29 33 44', 'titulaire', 2200000, '2024-07-15', 'actif'),
-(43, 1, 9, 'Ba',              'Thierno',       'SMH-004',  'masculin', '1982-12-25', '+222 45 29 44 55', 'titulaire', 2200000, '2024-08-01', 'actif'),
+(40, 1, 9, 'Sow',       'Amadou','SMH-001','masculin','1983-10-30', '+221 00 000 0052', 'titulaire', 2200000, '2024-07-01', 'actif'),
+(41, 1, 9, 'Cisse',    'Awa',         'SMH-002',  'feminin',  '1990-06-14', '+221 00 000 0053', 'titulaire', 2000000, '2024-07-01', 'actif'),
+(42, 1, 9, 'Diallo',      'Modou',     'SMH-003',  'masculin', '1987-03-08', '+221 00 000 0054', 'titulaire', 2200000, '2024-07-15', 'actif'),
+(43, 1, 9, 'Mbaye',              'Ousmane',       'SMH-004',  'masculin', '1982-12-25', '+221 00 000 0055', 'titulaire', 2200000, '2024-08-01', 'actif'),
 
 -- ATTM employees
-(44, 1, 10, 'Ould Hamoud',    'Mohamed Salem', 'ATT-001',  'masculin', '1993-04-02', '+222 45 25 11 22', 'titulaire', 1500000, '2024-11-01', 'actif'),
-(45, 1, 10, 'Mint Ely',       'Meymouna',      'ATT-002',  'feminin',  '1996-08-19', '+222 45 25 22 33', 'titulaire', 1500000, '2024-11-01', 'actif'),
-(46, 1, 10, 'Ould Ahmed',     'Abderrahmane',  'ATT-003',  'masculin', '1991-11-11', '+222 45 25 33 44', 'titulaire', 1500000, '2024-11-15', 'actif'),
+(44, 1, 10, 'Diouf',    'Modou', 'ATT-001',  'masculin', '1993-04-02', '+221 00 000 0056', 'titulaire', 1500000, '2024-11-01', 'actif'),
+(45, 1, 10, 'Thiam',       'Khady',      'ATT-002',  'feminin',  '1996-08-19', '+221 00 000 0057', 'titulaire', 1500000, '2024-11-01', 'actif'),
+(46, 1, 10, 'Mbaye',     'Modou',  'ATT-003',  'masculin', '1991-11-11', '+221 00 000 0058', 'titulaire', 1500000, '2024-11-15', 'actif'),
 
 -- IMROP employees
-(47, 1, 11, 'Ould Taleb',     'Mohameden',     'IMR-001',  'masculin', '1984-05-16', '+222 45 74 11 22', 'titulaire', 1600000, '2025-01-10', 'actif'),
-(48, 1, 11, 'Mint Ahmed Ould Dah','Mounina',   'IMR-002',  'feminin',  '1992-09-03', '+222 45 74 22 33', 'titulaire', 1600000, '2025-01-10', 'actif'),
-(49, 1, 11, 'Ould Mohamed Lemine','Zein',      'IMR-003',  'masculin', '1988-02-27', '+222 45 74 33 44', 'titulaire', 1600000, '2025-01-15', 'actif'),
-(50, 1, 11, 'Camara',          'Mamoudou',     'IMR-004',  'masculin', '1986-07-12', '+222 45 74 44 55', 'titulaire', 1600000, '2025-02-01', 'actif'),
+(47, 1, 11, 'Sow',     'Modou',     'IMR-001',  'masculin', '1984-05-16', '+221 00 000 0059', 'titulaire', 1600000, '2025-01-10', 'actif'),
+(48, 1, 11, 'Fall','Ndeye',   'IMR-002',  'feminin',  '1992-09-03', '+221 00 000 0060', 'titulaire', 1600000, '2025-01-10', 'actif'),
+(49, 1, 11, 'Sarr','Pape',      'IMR-003',  'masculin', '1988-02-27', '+221 00 000 0061', 'titulaire', 1600000, '2025-01-15', 'actif'),
+(50, 1, 11, 'Seck',          'Amadou',     'IMR-004',  'masculin', '1986-07-12', '+221 00 000 0062', 'titulaire', 1600000, '2025-02-01', 'actif'),
 
 -- CIMAF employees
-(51, 1, 12, 'Ould Baba',      'Mohamed Yahya', 'CIM-001',  'masculin', '1985-10-09', '+222 45 25 61 22', 'titulaire', 1700000, '2025-02-01', 'actif'),
-(52, 1, 12, 'Mint Sidi Mohamed','Diye',         'CIM-002',  'feminin',  '1990-04-15', '+222 45 25 62 33', 'titulaire', 1500000, '2025-02-01', 'actif'),
-(53, 1, 12, 'Ould Bechir',    'Sidi Ould',     'CIM-003',  'masculin', '1981-01-20', '+222 45 25 63 44', 'titulaire', 1700000, '2025-02-15', 'actif'),
-(54, 1, 12, 'Sall',           'Mamadou',       'CIM-004',  'masculin', '1989-06-30', '+222 45 25 64 55', 'titulaire', 1500000, '2025-02-15', 'actif'),
+(51, 1, 12, 'Mbaye',      'Modou', 'CIM-001',  'masculin', '1985-10-09', '+221 00 000 0063', 'titulaire', 1700000, '2025-02-01', 'actif'),
+(52, 1, 12, 'Faye','Fatou',         'CIM-002',  'feminin',  '1990-04-15', '+221 00 000 0064', 'titulaire', 1500000, '2025-02-01', 'actif'),
+(53, 1, 12, 'Gueye',    'Ousmane',     'CIM-003',  'masculin', '1981-01-20', '+221 00 000 0065', 'titulaire', 1700000, '2025-02-15', 'actif'),
+(54, 1, 12, 'Diallo',           'Modou',       'CIM-004',  'masculin', '1989-06-30', '+221 00 000 0066', 'titulaire', 1500000, '2025-02-15', 'actif'),
 
 -- Additional adherents for variety
-(55, 1, 1,  'Ould Mkhaitir',  'Bilal',         'SNIM-007', 'masculin', '1991-03-05', '+222 36 77 88 99', 'titulaire', 2000000, '2024-07-01', 'actif'),
-(56, 1, 2,  'Mint Cheikhna',  'Salimata',      'MAU-006',  'feminin',  '1995-12-18', '+222 22 67 78 89', 'titulaire', 1500000, '2024-09-01', 'actif'),
-(57, 1, 4,  'Ould Cheikh Ahmed','Mohamedhen',  'SOM-006',  'masculin', '1984-08-14', '+222 36 66 77 88', 'titulaire', 1800000, '2024-09-15', 'actif'),
-(58, 1, 6,  'Ould Heydallah', 'Mohamed Khouna','KIN-007',  'masculin', '1978-11-22', '+222 46 77 88 99', 'titulaire', 3000000, '2024-06-01', 'actif'),
-(59, 1, 8,  'Mint Daddah',    'Kadiata',       'PAN-006',  'feminin',  '1993-07-09', '+222 45 09 66 77', 'titulaire', 1500000, '2024-08-01', 'actif'),
-(60, 1, 9,  'Ould Mohamed Abdallahi','Ely',    'SMH-005',  'masculin', '1986-05-03', '+222 45 29 55 66', 'titulaire', 2200000, '2024-08-15', 'actif');
+(55, 1, 1,  'Sow',  'Abdoulaye',         'SNIM-007', 'masculin', '1991-03-05', '+221 00 000 0067', 'titulaire', 2000000, '2024-07-01', 'actif'),
+(56, 1, 2,  'Cisse',  'Adama',      'MAU-006',  'feminin',  '1995-12-18', '+221 00 000 0068', 'titulaire', 1500000, '2024-09-01', 'actif'),
+(57, 1, 4,  'Diallo','Modou',  'SOM-006',  'masculin', '1984-08-14', '+221 00 000 0069', 'titulaire', 1800000, '2024-09-15', 'actif'),
+(58, 1, 6,  'Mbaye', 'Babacar','KIN-007',  'masculin', '1978-11-22', '+221 00 000 0070', 'titulaire', 3000000, '2024-06-01', 'actif'),
+(59, 1, 8,  'Diouf',    'Coumba',       'PAN-006',  'feminin',  '1993-07-09', '+221 00 000 0071', 'titulaire', 1500000, '2024-08-01', 'actif'),
+(60, 1, 9,  'Thiam','Amadou',    'SMH-005',  'masculin', '1986-05-03', '+221 00 000 0072', 'titulaire', 2200000, '2024-08-15', 'actif');
 
 
 -- ============================================================================
--- PRESTATAIRES (10 healthcare providers in Mauritania)
+-- PRESTATAIRES (10 healthcare providers in Senegal)
 -- ============================================================================
 INSERT INTO `prestataires` (`id`, `org_id`, `nom`, `type`, `ville`, `adresse`, `telephone`, `email`, `specialites`, `statut`) VALUES
-(1,  1, 'Centre Hospitalier National',              'hopital',         'Nouakchott', 'Avenue Gamal Abdel Nasser, Tevragh Zeina',   '+222 45 25 21 35', 'contact@chn.mr',               'Médecine générale, Chirurgie, Urgences, Cardiologie',  'agree'),
-(2,  1, 'Clinique Kissi',                           'clinique',        'Nouakchott', 'Ilot K, Tevragh Zeina',                      '+222 45 25 39 00', 'contact@cliniquekissi.mr',      'Médecine générale, Pédiatrie, Gynécologie', 'agree'),
-(3,  1, 'Polyclinique Teyarett',                    'clinique',        'Nouakchott', 'Teyarett, Nouakchott',                       '+222 45 25 17 50', 'contact@polyclinique-tey.mr',   'Médecine interne, Dermatologie, ORL',                             'agree'),
-(4,  1, 'Pharmacie Centrale de Nouakchott',         'pharmacie',       'Nouakchott', 'Marché Capitale, Ksar',                 '+222 45 25 14 20', 'pharma-centrale@mr.mr',         'Pharmacie générale',                                        'agree'),
-(5,  1, 'Laboratoire National de Santé Publique', 'laboratoire',  'Nouakchott', 'Ksar, Nouakchott',                           '+222 45 25 32 10', 'lnsp@sante.gov.mr',             'Analyses biochimiques, Hématologie, Microbiologie',              'agree'),
-(6,  1, 'Centre d\'Imagerie Médicale Chiva',  'centre_imagerie', 'Nouakchott', 'Tevragh Zeina, Nouakchott',                  '+222 45 25 61 00', 'contact@imagerie-chiva.mr',     'Radiologie, Échographie, Scanner, IRM',                          'agree'),
-(7,  1, 'Cabinet Dentaire Dr. Ould Cheikh',         'dentiste',        'Nouakchott', 'Avenue Kennedy, Ksar',                       '+222 36 88 12 34', 'dr.ouldcheikh@dental.mr',       'Soins dentaires, Orthodontie, Implantologie',                          'agree'),
-(8,  1, 'Clinique Sabah',                           'clinique',        'Nouakchott', 'El Mina, Nouakchott',                        '+222 45 25 70 00', 'info@clinique-sabah.mr',        'Médecine générale, Chirurgie, Maternité',        'agree'),
-(9,  1, 'Hôpital Régional de Nouadhibou', 'hopital',        'Nouadhibou', 'Centre-ville, Nouadhibou',                   '+222 45 74 00 50', 'contact@hr-nouadhibou.mr',      'Urgences, Médecine générale, Chirurgie',              'agree'),
-(10, 1, 'Pharmacie El Hamd',                        'pharmacie',       'Nouakchott', 'Arafat, Nouakchott',                         '+222 45 25 98 76', 'pharmacie.elhamd@mr.mr',        'Pharmacie générale, Parapharmacie',                         'agree');
+(1,  1, 'Hôpital Diop',              'hopital',         'Tambacounda', 'Centre-ville, Dakar',   '+221 00 000 0073', 'contact@chn-mr.example.invalid',               'Médecine générale, Chirurgie, Urgences, Cardiologie',  'agree'),
+(2,  1, 'Clinique Ndiaye',                           'clinique',        'Tambacounda', 'Centre-ville, Thiès',                      '+221 00 000 0074', 'contact@cliniquekissi-mr.example.invalid',      'Médecine générale, Pédiatrie, Gynécologie', 'agree'),
+(3,  1, 'Clinique Fall',                    'clinique',        'Tambacounda', 'Centre-ville, Saint-Louis',                       '+221 00 000 0075', 'contact@polyclinique-tey-mr.example.invalid',   'Médecine interne, Dermatologie, ORL',                             'agree'),
+(4,  1, 'Pharmacie Sarr',         'pharmacie',       'Tambacounda', 'Centre-ville, Kaolack',                 '+221 00 000 0076', 'pharma-centrale@mr-mr.example.invalid',         'Pharmacie générale',                                        'agree'),
+(5,  1, 'Laboratoire Seck', 'laboratoire',  'Tambacounda', 'Sor, Saint-Louis',                           '+221 00 000 0077', 'lnsp@sante-gov-mr.example.invalid',             'Analyses biochimiques, Hématologie, Microbiologie',              'agree'),
+(6,  1, 'Centre de santé Ba',  'centre_imagerie', 'Tambacounda', 'Point E, Dakar',                  '+221 00 000 0078', 'contact@imagerie-chiva-mr.example.invalid',     'Radiologie, Échographie, Scanner, IRM',                          'agree'),
+(7,  1, 'Centre de santé Faye',         'dentiste',        'Tambacounda', 'Centre-ville, Diourbel',                       '+221 00 000 0079', 'dr.ouldcheikh@dental-mr.example.invalid',       'Soins dentaires, Orthodontie, Implantologie',                          'agree'),
+(8,  1, 'Clinique Gueye',                           'clinique',        'Tambacounda', 'Centre-ville, Louga',                        '+221 00 000 0080', 'info@clinique-sabah-mr.example.invalid',        'Médecine générale, Chirurgie, Maternité',        'agree'),
+(9,  1, 'Hôpital Diallo', 'hopital',        'Mbour', 'Centre-ville, Mbour',                   '+221 00 000 0081', 'contact@hr-nouadhibou-mr.example.invalid',      'Urgences, Médecine générale, Chirurgie',              'agree'),
+(10, 1, 'Pharmacie Sow',                        'pharmacie',       'Tambacounda', 'Centre-ville, Tambacounda',                         '+221 00 000 0082', 'pharmacie.elhamd@mr-mr.example.invalid',        'Pharmacie générale, Parapharmacie',                         'agree');
 
 
 -- ============================================================================
 -- UTILISATEURS PRESTATAIRES (3 provider portal users)
 -- ============================================================================
 INSERT INTO `utilisateurs_prestataires` (`id`, `org_id`, `prestataire_id`, `login`, `password_hash`, `nom_complet`, `is_active`) VALUES
-(1, 1, 1, 'chn_admin',   '$2y$10$xz5P1Q2v3r4s5t6u7v8w9.abcdefghijklmnopqrstuvwxyz1234567', 'Dr. Ould Abdallahi Ibrahim', 1),
-(2, 1, 2, 'kissi_admin',  '$2y$10$xz5P1Q2v3r4s5t6u7v8w9.abcdefghijklmnopqrstuvwxyz1234567', 'Dr. Mint Bilal Mariem',      1),
-(3, 1, 4, 'pharma_admin', '$2y$10$xz5P1Q2v3r4s5t6u7v8w9.abcdefghijklmnopqrstuvwxyz1234567', 'Ould Brahim Pharmacien',     1);
+(1, 1, 1, 'chn_admin',   '$2y$10$xz5P1Q2v3r4s5t6u7v8w9.abcdefghijklmnopqrstuvwxyz1234567', 'Mamadou Diop', 1),
+(2, 1, 2, 'kissi_admin',  '$2y$10$xz5P1Q2v3r4s5t6u7v8w9.abcdefghijklmnopqrstuvwxyz1234567', 'Ibrahima Ndiaye',      1),
+(3, 1, 4, 'pharma_admin', '$2y$10$xz5P1Q2v3r4s5t6u7v8w9.abcdefghijklmnopqrstuvwxyz1234567', 'Cheikh Fall',     1);
 
 
 -- ============================================================================
@@ -197,7 +198,7 @@ INSERT INTO `prises_en_charge` (`id`, `org_id`, `numero`, `adherent_id`, `presta
 (38, 1, 'PEC-2025-038', 48, 3, 'consultation',      '2025-03-05', 30000,  80, 24000,  6000,  'Consultation médecine interne',                       'en_attente', NULL),
 (39, 1, 'PEC-2025-039', 52, 8, 'consultation',      '2025-03-06', 25000,  80, 20000,  5000,  'Consultation maternité',                              'en_attente', NULL),
 (40, 1, 'PEC-2025-040', 56, 1, 'consultation',      '2025-03-06', 35000,  80, 28000,  7000,  'Consultation pneumologie',                                  'en_attente', NULL),
-(41, 1, 'PEC-2025-041', 58, 9, 'hospitalisation',   '2025-02-25', 680000, 90, 612000, 68000, 'Chirurgie orthopédique',                              'approuvee',  'Transfert Nouadhibou'),
+(41, 1, 'PEC-2025-041', 58, 9, 'hospitalisation',   '2025-02-25', 680000, 90, 612000, 68000, 'Chirurgie orthopédique',                              'approuvee',  'Transfert Saint-Louis'),
 (42, 1, 'PEC-2025-042', 11, 5, 'analyse',           '2025-03-07', 52000,  80, 41600,  10400, 'Bilan rénal complet',                                 'en_attente', NULL),
 (43, 1, 'PEC-2025-043', 16, 7, 'dentaire',          '2025-03-07', 55000,  85, 46750,  8250,  'Soin canalaire + couronne',                                 'en_attente', NULL),
 (44, 1, 'PEC-2025-044', 24, 4, 'pharmacie',         '2025-03-07', 19000,  80, 15200,  3800,  'Anti-douleurs + pansements',                                'en_attente', NULL),
@@ -222,8 +223,8 @@ INSERT INTO `factures_prestataires` (`id`, `org_id`, `numero`, `prestataire_id`,
 -- FACTURES ENTREPRISES (6 invoices)
 -- ============================================================================
 INSERT INTO `factures_entreprises` (`id`, `org_id`, `numero`, `entreprise_id`, `montant_total`, `montant_paye`, `date_facture`, `date_echeance`, `statut`, `observations`) VALUES
-(1, 1, 'FENT-20250115-A', 1, 462400, 462400, '2025-01-31', '2025-02-28', 'payee',     'Facturation SNIM - Janvier 2025'),
-(2, 1, 'FENT-20250115-B', 2, 69600,  69600,  '2025-01-31', '2025-02-28', 'payee',     'Facturation Mauritel - Janvier 2025'),
+(1, 1, 'FENT-20250115-A', 1, 462400, 462400, '2025-01-31', '2025-02-28', 'payee',     'Facturation Teranga Industries - Janvier 2025'),
+(2, 1, 'FENT-20250115-B', 2, 69600,  69600,  '2025-01-31', '2025-02-28', 'payee',     'Facturation Baobab Télécom - Janvier 2025'),
 (3, 1, 'FENT-20250115-C', 3, 93750,  0,      '2025-01-31', '2025-02-28', 'en_attente','Facturation BCM - Janvier 2025'),
 (4, 1, 'FENT-20250201-A', 6, 1162200,1162200,'2025-02-28', '2025-03-31', 'payee',     'Facturation Kinross - Février 2025'),
 (5, 1, 'FENT-20250201-B', 4, 20000,  0,      '2025-02-28', '2025-03-31', 'validee',   'Facturation SOMELEC - Février 2025'),
@@ -265,14 +266,14 @@ INSERT INTO `primes` (`id`, `org_id`, `entreprise_id`, `mois`, `montant`, `nombr
 
 
 -- ============================================================================
--- COMPAGNIES D'ASSURANCE (5 insurance companies in Mauritania)
+-- COMPAGNIES D'ASSURANCE (5 insurance companies in Senegal)
 -- ============================================================================
 INSERT INTO `compagnies_assurance` (`id`, `org_id`, `nom`, `code`, `email`, `adresse`, `telephone`, `contact_personne`, `is_active`) VALUES
-(1, 1, 'NASR Assurances Mauritanie',           'NASR-MR',    'contact@nasr.mr',     'Avenue Gamal Abdel Nasser, Nouakchott',  '+222 45 25 40 50', 'Ould Brahim Mohamed',    1),
-(2, 1, 'SAAR Assurances Mauritanie',           'SAAR-MR',    'info@saar.mr',        'Tevragh Zeina, Nouakchott',              '+222 45 25 33 00', 'Mint Cheikh Aminetou',   1),
-(3, 1, 'GAM - Générale des Assurances de Mauritanie', 'GAM-MR', 'contact@gam.mr', 'Ksar, Nouakchott',             '+222 45 25 19 80', 'Ould Dah Sidi',          1),
-(4, 1, 'Assurances et Réassurances SALAMA','SALAMA-MR', 'info@salama.mr',      'Ilot K, Tevragh Zeina, Nouakchott',      '+222 45 29 15 00', 'Ba Ibrahima',            1),
-(5, 1, 'AMSA Assurances Mauritanie',           'AMSA-MR',    'contact@amsa.mr',     'Avenue Kennedy, Nouakchott',             '+222 45 25 55 10', 'Ould Abdallahi Cheikh',  1);
+(1, 1, 'Assur Plus',           'NASR-MR',    'contact@nasr-mr.example.invalid',     'Plateau, Dakar',  '+221 00 000 0083', 'Mamadou Diop',    1),
+(2, 1, 'Teranga Assurances',           'SAAR-MR',    'info@saar-mr.example.invalid',        'Point E, Dakar',              '+221 00 000 0084', 'Ibrahima Ndiaye',   1),
+(3, 1, 'Sunu Protection', 'GAM-MR', 'contact@gam-mr.example.invalid', 'Sor, Saint-Louis',             '+221 00 000 0085', 'Cheikh Fall',          1),
+(4, 1, 'Baobab Assurance','SALAMA-MR', 'info@salama-mr.example.invalid',      'Médina, Dakar',      '+221 00 000 0086', 'Ousmane Sarr',            1),
+(5, 1, 'Jamm Assurance',           'AMSA-MR',    'contact@amsa-mr.example.invalid',     'Centre-ville, Thiès',             '+221 00 000 0087', 'Abdoulaye Seck',  1);
 
 
 -- ============================================================================
@@ -288,9 +289,9 @@ INSERT INTO `access_profiles` (`id`, `org_id`, `name`, `permissions`) VALUES
 -- ADDITIONAL USERS (2 more staff users)
 -- ============================================================================
 INSERT INTO `users` (`id`, `org_id`, `login`, `password_hash`, `full_name`, `email`, `phone`, `role`, `profile_id`, `is_active`, `notes`) VALUES
-(2, 1, 'daouda',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Daouda DIAGNE',      'daouda@ikarange.mr',   '+222 36 00 11 22', 'administrateur', 1, 1, 'Administrateur principal'),
-(3, 1, 'fatou',   '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Fatou BA',            'fatou.ba@ikarange.mr', '+222 46 00 33 44', 'gestionnaire',   2, 1, 'Gestionnaire IPM'),
-(4, 1, 'cheikh',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Cheikh Ould Mohamed', 'cheikh@ikarange.mr',   '+222 36 00 55 66', 'gestionnaire',   2, 1, 'Gestionnaire adjoint');
+(2, 1, 'daouda',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Ibrahima Ndiaye',      'daouda@ikarange-mr.example.invalid',   '+221 00 000 0088', 'administrateur', 1, 1, 'Administrateur principal'),
+(3, 1, 'fatou',   '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Cheikh Fall',            'fatou.ba@ikarange-mr.example.invalid', '+221 00 000 0089', 'gestionnaire',   2, 1, 'Gestionnaire IPM'),
+(4, 1, 'cheikh',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Ousmane Sarr', 'cheikh@ikarange-mr.example.invalid',   '+221 00 000 0090', 'gestionnaire',   2, 1, 'Gestionnaire adjoint');
 
 
 SET FOREIGN_KEY_CHECKS = 1;

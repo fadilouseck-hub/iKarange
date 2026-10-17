@@ -52,7 +52,7 @@
       "coverageRate": 80,
       "territoriality": "Sénégal"
     },
-    "insurerName": "Assureur Démo SA",
+    "insurerName": "Assur Plus",
     "premiumLabel": "245 000 FCFA / an",
     "members": [
       { "id": "ben_awa", "fullName": "Awa Diop", "relationLabel": "Assurée principale", "birthDate": "1988-04-12" },
@@ -82,10 +82,10 @@
   "limits": { "annualLimit": 3000000, "consumed": 412500, "reimbursed": 318000, "remaining": 2587500 },
   "card": {
     "beneficiaries": [
-      { "id": "ben_awa", "fullName": "Awa Diop", "relationLabel": "Assurée principale", "memberNumber": "ASP-000184", "policyNumber": "POL-2026-004521", "insurerName": "Assureur Démo SA", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "1988-04-12" },
-      { "id": "ben_moussa", "fullName": "Moussa Diop", "relationLabel": "Conjoint", "memberNumber": "ASP-000185", "policyNumber": "POL-2026-004521", "insurerName": "Assureur Démo SA", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "1985-09-30" },
-      { "id": "ben_fatou", "fullName": "Fatou Diop", "relationLabel": "Enfant", "memberNumber": "ASP-000186", "policyNumber": "POL-2026-004521", "insurerName": "Assureur Démo SA", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "2015-02-03" },
-      { "id": "ben_ibou", "fullName": "Ibrahima Diop", "relationLabel": "Enfant", "memberNumber": "ASP-000187", "policyNumber": "POL-2026-004521", "insurerName": "Assureur Démo SA", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "2019-11-21" }
+      { "id": "ben_awa", "fullName": "Awa Diop", "relationLabel": "Assurée principale", "memberNumber": "ASP-000184", "policyNumber": "POL-2026-004521", "insurerName": "Assur Plus", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "1988-04-12" },
+      { "id": "ben_moussa", "fullName": "Moussa Diop", "relationLabel": "Conjoint", "memberNumber": "ASP-000185", "policyNumber": "POL-2026-004521", "insurerName": "Assur Plus", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "1985-09-30" },
+      { "id": "ben_fatou", "fullName": "Fatou Diop", "relationLabel": "Enfant", "memberNumber": "ASP-000186", "policyNumber": "POL-2026-004521", "insurerName": "Assur Plus", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "2015-02-03" },
+      { "id": "ben_ibou", "fullName": "Ibrahima Diop", "relationLabel": "Enfant", "memberNumber": "ASP-000187", "policyNumber": "POL-2026-004521", "insurerName": "Assur Plus", "formulaName": "Sérénité", "coverageRate": 80, "validUntil": "2026-12-31", "status": { "code": "active", "label": "Actif" }, "birthDate": "2019-11-21" }
     ]
   },
   "dependents": {
@@ -106,7 +106,7 @@
       "fields": [
         { "key": "invoiceNumber", "label": "N° de facture", "value": "F-88231", "confidence": 0.97 },
         { "key": "date", "label": "Date", "value": "2026-08-13", "confidence": 0.99 },
-        { "key": "provider", "label": "Prestataire", "value": "Pharmacie Démo Plateau", "confidence": 0.93 },
+        { "key": "provider", "label": "Prestataire", "value": "Pharmacie Plateau", "confidence": 0.93 },
         { "key": "patient", "label": "Patient", "value": "Fatou Diop", "confidence": 0.9 },
         { "key": "total", "label": "Montant total", "value": "20000", "confidence": 0.98 }
       ],
@@ -132,7 +132,7 @@
       "fields": [
         { "key": "invoiceNumber", "label": "N° de facture", "value": "LAB-5531", "confidence": 0.95 },
         { "key": "date", "label": "Date", "value": "2026-09-21", "confidence": 0.97 },
-        { "key": "provider", "label": "Prestataire", "value": "Laboratoire Démo Point E", "confidence": 0.92 },
+        { "key": "provider", "label": "Prestataire", "value": "Laboratoire Point E", "confidence": 0.92 },
         { "key": "total", "label": "Montant total", "value": "45000", "confidence": 0.96 }
       ],
       "lines": [],
@@ -167,7 +167,7 @@
     { "id": "pay_1", "reference": "TX-2026-0001842", "amount": 245000, "methodLabel": "Wave", "status": { "code": "succeeded", "label": "Réussi" }, "createdAt": "2025-12-20T12:00:00Z", "policyNumber": "POL-2026-004521", "purposeLabel": "Cotisation annuelle 2026", "checkoutURL": null, "appURL": null }
   ],
   "vault": [
-    { "id": "vlt_1", "category": "prescription", "title": "Ordonnance Dr Démo", "fileName": "ordonnance.jpg", "mimeType": "image/jpeg", "size": 184320, "createdAt": "2026-09-21T10:00:00Z", "beneficiaryName": "Moussa Diop" },
+    { "id": "vlt_1", "category": "prescription", "title": "Ordonnance Dr Mamadou Ndiaye", "fileName": "ordonnance.jpg", "mimeType": "image/jpeg", "size": 184320, "createdAt": "2026-09-21T10:00:00Z", "beneficiaryName": "Moussa Diop" },
     { "id": "vlt_2", "category": "vaccine", "title": "Carnet de vaccination", "fileName": "vaccins.pdf", "mimeType": "application/pdf", "size": 402112, "createdAt": "2026-03-04T08:30:00Z", "beneficiaryName": "Ibrahima Diop" }
   ],
   "notifications": [

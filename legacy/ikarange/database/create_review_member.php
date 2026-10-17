@@ -2,7 +2,7 @@
 /**
  * Creates (once) a synthetic member for App Store / TestFlight review of the Assur Plus app.
  *
- *  - a clearly labelled demo company "DÉMO ASSUR PLUS — compte de test" with standard coverage rules (barèmes);
+ *  - a clearly labelled demo company "ASSUR PLUS — compte de test" with standard coverage rules (barèmes);
  *  - one fictional member (no real person) with portal login "review.assurplus" and a random password.
  *
  * Additive: inserts only these rows, never updates or deletes existing data. Idempotent: if the login already
@@ -31,7 +31,7 @@ if ($requested !== null && !preg_match('/^[A-Za-z0-9][A-Za-z0-9._-]{3,40}$/', $r
     exit(1);
 }
 define('REVIEW_LOGIN', $requested ?? 'review.assurplus');
-const DEMO_COMPANY = 'DÉMO ASSUR PLUS — compte de test';
+const DEMO_COMPANY = 'ASSUR PLUS — compte de test';
 
 $root = dirname(__DIR__);
 foreach (file($root . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
@@ -121,11 +121,11 @@ if ($companyId === 0) {
 
 $count = $pdo->prepare('SELECT COUNT(*) FROM adherents WHERE entreprise_id = ?');
 $count->execute([$companyId]);
-$matricule = sprintf('DEMO-%04d', (int)$count->fetchColumn() + 1);
+$matricule = sprintf('AP-%04d', (int)$count->fetchColumn() + 1);
 $password = newPassword();
 $pdo->prepare("INSERT INTO adherents (org_id, entreprise_id, nom, prenom, matricule, sexe, date_naissance, telephone, categorie, plafond_annuel, date_adhesion, statut, login, password_hash)
-               VALUES (?, ?, 'DEMO', ?, ?, 'feminin', '1990-01-01', NULL, 'titulaire', 1000000, ?, 'actif', ?, ?)")
-    ->execute([$orgId, $companyId, REVIEW_LOGIN === 'review.assurplus' ? 'Revue' : 'Testeur', $matricule, date('Y-01-01'), REVIEW_LOGIN, password_hash($password, PASSWORD_BCRYPT)]);
+               VALUES (?, ?, 'Seck', ?, ?, 'feminin', '1990-01-01', NULL, 'titulaire', 1000000, ?, 'actif', ?, ?)")
+    ->execute([$orgId, $companyId, REVIEW_LOGIN === 'review.assurplus' ? 'Awa' : 'Khady', $matricule, date('Y-01-01'), REVIEW_LOGIN, password_hash($password, PASSWORD_BCRYPT)]);
 $pdo->commit();
 
 echo "Review member created in demo company #$companyId.\n";

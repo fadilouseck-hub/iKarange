@@ -57,7 +57,7 @@ object MockDocuments {
         val mono = Paint().apply { typeface = Typeface.MONOSPACE; textSize = 30f; color = Color.BLACK; isAntiAlias = true }
         val bold = Paint(mono).apply { typeface = Typeface.create(Typeface.MONOSPACE, Typeface.BOLD); textSize = 36f }
         val rows = listOf(
-            "PHARMACIE DÉMO MERMOZ" to bold, "VDN, Mermoz — Dakar" to mono, "" to mono,
+            "PHARMACIE MERMOZ" to bold, "VDN, Mermoz — Dakar" to mono, "" to mono,
             "Facture F-2026-10-0457" to mono, "Date : 03/10/2026" to mono, "" to mono,
             "Paracétamol 500mg  2 x 1500   3000" to mono, "Amoxicilline 1g    1 x 12500 12500" to mono,
             "Sirop antitussif   1 x 4500   4500" to mono, "" to mono,

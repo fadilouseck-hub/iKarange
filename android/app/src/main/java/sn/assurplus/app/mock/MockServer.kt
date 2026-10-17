@@ -549,7 +549,7 @@ class MockServer(
         val total = basePremium + surcharges.sumOf { it.amount } + fees.sumOf { it.amount }
         val quote = Quote(
             nextId("qte"), eligible, messages, basePremium, surcharges, fees, total, "par an", perMember,
-            Instant.now().plusSeconds(7 * 86_400), "CP-DEMO-1",
+            Instant.now().plusSeconds(7 * 86_400), "CP-SN-1",
             listOf(
                 "Formule ${product.name}, taux de couverture ${request.coverageRate} %.",
                 "Territorialité : ${product.territorialities.firstOrNull { it.code == request.territoriality }?.label ?: request.territoriality}.",
@@ -586,7 +586,7 @@ class MockServer(
         val beneficiaries = mutableListOf(
             CardBeneficiary(
                 account.beneficiaryId, account.me.fullName, "Assuré(e) principal(e)", account.me.memberNumber.orEmpty(), pending.number,
-                "Assureur Démo SA", product.name, request.coverageRate, end, null, active, account.me.birthDate,
+                "Assur Plus", product.name, request.coverageRate, end, null, active, account.me.birthDate,
             )
         )
         val dependents = mutableListOf<Dependent>()
@@ -595,13 +595,13 @@ class MockServer(
             val name = "${member.firstName} ${member.lastName}"
             members += PolicyMember(id, name, member.relation.label, member.birthDate)
             beneficiaries += CardBeneficiary(
-                id, name, member.relation.label, "ASP-%06d".format(counter + 1), pending.number, "Assureur Démo SA",
+                id, name, member.relation.label, "ASP-%06d".format(counter + 1), pending.number, "Assur Plus",
                 product.name, request.coverageRate, end, null, active, member.birthDate,
             )
             dependents += Dependent(id, member.firstName, member.lastName, member.relation, member.relation.label, member.birthDate, active, product.guarantees.map { it.label })
         }
         val detail = PolicyDetail(
-            summary, "Assureur Démo SA", Money.format(entry.second.totalPremium) + " / an", members, product.guarantees,
+            summary, "Assur Plus", Money.format(entry.second.totalPremium) + " / an", members, product.guarantees,
             product.exclusions, product.waitingPeriods, product.deductibleLabel,
             RenewalInfo(end, true, null, false, "Contrat à tacite reconduction."), entry.second.conditionsVersion, null,
         )

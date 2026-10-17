@@ -73,7 +73,7 @@
     "fields": [
       { "key": "invoiceNumber", "label": "N° de facture", "value": "F-2026-10-0457", "confidence": 0.96 },
       { "key": "date", "label": "Date", "value": "2026-10-03", "confidence": 0.98 },
-      { "key": "provider", "label": "Prestataire", "value": "Pharmacie Démo Mermoz", "confidence": 0.91 },
+      { "key": "provider", "label": "Prestataire", "value": "Pharmacie Mermoz", "confidence": 0.91 },
       { "key": "patient", "label": "Patient", "value": "", "confidence": 0.42 },
       { "key": "act", "label": "Acte", "value": "Délivrance de médicaments", "confidence": 0.88 },
       { "key": "total", "label": "Montant total", "value": "20000", "confidence": 0.97 }

@@ -1,0 +1,92 @@
+{
+  "last": [
+    "Diop",
+    "Ndiaye",
+    "Fall",
+    "Sarr",
+    "Seck",
+    "Ba",
+    "Faye",
+    "Gueye",
+    "Diallo",
+    "Sow",
+    "Cisse",
+    "Dieng",
+    "Mbaye",
+    "Diouf",
+    "Thiam"
+  ],
+  "male": [
+    "Mamadou",
+    "Ibrahima",
+    "Cheikh",
+    "Ousmane",
+    "Abdoulaye",
+    "Moussa",
+    "Modou",
+    "Babacar",
+    "Pape",
+    "Amadou"
+  ],
+  "female": [
+    "Awa",
+    "Fatou",
+    "Mariama",
+    "Aminata",
+    "Khady",
+    "Adama",
+    "Sokhna",
+    "Ndeye",
+    "Coumba",
+    "Astou"
+  ],
+  "cities": [
+    "Dakar",
+    "Thiès",
+    "Saint-Louis",
+    "Kaolack",
+    "Ziguinchor",
+    "Rufisque",
+    "Diourbel",
+    "Louga",
+    "Mbour",
+    "Tambacounda",
+    "Kolda",
+    "Fatick"
+  ],
+  "places": [
+    "Plateau, Dakar",
+    "Point E, Dakar",
+    "Sor, Saint-Louis",
+    "Médina, Dakar",
+    "Centre-ville, Thiès",
+    "Zone industrielle, Kédougou",
+    "Centre-ville, Kaolack",
+    "Zone portuaire, Dakar",
+    "Route de Rufisque, Dakar",
+    "Sacré-Cœur, Dakar",
+    "Quai de pêche, Saint-Louis",
+    "Zone industrielle, Rufisque"
+  ],
+  "businesses": [
+    "Teranga Industries",
+    "Baobab Télécom",
+    "Banque du Cayor",
+    "Jamm Énergie",
+    "Ndam Télécom",
+    "Kédougou Mines",
+    "Banque du Saloum",
+    "Teranga Logistique",
+    "Sunu Énergie",
+    "Jokko Technologies",
+    "Institut du Fleuve",
+    "Ciments du Ndiambour"
+  ],
+  "providerTypes": {
+    "hopital": "Hôpital",
+    "clinique": "Clinique",
+    "pharmacie": "Pharmacie",
+    "laboratoire": "Laboratoire",
+    "cabinet": "Cabinet médical"
+  }
+}

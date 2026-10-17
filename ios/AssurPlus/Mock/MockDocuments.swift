@@ -41,7 +41,7 @@ enum MockDocuments {
             let mono = UIFont.monospacedSystemFont(ofSize: 30, weight: .regular)
             let bold = UIFont.monospacedSystemFont(ofSize: 36, weight: .bold)
             let rows: [(String, UIFont)] = [
-                ("PHARMACIE DÉMO MERMOZ", bold),
+                ("PHARMACIE MERMOZ", bold),
                 ("VDN, Mermoz — Dakar", mono),
                 ("", mono),
                 ("Facture F-2026-10-0457", mono),

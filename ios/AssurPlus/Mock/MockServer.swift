@@ -545,7 +545,7 @@ actor MockServer: HTTPTransport {
         let quote = Quote(
             id: nextId("qte"), eligible: eligible, messages: messages, basePremium: basePremium, surcharges: surcharges,
             fees: fees, totalPremium: total, periodLabel: "par an", perMember: perMember,
-            validUntil: .now.addingTimeInterval(7 * 86_400), conditionsVersion: "CP-DEMO-1",
+            validUntil: .now.addingTimeInterval(7 * 86_400), conditionsVersion: "CP-SN-1",
             specialConditions: [
                 "Formule \(product.name), taux de couverture \(request.coverageRate) %.",
                 "Territorialité : \(product.territorialities.first { $0.code == request.territoriality }?.label ?? request.territoriality).",
@@ -583,7 +583,7 @@ actor MockServer: HTTPTransport {
         var members = [PolicyMember(id: account.beneficiaryId, fullName: account.me.fullName, relationLabel: "Assuré(e) principal(e)", birthDate: account.me.birthDate)]
         var beneficiaries = [CardBeneficiary(
             id: account.beneficiaryId, fullName: account.me.fullName, relationLabel: "Assuré(e) principal(e)",
-            memberNumber: account.me.memberNumber ?? "", policyNumber: pending.number, insurerName: "Assureur Démo SA",
+            memberNumber: account.me.memberNumber ?? "", policyNumber: pending.number, insurerName: "Assur Plus",
             formulaName: product.name, coverageRate: entry.request.coverageRate, validUntil: end, photoURL: nil,
             status: ServerStatus(code: "active", label: "Actif"), birthDate: account.me.birthDate)]
         var dependents: [Dependent] = []
@@ -592,7 +592,7 @@ actor MockServer: HTTPTransport {
             members.append(PolicyMember(id: id, fullName: "\(member.firstName) \(member.lastName)", relationLabel: member.relation.label, birthDate: member.birthDate))
             beneficiaries.append(CardBeneficiary(
                 id: id, fullName: "\(member.firstName) \(member.lastName)", relationLabel: member.relation.label,
-                memberNumber: "ASP-\(String(format: "%06d", counter + 1))", policyNumber: pending.number, insurerName: "Assureur Démo SA",
+                memberNumber: "ASP-\(String(format: "%06d", counter + 1))", policyNumber: pending.number, insurerName: "Assur Plus",
                 formulaName: product.name, coverageRate: entry.request.coverageRate, validUntil: end, photoURL: nil,
                 status: ServerStatus(code: "active", label: "Actif"), birthDate: member.birthDate))
             dependents.append(Dependent(
@@ -601,7 +601,7 @@ actor MockServer: HTTPTransport {
                 guarantees: product.guarantees.map(\.label), limits: nil, pendingRequest: nil))
         }
         let detail = PolicyDetail(
-            summary: summary, insurerName: "Assureur Démo SA", premiumLabel: Money.format(entry.quote.totalPremium) + " / an",
+            summary: summary, insurerName: "Assur Plus", premiumLabel: Money.format(entry.quote.totalPremium) + " / an",
             members: members, guarantees: product.guarantees, exclusions: product.exclusions, waitingPeriods: product.waitingPeriods,
             deductibleLabel: product.deductibleLabel,
             renewal: RenewalInfo(renewalDate: LocalDay(year: end.year, month: end.month, day: end.day), tacitRenewal: true, terminationDeadline: nil, canRequestTermination: false, info: "Contrat à tacite reconduction."),

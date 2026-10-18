@@ -439,6 +439,7 @@ function gestionAccesPage() {
       { key: 'statistiques',    icon: 'bx bx-bar-chart-alt-2', label: 'Statistiques' },
       { key: 'rapports',        icon: 'bx bx-printer',         label: 'Rapports' },
       { key: 'remboursements', icon: 'bx bx-money',           label: 'Remboursements' },
+      { key: 'mobile-apps',     icon: 'bx bx-mobile-alt',     label: 'Applications mobiles' },
       { key: 'compagnies',      icon: 'bx bx-shield-quarter', label: "Compagnies d'assurance" },
       { key: 'acces',           icon: 'bx bx-lock-open-alt',  label: "Gestion des acc\u00e8s" },
       { key: 'assureurs',       icon: 'bx bx-globe',          label: 'Assureurs' },

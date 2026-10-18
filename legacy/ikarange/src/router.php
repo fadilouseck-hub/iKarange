@@ -41,6 +41,7 @@ function route(string $uri, string $method): void
         'GET /statistiques'                  => 'pages/statistiques.php',
         'GET /compagnies-assurance'          => 'pages/compagnies-assurance.php',
         'GET /gestion-acces'                 => 'pages/gestion-acces.php',
+        'GET /applications-mobiles'          => 'pages/applications-mobiles.php',
 
         // ── Public legal pages of the mobile apps (no login; Google Play / App Store URLs) ──
         'GET /assurplus/confidentialite'     => 'pages/public/privacy.php',
@@ -178,6 +179,14 @@ function route(string $uri, string $method): void
         'POST /api/assureurs'                => 'api/assureurs/create.php',
         'POST /api/assureurs/{id}'           => 'api/assureurs/update.php',
         'POST /api/switch-org'               => 'api/assureurs/switch-org.php',
+
+        // ── API – Applications mobiles (back-office for what members do in the apps) ──
+        'GET /api/applications-mobiles/feedback'          => 'api/applications-mobiles/feedback.php',
+        'POST /api/applications-mobiles/feedback/{id}'    => 'api/applications-mobiles/feedback.php',
+        'GET /api/applications-mobiles/souscriptions'     => 'api/applications-mobiles/souscriptions.php',
+        'GET /api/applications-mobiles/suppressions'      => 'api/applications-mobiles/suppressions.php',
+        'GET /api/applications-mobiles/suppressions/{id}' => 'api/applications-mobiles/suppressions.php',
+        'POST /api/applications-mobiles/suppressions/{id}' => 'api/applications-mobiles/suppressions.php',
 
         // ── API – Assistant (smart search) ──
         'POST /api/assistant'                => 'api/assistant.php',

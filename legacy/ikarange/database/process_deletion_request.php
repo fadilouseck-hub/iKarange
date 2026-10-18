@@ -56,10 +56,11 @@ if (isset($options['list'])) {
     exit(0);
 }
 
+require $root . '/src/core/AccountDeletion.php';
+$deletion = new AccountDeletion($pdo, $root);
+
 $id = (int)($options['id'] ?? 0);
-$stmt = $pdo->prepare('SELECT * FROM mobile_deletion_requests WHERE id = ?');
-$stmt->execute([$id]);
-$request = $stmt->fetch();
+$request = $deletion->find($id);
 if (!$request) {
     fwrite(STDERR, "Request #$id not found. Use --list.\n");
     exit(1);
@@ -71,31 +72,14 @@ if ($request['status'] !== 'requested') {
 $member = (int)$request['adherent_id'];
 
 if (isset($options['reject'])) {
-    $pdo->prepare("UPDATE mobile_deletion_requests SET status = 'rejected' WHERE id = ?")->execute([$id]);
+    $deletion->reject($id);
     exit("Request #$id rejected. Nothing was deleted.\n");
 }
 
-// App-only tables deleted for the member (insurance records are not listed here on purpose).
-$tables = ['mobile_tokens', 'mobile_qr_tokens', 'mobile_devices', 'mobile_preferences', 'mobile_claim_drafts',
-    'mobile_feedback', 'mobile_assistant_usage', 'mobile_quotes', 'mobile_uploads', 'mobile_vault_documents'];
-$counts = [];
-foreach ($tables as $table) {
-    $count = $pdo->prepare("SELECT COUNT(*) FROM `$table` WHERE adherent_id = ?");
-    $count->execute([$member]);
-    $counts[$table] = (int)$count->fetchColumn();
-}
-$vaultFiles = $pdo->prepare('SELECT path FROM mobile_vault_documents WHERE adherent_id = ?');
-$vaultFiles->execute([$member]);
-$files = array_map(fn($p) => $root . '/storage/uploads/' . $p, $vaultFiles->fetchAll(PDO::FETCH_COLUMN));
-$uploads = $pdo->prepare('SELECT id FROM mobile_uploads WHERE adherent_id = ?');
-$uploads->execute([$member]);
-foreach ($uploads->fetchAll(PDO::FETCH_COLUMN) as $uploadId) {
-    $files[] = $root . '/storage/uploads/mobile-tmp/' . preg_replace('/[^a-f0-9]/', '', $uploadId) . '.part';
-}
-
+$preview = $deletion->preview($member);
 echo "Request #$id — member $member\n";
-foreach ($counts as $table => $n) printf("  %-24s %d row(s)\n", $table, $n);
-printf("  %-24s %d file(s)\n", 'files', count(array_filter($files, 'is_file')));
+foreach ($preview['tables'] as $table => $n) printf("  %-24s %d row(s)\n", $table, $n);
+printf("  %-24s %d file(s)\n", 'files', $preview['files']);
 echo "  app access               password cleared\n";
 echo "  kept                     member identity, contract, claims, payments, approvals (legal retention)\n";
 
@@ -103,22 +87,10 @@ if (!isset($options['confirm'])) {
     exit("\nDry run. Re-run with --confirm to delete.\n");
 }
 
-$pdo->beginTransaction();
 try {
-    foreach ($tables as $table) {
-        $pdo->prepare("DELETE FROM `$table` WHERE adherent_id = ?")->execute([$member]);
-    }
-    $pdo->prepare('UPDATE adherents SET password_hash = NULL WHERE id = ?')->execute([$member]);
-    $pdo->prepare("UPDATE mobile_deletion_requests SET status = 'processed' WHERE id = ?")->execute([$id]);
-    $pdo->commit();
+    $removed = $deletion->process($id, $member);
 } catch (Throwable $error) {
-    $pdo->rollBack();
     fwrite(STDERR, "Failed, nothing changed: " . $error->getMessage() . "\n");
     exit(1);
-}
-// Files after the commit: a failed unlink leaves an orphan encrypted file, never a dangling database row.
-$removed = 0;
-foreach ($files as $file) {
-    if (is_file($file) && @unlink($file)) $removed++;
 }
 echo "\nDone: request #$id processed, $removed file(s) removed.\n";

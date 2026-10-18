@@ -289,6 +289,7 @@ function navItems(): array
         ['key' => 'statistiques',    'href' => '/statistiques',              'icon' => 'bx bx-bar-chart-alt-2',   'label' => 'Statistiques'],
         ['key' => 'rapports',        'href' => '/rapports',                  'icon' => 'bx bx-printer',           'label' => 'Rapports'],
         ['key' => 'remboursements', 'href' => '/remboursements',            'icon' => 'bx bx-money',             'label' => 'Remboursements'],
+        ['key' => 'mobile-apps',     'href' => '/applications-mobiles',      'icon' => 'bx bx-mobile-alt',        'label' => 'Applications mobiles'],
         ['key' => 'compagnies',      'href' => '/compagnies-assurance',      'icon' => 'bx bx-shield-quarter',    'label' => "Compagnies d'assurance"],
         ['key' => 'acces',           'href' => '/gestion-acces',             'icon' => 'bx bx-lock-open-alt',     'label' => "Gestion des accès"],
     ];

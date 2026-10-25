@@ -24,13 +24,15 @@ return [
         'privacyEmail' => '',
         'supportEmail' => '',
         'supportPhone' => '',
-        // Reference of the declaration / authorisation from the Commission de Protection des Données Personnelles (CDP).
-        'cdpReference' => '',
+        // Declaration / authorisation references from the data-protection authority of each country served
+        // (Senegal: CDP, Mali: APDP, Mauritania: APD). Empty = shown as "to be completed" while in draft.
+        // (Older server configs with 'cdpReference' still work for Senegal.)
+        'regulatorReferences' => ['sn' => '', 'ml' => '', 'mr' => ''],
         // How long insurance records must be kept after the contract ends (legal / CIMA obligations), e.g. "10 ans".
         'retentionPeriod' => '',
         // Time to process a deletion request, e.g. "30 jours".
         'deletionDelay' => '30 jours',
         'deletionDelayEn' => '30 days',
-        'lastUpdated' => '2026-10-17',
+        'lastUpdated' => '2026-10-24',
     ],
 ];

@@ -15,6 +15,28 @@ $v = fn(string $field): string => legalValue($tenant, $field, $lang);
 $app = e($tenant['appName']);
 $path = '/' . $tenant['id'] . '/confidentialite';
 
+// Countries served and their data-protection law / authority. Declaration references come from the operator config.
+$references = (array)($tenant['regulatorReferences'] ?? []);
+if (empty($references['sn']) && !empty($tenant['cdpReference'])) $references['sn'] = $tenant['cdpReference'];
+$reference = fn(string $code): string => trim((string)($references[$code] ?? '')) !== ''
+    ? e(trim((string)$references[$code]))
+    : '<mark>' . ($lang === 'en' ? '[to be completed]' : '[à compléter]') . '</mark>';
+$regulators = [
+    'sn' => ['country' => $T('Sénégal', 'Senegal'),
+        'law' => $T('loi n° 2008-12 du 25 janvier 2008 sur la protection des données à caractère personnel', 'Law No. 2008-12 of 25 January 2008 on the protection of personal data'),
+        'authority' => $T('la Commission de Protection des Données Personnelles (CDP)', 'the Commission de Protection des Données Personnelles (CDP)'),
+        'reference' => $reference('sn')],
+    'ml' => ['country' => 'Mali',
+        'law' => $T('loi n° 2013-015 du 21 mai 2013 portant protection des données à caractère personnel', 'Law No. 2013-015 of 21 May 2013 on the protection of personal data'),
+        'authority' => $T("l'Autorité de Protection des Données à caractère Personnel (APDP)", "the Autorité de Protection des Données à caractère Personnel (APDP)"),
+        'reference' => $reference('ml')],
+    'mr' => ['country' => 'Mauritanie',
+        'law' => $T('loi n° 2017-020 du 22 juillet 2017 relative à la protection des données à caractère personnel', 'Law No. 2017-020 of 22 July 2017 on the protection of personal data'),
+        'authority' => $T("l'Autorité de Protection des Données à caractère personnel (APD)", "the Autorité de Protection des Données à caractère personnel (APD)"),
+        'reference' => $reference('mr')],
+];
+if ($lang === 'en') $regulators['mr']['country'] = 'Mauritania';
+
 legalHeader($tenant, $T('Politique de confidentialité', 'Privacy policy'), $lang, $path);
 ?>
   <h1><?= $T('Politique de confidentialité', 'Privacy policy') ?></h1>
@@ -28,11 +50,16 @@ legalHeader($tenant, $T('Politique de confidentialité', 'Privacy policy'), $lan
 
   <h2><?= $T('1. Responsable du traitement', '1. Data controller') ?></h2>
   <p><?= $v('controller') ?><br><?= $v('address') ?><br>
-    <?= $T('Contact données personnelles', 'Privacy contact') ?> : <?= $v('privacyEmail') ?><br>
-    <?= $T('Déclaration CDP', 'CDP declaration') ?> : <?= $v('cdpReference') ?></p>
+    <?= $T('Contact données personnelles', 'Privacy contact') ?> : <?= $v('privacyEmail') ?></p>
   <p><?= $T(
-      "Les traitements sont soumis à la loi sénégalaise n° 2008-12 du 25 janvier 2008 sur la protection des données à caractère personnel, sous le contrôle de la Commission de Protection des Données Personnelles (CDP).",
-      "Processing is governed by Senegalese Law No. 2008-12 of 25 January 2008 on the protection of personal data, supervised by the Commission de Protection des Données Personnelles (CDP).") ?></p>
+      "L'application est proposée au Sénégal, au Mali et en Mauritanie. Selon votre pays de résidence, les traitements sont soumis à :",
+      'The app is offered in Senegal, Mali and Mauritania. Depending on your country of residence, processing is governed by:') ?></p>
+  <ul>
+    <?php foreach ($regulators as $code => $r): ?>
+      <li><strong><?= $r['country'] ?></strong> — <?= $r['law'] ?>, <?= $T('sous le contrôle de', 'supervised by') ?> <?= $r['authority'] ?>.
+        <?= $T('Référence de déclaration :', 'Declaration reference:') ?> <?= $r['reference'] ?></li>
+    <?php endforeach; ?>
+  </ul>
 
   <h2><?= $T('2. Données traitées', '2. Data we process') ?></h2>
   <ul>
@@ -85,6 +112,9 @@ legalHeader($tenant, $T('Politique de confidentialité', 'Privacy policy'), $lan
         "Numérisation des justificatifs : sur Android, le scanner de documents des services Google Play ; sur iPhone, celui d'Apple. Le traitement de l'image a lieu sur l'appareil.",
         "Document scanning: on Android, the Google Play services document scanner; on iPhone, Apple's. The image is processed on the device.") ?></li>
   </ul>
+  <p><?= $T(
+      "Certaines données sont donc hébergées ou traitées hors de votre pays de résidence : en France (hébergement) et aux États-Unis (assistant, s'il est utilisé). Ces transferts sont encadrés par les engagements contractuels de ces prestataires et limités à ce qui est nécessaire au service.",
+      'Some data is therefore hosted or processed outside your country of residence: in France (hosting) and in the United States (the assistant, if used). These transfers are covered by the providers\' contractual commitments and limited to what the service needs.') ?></p>
   <p><?= $T('Vos données ne sont ni vendues ni louées.', 'Your data is never sold or rented.') ?></p>
 
   <h2><?= $T('5. Durées de conservation', '5. Retention') ?></h2>
@@ -106,7 +136,9 @@ legalHeader($tenant, $T('Politique de confidentialité', 'Privacy policy'), $lan
     <?= $T('Vous pouvez aussi demander la suppression de votre compte', 'You can also request account deletion') ?>
     <a href="/<?= e($tenant['id']) ?>/suppression-compte<?= $lang === 'en' ? '?lang=en' : '' ?>"><?= $T('sur cette page', 'on this page') ?></a>
     <?= $T("ou dans l'application (Profil › Supprimer mon compte).", 'or in the app (Profile › Delete my account).') ?>
-    <?= $T('Vous pouvez saisir la CDP (www.cdp.sn) si vous estimez que vos droits ne sont pas respectés.', 'You may contact the CDP (www.cdp.sn) if you believe your rights are not respected.') ?></p>
+    <?= $T(
+        "Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir l'autorité de protection des données de votre pays : CDP au Sénégal (www.cdp.sn), APDP au Mali (www.apdp.ml), APD en Mauritanie (www.apd.mr).",
+        'If you believe your rights are not respected, you may contact the data-protection authority of your country: CDP in Senegal (www.cdp.sn), APDP in Mali (www.apdp.ml), APD in Mauritania (www.apd.mr).') ?></p>
 
   <h2><?= $T('8. Mineurs', '8. Children') ?></h2>
   <p><?= $T(
